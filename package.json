@@ -1,0 +1,29 @@
+{
+  "name": "get-bit",
+  "version": "1.0.0",
+  "description": "Full stack application for comics and performers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paige-throck/get-bit.git"
+  },
+  "author": "Lance and Paige",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paige-throck/get-bit/issues"
+  },
+  "homepage": "https://github.com/paige-throck/get-bit#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
+    "eslint": "^4.13.1",
+    "express": "^4.16.2",
+    "knex": "^0.14.2",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.14.0",
+    "pg": "^7.4.0"
+  }
+}
