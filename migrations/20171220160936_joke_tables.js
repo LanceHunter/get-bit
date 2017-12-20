@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     table.text('body').notNullable();
     table.timestamp('created_at').defaultTo(knex.fn.now());
   }).then(function(){
-    return knex.schema.createTableIfNot('tags', function(table){
+    return knex.schema.createTableIfNotExists('tags', function(table){
       table.integer('joke_id').references('jokes.joke_id').onDelete('cascade');
       table.string('tag')
     })
