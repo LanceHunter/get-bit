@@ -5,7 +5,14 @@ module.exports = {
   development: {
     client: 'pg',
     connection: {
-      filename: './dev.sqlite3'
+      host: 'localhost',
+      database:'get_bit'
+    },
+    migrations:{
+      directory: './migrations'
+    },
+    seeds:{
+      directory: './seeds'
     }
   },
 
