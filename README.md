@@ -16,6 +16,7 @@ Built with:
 -knex.js
 -Express-Node.js
 -bcrypt-nodejs
+-Amazon Elastic File System
 
 
 ####Features
