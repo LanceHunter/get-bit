@@ -18,7 +18,40 @@ const filterInt = function(value) {
 };
 
 
+//Rendering pers.ejs
+router.get('/pers', (req, res, next)=>{
+  res.render('pers');
+})
 
+
+//Rendering individual performance
+router.get('/pers/:id', (req, res, next)=>{
+  res.render('reviewPer');
+})
+
+
+//Updating Individual Performance
+router.put('/pers/:id', (req, res, next)=>{
+
+})
+
+
+//Rendering New Performance Page
+router.get('/pers/new', (req, res, next){
+  res.render('newPer');
+})
+
+
+//Creating New Performance
+router.post('/pers/new', (req, res, next)=>{
+
+})
+
+
+//Sending New Performance Info to Live Performance Page
+router.post('/pers/live', (req, res, next)=>{
+  res.render('livePer');
+})
 
 
 

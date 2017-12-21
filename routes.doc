@@ -3,6 +3,7 @@ Routes:
 /bits
 /pers
 
+-ACCOUNTS-
 
 /login
 .get
@@ -24,16 +25,14 @@ Routes:
   -creates account
 - returns/redirect bits.ejs
 
+
+-BITS-
+
 /bits
 .get
 -takes nothing/session
 - returns bits.ejs
 
-.post
--takes json body with keys:
-{title: string,  body:string, tags:[], labels:[]}
-  - posts new bit
--returns bits.ejs
 
 /bits/:id
 .get
@@ -60,6 +59,14 @@ Routes:
 -takes nothing
 -returns newBit.ejs
 
+.post
+-takes json body with keys:
+{title: string,  body:string, tags:[], labels:[]}
+  - posts new bit
+-returns bits.ejs
+
+
+
 /bits/label
 .post
 -takes string of label name
@@ -78,6 +85,8 @@ Routes:
 - returns results as JSON array {title: string,  body:string, tags:[], labels:[]}
 
 
+-PERFORMANCES-
+
 /pers
 .get
 -takes nothing
@@ -94,7 +103,6 @@ Routes:
 - returns reviewPer.ejs
 
 
-
 /pers/new
 .get
 -takes nothing
@@ -105,3 +113,8 @@ Routes:
 -takes
 {user_id: integer, per_title: string, location: string, given_time: time(seconds), per_time: integer, audio: string, rating: integer, date: timeStamp}
 -returns reviewPer.ejs
+
+
+/pers/live
+.post
+-sending info to livePer.ejs
