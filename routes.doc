@@ -1,0 +1,48 @@
+Routes:
+/login
+/bits
+/pers
+
+
+
+/login
+.get - return login.ejs
+.post - takes password/username, verifies and sets up session?
+
+/login/create
+.get - returns createAccount.ejs
+.post - takes password/username creates account
+
+/bits
+.get - returns bits.ejs
+.post - posts new bit returns bits.ejs
+
+/bits/:id
+.get returns individual bit reviewBit EJS
+.put - updates the bit @ id with info in the body, returns reviewBit.ejs
+
+/bits/:id/label
+.put adds label to bit, returns yes/no
+.delete removed label from bit
+
+/bits/new
+.get returns newBit.ejs
+
+/bits/label
+.post adds label to list of labels
+.delete removes label from list of labels
+
+/bits/search/:id
+.get - returns results as JSON array (title, link to bit)
+
+
+/pers
+.get - returns pers.ejs
+
+/pers/:id
+.get - returns reviewPers.ejs
+.put - updates performance @ id with data in body, returns reviewPer.EJS
+
+/pers/new
+.get returns newPer.EJS
+.post - posts data in the body as new performance, returns reviewPer.ejs
