@@ -1,0 +1,25 @@
+A document describing what the jQuery and other front-end javascript needs to do on each of our views.
+
+Landing page / index.ejs (index.ejs)
+- No major functionality.
+
+Login page (login.ejs)
+- No major functionality (can turn form into AJAX call, but not necessary)
+
+Create account page
+- confirm that customer has entered an email address in email field
+- confirm that email addresses match in both fields
+- confirm that passwords in both fields match
+- Do not allow the request to be submitted without all fields filled out and appropriate fields matching.
+- Submit the form as AJAX call.
+
+Bits page (bits.ejs) -
+- take infromation from search bar and send it to server /bits/search
+- post the information received from the server in a pull-down pane below the search bar
+- ability to filter displayed bits depending on what label user selects
+- ability to add send a post to /bits/labels to add a new label
+
+Bit page (reviewBit.ejs) -
+- Create a new tag field when the + button is pressed
+- Ability to add a label to a bit from the pull-down menu (sending a post request to jokes_labels)
+- Ability to send an AJAX post to /bits/labels to add a new label
