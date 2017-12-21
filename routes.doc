@@ -4,45 +4,104 @@ Routes:
 /pers
 
 
-
 /login
-.get - return login.ejs
-.post - takes password/username, verifies and sets up session?
+.get
+-takes nothing
+- returns login.ejs
+
+.post
+- takes password/username,
+    -verifies and sets up session?
+- returns bits.ejs
 
 /login/create
-.get - returns createAccount.ejs
-.post - takes password/username creates account
+.get
+-takes nothing
+- returns/redirect createAccount.ejs
+
+.post
+- takes password/username
+  -creates account
+- returns/redirect bits.ejs
 
 /bits
-.get - returns bits.ejs
-.post - posts new bit returns bits.ejs
+.get
+-takes nothing/session
+- returns bits.ejs
+
+.post
+-takes json body with keys:
+{title: string,  body:string, tags:[], labels:[]}
+  - posts new bit
+-returns bits.ejs
 
 /bits/:id
-.get returns individual bit reviewBit EJS
-.put - updates the bit @ id with info in the body, returns reviewBit.ejs
+.get
+-takes id
+- returns individual bit reviewBit.ejs
+
+.put
+-takes id and JSON body with any fields that have been edited
+-returns/redirect reviewBit.ejs
+
 
 /bits/:id/label
-.put adds label to bit, returns yes/no
-.delete removed label from bit
+.post
+-takes id for bit and body id for label
+-returns yes/no
+
+.delete
+-takes bit id and label id for body
+-deletes entry for label in join table (jokes_labels)
+-returns yes/no
 
 /bits/new
-.get returns newBit.ejs
+.get
+-takes nothing
+-returns newBit.ejs
 
 /bits/label
-.post adds label to list of labels
-.delete removes label from list of labels
+.post
+-takes string of label name
+-adds label to list of labels
+-returns array of current labels
+
+.delete
+- takes label id
+-deletes label from list of labels
+-returns array of current labels
+
 
 /bits/search/:id
-.get - returns results as JSON array (title, link to bit)
+.get
+-takes string as url id
+- returns results as JSON array {title: string,  body:string, tags:[], labels:[]}
 
 
 /pers
-.get - returns pers.ejs
+.get
+-takes nothing
+- returns pers.ejs
 
 /pers/:id
-.get - returns reviewPers.ejs
-.put - updates performance @ id with data in body, returns reviewPer.EJS
+.get
+-takes id of performance
+- returns reviewPer.ejs
+
+.put
+-takes JSON  object of updated fields
+{user_id: integer, per_title: string, location: string, given_time: time(seconds), per_time: integer, audio: string, rating: integer, date: timeStamp}
+- returns reviewPer.ejs
+
+
 
 /pers/new
-.get returns newPer.EJS
-.post - posts data in the body as new performance, returns reviewPer.ejs
+.get
+-takes nothing
+-returns newPer.EJS
+
+
+.post - posts data in the body as new performance,
+-takes
+{user_id: integer, per_title: string, location: string, given_time: time(seconds), per_time: integer, audio: string, rating: integer, date: timeStamp}
+-returns reviewPer.ejs
