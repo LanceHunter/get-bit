@@ -50,6 +50,7 @@ router.post('/pers/new', (req, res, next)=>{
 
 //Sending New Performance Info to Live Performance Page
 router.post('/pers/live', (req, res, next)=>{
+
   res.render('livePer');
 })
 
