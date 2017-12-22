@@ -14,14 +14,14 @@ Create account page
 - Submit the form as AJAX POST call to /login/create
 
 Bits page (bits.ejs) -
-- take infromation from search bar and send it to server /bits/search
-- post the information received from the server in a pull-down pane below the search bar
+- take information from search bar and send it to server /bits/search
+- place the information received from the server in a pull-down pane below the search bar
 - ability to filter displayed bits depending on what label user selects
 
 Review bit page (reviewBit.ejs) -
 - Create a new tag field when the + button is pressed
-- Ability to add a label to a bit from the pull-down menu (sending a post request to jokes_labels)
-- Ability to send an AJAX post to /bits/labels to create an entirely new label
+- Ability to add a label to a bit from the pull-down menu (sending a POST request to jokes_labels)
+- Ability to send an AJAX POST to /bits/labels to create an entirely new label
 - Ability to receive the JSON array of labels that is the reply to creating a new label and replacing the contents of the labels pull-down menu with those results
 - Ability to confirm what has changed on the bits page when the submit button is pressed, and then send a PUT request to /bits/:id with the updated information in a JSON body.
 
