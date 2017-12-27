@@ -35,6 +35,11 @@ router.get('/:id/update', (req, res) => {
   res.render('../views/updateAccount.ejs');
 });
 
+router.post('/create', (req, res) => {
+  console.log(req.body);
+  res.sendStatus(200);
+});
+
 
 
 module.exports = router;

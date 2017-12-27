@@ -11,11 +11,17 @@ $('#submitButton').click(() => { // Click listener for the submit button.
     $('#password1').removeClass('error');
     $('#password2').removeClass('error');
     if (($('#email1').val() === $('#email2').val()) && ($('#password1').val() === $('#password2').val())) { // Making sure password and email match.
-      let accountObj = {};
+      let accountObj = {}; // Creating the account object and adding the user's values to it.
       accountObj.user_name = $('#email1').val();
       accountObj.password = $('#password1').val();
-      console.log(accountObj);
-//      $.post('accounts/create', accountObj, )
+      // Below we post the account object, and if we get a success we replace the field with a confirmation page.
+      $.post('/accounts/create', accountObj, (result) => {
+        console.log(result);
+        $('#createAccountField').replaceWith(`<h2 class="text-center">Account Created</h2><a href="/accounts/login" class="button secondary round w100 text-center large">Login</a>`)
+      })
+      .fail(() => {
+        alert('Account could not be created at this time. Please try again later.');
+      });
     } else { // Logic in case email or password fields don't match.
       if ($('#email1').val() !== $('#email2').val()) { // Putting up error if email fields don't match.
         $('#email1').addClass('error');
