@@ -9,6 +9,9 @@ const knex = require('knex')(config);
 const express = require('express');
 const router = express.Router();
 
+//Setting up bcrypt
+const bcrypt = require('bcrypt');
+
 
 // filterInt - The function from MDN that confirms a particular value is actually an integer. Because parseInt isn't quite strict enough.
 const filterInt = function(value) {
@@ -17,8 +20,20 @@ const filterInt = function(value) {
   return NaN;
 };
 
+router.get('/login', (req, res) => {
+  res.render('../views/login.ejs');
+});
+
+router.get('/create', (req, res) => {
+  res.render('../views/createAccount.ejs');
+});
 
 
+////To be worked on after login paths set...
+router.get('/:id/update', (req, res) => {
+
+  res.render('../views/updateAccount.ejs');
+});
 
 
 
