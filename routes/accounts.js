@@ -21,7 +21,14 @@ const filterInt = function(value) {
   return NaN;
 };
 
+
+//ID Variables
+// const id = req.params.id; user_id
+
+router.get('/login', (req, res) => {
+
 router.get('/login', (req, res) => { // Sends the basic login page.
+
   res.render('../views/login.ejs');
 });
 
@@ -39,7 +46,11 @@ router.get('/create', (req, res) => { // Sends the create account page.
 
 
 ////To be worked on after login paths set...
+
+router.get('/:id/update', (req, res) => {
+
 router.get('/update', (req, res) => {
+
   res.render('../views/updateAccount.ejs');
 });
 

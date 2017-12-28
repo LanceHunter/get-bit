@@ -18,50 +18,39 @@ const filterInt = function(value) {
 };
 
 
+//ID Variables
+// const id = req.params.id; user_id
+// const bitId = req.params.bitId; joke_id
+// const labelId = req.params.labelId; label_id
+
+
+//Rendering New Bit Page
+router.get('/:id/new', (req, res, next) => {
+  res.render('../views/newBit.ejs');
+})
+
+
+//Creating New bit
+router.post('/:id/new', (req, res, next) => {
+
+})
+
+//Create Label
+router.post('/:id/label', (req, res, next) => {
+
+})
 
 //Rendering bits.ejs page
-router.get('/bits/:id', (req, res, next)=>{
-
-const id = req.params.id;
+router.get('/:id', (req, res, next) => {
+  const id = req.params.id;
 
   return knex('jokes')
-  .select('*')
-  .where('jokes.user_id', id)
-  .then(function(jokes){
-    return knex('performances')
-    .innerJoin('jokes_performances', 'performances.per_id', 'jokes_performances.per_id')
-    .avg('performances.rating')
-    .where('jokes.user_id', 'performances.user_id')
-    .returning('*')
-  })
-  .then(function(bitsArr){
-    res.render('bits', {bits: bitsArr});
-  })
-  .catch(function(error) {
-      console.log(error);
-      res.sendStatus(500);
-    });
-})
+    .innerJoin('labels', 'labels.label_id', 'jokes.label_id')
+    .select('jokes.joke_title', 'labels.label')
+    .where('jokes.user_id', id)
 
-
-//Rendering individial bit
-router.get('/bits/:id/:bitId', (req, res, next)=>{
-
-const id = req.params.id;
-const bitId = req.params.bitId;
-
-return knex('jokes')
-.select('*')
-.where('jokes.jokes_id', bitId)
-.then(function(jokes){
-  return knex('performances')
-  .innerJoin('jokes_performances', 'performances.per_id', 'jokes_performances.per_id')
-  .avg('performances.rating')
-  .where('jokes.user_id', 'performances.user_id')
-  .returning('*')
-})
-.then(function(bitObj){
-  res.render('reviewBit', {bit: bitObj});
+.then(function(jokesArr){
+  res.render('../views/bits.ejs', {jokes: jokesArr});
 })
 .catch(function(error) {
     console.log(error);
@@ -70,44 +59,53 @@ return knex('jokes')
 })
 
 
+//Rendering individial bit
+router.get('/:id/:bitId', (req, res, next) => {
+  const id = req.params.id;
+  const bitId = req.params.bitId;
+
+  return knex('jokes')
+    .innerJoin('labels', 'labels.label_id', 'jokes.label_id')
+    .select('jokes.joke_title', 'labels.label')
+    .where({'jokes.user_id': id,
+    'jokes.joke_id': bitId})
+
+  .then(function(bitObj) {
+      res.render('../views/reviewBit.ejs', {
+        bit: bitObj
+      });
+  })
+    .catch(function(error) {
+      console.log(error);
+      res.sendStatus(500);
+    });
+})
+
+
 
 //Updating Bit
-router.put('/bit/:id', (req, res, next)=>{
+router.put('/:id/:bitId', (req, res, next) => {
 
 })
 
 
+
 //Adding Label to Bit
-router.post('bits/:id/label', (req, res, next)=>{
+router.post('/:id/:bitId/label', (req, res, next) => {
 
 })
 
 
 //Deleting Label from Bit
-router.delete('bits/:id/label', (req, res, next)=>{
-
-})
-
-//Rendering New Bit Page
-router.get('bits/new', (req, res, next)=>{
-  res.render('newBit');
-})
-
-
-//Creating New bit
-router.post('bits/new', (req, res, next)=>{
+router.delete('/:id/:bitId/:labelId', (req, res, next) => {
 
 })
 
 
-//Create Label
-router.post('bits/label', (req, res, next)=>{
-
-})
 
 
 //Delete Label
-router.delete('bits/label', (req, res, next)=>{
+router.delete('id:/label/:labelId', (req, res, next) => {
 
 })
 

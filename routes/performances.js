@@ -18,17 +18,24 @@ const filterInt = function(value) {
 };
 
 
-//Rendering pers.ejs
-router.get('/pers/:id', (req, res, next)=>{
-const id = req.params.id;
+// Id Variables
+// const id = req.params.id; user_id
+// const perId = req.params.perId; per_id
 
+
+
+//Rendering pers.ejs
+router.get('/:id', (req, res, next) => {
+  const id = req.params.id;
   knex('performances')
-  .select('title', 'date', 'rating')
-  .where('performances.user_id', id)
-  .then(function(persArr){
-    res.render('pers', {pers: persArr});
-  })
-  .catch(function(error) {
+    .select('performances.performance_title', 'performances.date', 'performances.rating')
+    .where('performances.user_id', id)
+    .then(function(persArr) {
+      res.render('../views/pers.ejs', {
+        pers: persArr
+      });
+    })
+    .catch(function(error) {
       console.log(error);
       res.sendStatus(500);
     });
@@ -36,17 +43,19 @@ const id = req.params.id;
 
 
 //Rendering individual performance
-router.get('/pers/:id/:perId', (req, res, next)=>{
-const id = req.params.id;
-const perId = req.params.perId;
-
+router.get('/:id/:perId', (req, res, next) => {
+  const id = req.params.id;
+  const perId = req.params.perId;
   knex('performances')
-  .select('title', 'date', 'rating')
-  .where('performances.per_id', perId)
-  .then(function(perObj){
-    res.render('reviewPer', {per: perObj});
-  })
-  .catch(function(error) {
+    .select('title', 'date', 'rating')
+    .where({'performances.per_id': id,
+  'performances.per_id': perId})
+    .then(function(perObj) {
+      res.render('..views/reviewPer.ejs', {
+        per: perObj
+      });
+    })
+    .catch(function(error) {
       console.log(error);
       res.sendStatus(500);
     });
@@ -54,25 +63,25 @@ const perId = req.params.perId;
 
 
 //Updating Individual Performance
-router.put('/pers/:id/:perId', (req, res, next)=>{
+router.put('/:id/:perId', (req, res, next) => {
 
 })
 
 
 //Rendering New Performance Page
-router.get('/pers/new', (req, res, next)=>{
+router.get('/:id/new', (req, res, next) => {
   res.render('newPer');
 })
 
 
 //Creating New Performance
-router.post('/pers/:id/new', (req, res, next)=>{
+router.post('/:id/new', (req, res, next) => {
 
 })
 
 
 //Sending New Performance Info to Live Performance Page
-router.post('/pers/live', (req, res, next)=>{
+router.post('/:id/:perId/live', (req, res, next) => {
 
   res.render('livePer');
 })
