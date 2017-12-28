@@ -21,18 +21,25 @@ const filterInt = function(value) {
   return NaN;
 };
 
-router.get('/login', (req, res) => {
+router.get('/login', (req, res) => { // Sends the basic login page.
   res.render('../views/login.ejs');
 });
 
-router.get('/create', (req, res) => {
+router.get('/logout', (req, res) => { // Clears the cookie and redirects to the landing page.
+  req.session.destroy((err) => {
+    if (err) console.error(err);
+    res.redirect('/');
+  })
+});
+
+
+router.get('/create', (req, res) => { // Sends the create account page.
   res.render('../views/createAccount.ejs');
 });
 
 
 ////To be worked on after login paths set...
-router.get('/:id/update', (req, res) => {
-
+router.get('/update', (req, res) => {
   res.render('../views/updateAccount.ejs');
 });
 
@@ -46,10 +53,12 @@ router.post('/login', (req, res) => {
       return res.send('no account with that email');
     }
     return bcrypt.compare(userObj.password, result[0].password)
-    .then ((res) => {
-      if (res) {
-        //Functionality if login works.
-      } else {
+    .then ((loginCheck) => {
+      if (loginCheck) { // If the passwords match, login and redirect to their bits page.
+        req.session.cookie.userID = result[0].id;
+        console.log('Passwords Match ', req.session);
+        return res.redirect(`/bits/${req.session.cookie.userID}`);
+      } else { // If passwords don't match, send a 401.
         return res.sendStatus(401);
       }
     })

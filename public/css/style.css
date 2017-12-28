@@ -9,3 +9,7 @@ h1.title {
 .bodyHeader {
   background-color: #F6F6F6;
 }
+
+.noline {
+  text-decoration : none;
+}
