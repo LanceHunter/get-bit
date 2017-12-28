@@ -47,7 +47,9 @@ router.post('/login', (req, res) => {
     return bcrypt.compare(userObj.password, result[0].password)
     .then ((res) => {
       if (res) {
-
+        //Functionality if login works.
+      } else {
+        return res.sentStatus(401);
       }
     })
   })
