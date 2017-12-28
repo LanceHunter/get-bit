@@ -42,7 +42,7 @@ const perId = req.params.perId;
 
   knex('performances')
   .select('title', 'date', 'rating')
-  .where('performances.user_id', id AND 'performances.per_id', perId)
+  .where('performances.per_id', perId)
   .then(function(perObj){
     res.render('reviewPer', {per: perObj});
   })

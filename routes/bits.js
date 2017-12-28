@@ -52,7 +52,7 @@ const bitId = req.params.bitId;
 
 return knex('jokes')
 .select('*')
-.where('jokes.user_id', id AND 'jokes.jokes_id', bitId)
+.where('jokes.jokes_id', bitId)
 .then(function(jokes){
   return knex('performances')
   .innerJoin('jokes_performances', 'performances.per_id', 'jokes_performances.per_id')
