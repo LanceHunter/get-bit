@@ -46,10 +46,6 @@ router.get('/:id', (req, res, next)=>{
 
 //Rendering individial bit
 router.get('/:id/:bitId', (req, res, next)=>{
-
-const id = req.params.id;
-const bitId = req.params.bitId;
-
 return knex('jokes')
 .select('*')
 .where('jokes.jokes_id', bitId)
