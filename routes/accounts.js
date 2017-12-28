@@ -13,6 +13,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 
 
+
 // filterInt - The function from MDN that confirms a particular value is actually an integer. Because parseInt isn't quite strict enough.
 const filterInt = function(value) {
   if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
@@ -56,6 +57,29 @@ router.post('/login', (req, res) => {
 });
 
 
+
+//Rendering login.ejs page
+router.get('/login', (req, res, next)=>{
+  res.render('login');
+})
+
+
+//Posting login information
+router.post('/login/:id', (req, res, next)=>{
+
+  res.redirect('bits')
+})
+
+
+//Rendering Create Login createAccount.ejs
+router.get('/login/create', (req, res, next)=>{
+  res.render('createAccount');
+})
+
+
+//Posting Login info to database
+router.post('/login/create/:id', (req, res, next)=>{
+
 router.post('/create', (req, res) => {
   console.log(req.body);
   let newUserObj = req.body;
@@ -82,6 +106,9 @@ router.post('/create', (req, res) => {
 
 });
 
+
+  res.redirect('bits')
+})
 
 
 module.exports = router;
