@@ -36,10 +36,26 @@ router.get('/create', (req, res) => { // Sends the create account page.
   res.render('../views/createAccount.ejs');
 });
 
+// Middleware to check and see if user is logged in. Passes them on to the regular update route if they are. Otherwise, redirects to /
+router.get('/update', (req, res, next) => {
+  if (req.session.userID) {
+    next()
+  } else {
+    res.redirect('/');
+  }
+});
 
-////To be worked on after login paths set...
+// Checks the user ID of user, pulls the information from database for user with that ID, and sends it to the updateAccount.ejs for rendering.
 router.get('/update', (req, res) => {
-  res.render('../views/updateAccount.ejs');
+  knex('users').where('id', req.session.userID).select('user_name', 'photo_url')
+  .then((resultArr) => {
+    console.log('The results of search - ', resultArr);
+    return res.render('../views/updateAccount.ejs', {account : resultArr[0]});
+  })
+  .catch((err) => {
+    console.error(err);
+    res.sendStatus(500);
+  });
 });
 
 
@@ -56,9 +72,10 @@ router.post('/login', (req, res) => {
     return bcrypt.compare(userObj.password, result[0].password)
     .then ((loginCheck) => {
       if (loginCheck) { // If the passwords match, login and redirect to their bits page.
-        req.session.cookie.userID = result[0].id;
+        res.cookie('user', '1', { maxAge: 900000, httpOnly: true });
+        req.session.userID = result[0].id;
         console.log('Passwords Match ', req.session);
-        return res.redirect(`/bits/${req.session.cookie.userID}`);
+        return res.redirect(`/bits/${req.session.userID}`);
       } else { // If passwords don't match, send a 401.
         return res.sendStatus(401);
       }
@@ -91,6 +108,21 @@ router.post('/create', (req, res) => {
     res.sendStatus(500);
   })
 });
+
+// Middleware to check and see if user is logged in. Passes them on to the update PUT route if they are. Otherwise, sends 401.
+router.put('/update', (req, res, next) => {
+  if (req.session.userID) {
+    next()
+  } else {
+    res.sendStatus(401);
+  }
+});
+
+// For PUT requests to /accounts/update - Will update the user's account with the information provided.
+router.put('/update', (req, res) => {
+
+});
+
 
 
 module.exports = router;
