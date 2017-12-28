@@ -17,13 +17,13 @@ const filterInt = function(value) {
   return NaN;
 };
 
+const id = req.params.id;
+const bitId = req.params.bitId;
+const lableId = req.params.labelId;
 
 
 //Rendering bits.ejs page
-router.get('/bits/:id', (req, res, next)=>{
-
-const id = req.params.id;
-
+router.get('/:id', (req, res, next)=>{
   return knex('jokes')
   .select('*')
   .where('jokes.user_id', id)
@@ -45,7 +45,7 @@ const id = req.params.id;
 
 
 //Rendering individial bit
-router.get('/bits/:id/:bitId', (req, res, next)=>{
+router.get('/:id/:bitId', (req, res, next)=>{
 
 const id = req.params.id;
 const bitId = req.params.bitId;
@@ -72,42 +72,42 @@ return knex('jokes')
 
 
 //Updating Bit
-router.put('/bit/:id', (req, res, next)=>{
+router.put('/:id/:bitId', (req, res, next)=>{
 
 })
 
 
 //Adding Label to Bit
-router.post('bits/:id/label', (req, res, next)=>{
+router.post('/:id/:bitId/label', (req, res, next)=>{
 
 })
 
 
 //Deleting Label from Bit
-router.delete('bits/:id/label', (req, res, next)=>{
+router.delete('/:id/:bitId/:labelId', (req, res, next)=>{
 
 })
 
 //Rendering New Bit Page
-router.get('bits/new', (req, res, next)=>{
+router.get('/:id/new', (req, res, next)=>{
   res.render('newBit');
 })
 
 
 //Creating New bit
-router.post('bits/new', (req, res, next)=>{
+router.post('/:id/new', (req, res, next)=>{
 
 })
 
 
 //Create Label
-router.post('bits/label', (req, res, next)=>{
+router.post('/:id/label', (req, res, next)=>{
 
 })
 
 
 //Delete Label
-router.delete('bits/label', (req, res, next)=>{
+router.delete('id:/label/:labelId', (req, res, next)=>{
 
 })
 

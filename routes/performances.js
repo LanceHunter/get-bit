@@ -17,11 +17,13 @@ const filterInt = function(value) {
   return NaN;
 };
 
+const id = req.params.id;
+const perId = req.params.perId;
+
+
 
 //Rendering pers.ejs
-router.get('/pers/:id', (req, res, next)=>{
-const id = req.params.id;
-
+router.get('/:id', (req, res, next)=>{
   knex('performances')
   .select('title', 'date', 'rating')
   .where('performances.user_id', id)
@@ -36,9 +38,7 @@ const id = req.params.id;
 
 
 //Rendering individual performance
-router.get('/pers/:id/:perId', (req, res, next)=>{
-const id = req.params.id;
-const perId = req.params.perId;
+router.get('/:id/:perId', (req, res, next)=>{
 
   knex('performances')
   .select('title', 'date', 'rating')
@@ -54,25 +54,25 @@ const perId = req.params.perId;
 
 
 //Updating Individual Performance
-router.put('/pers/:id/:perId', (req, res, next)=>{
+router.put('/:id/:perId', (req, res, next)=>{
 
 })
 
 
 //Rendering New Performance Page
-router.get('/pers/new', (req, res, next)=>{
+router.get('/:id/new', (req, res, next)=>{
   res.render('newPer');
 })
 
 
 //Creating New Performance
-router.post('/pers/:id/new', (req, res, next)=>{
+router.post('/:id/new', (req, res, next)=>{
 
 })
 
 
 //Sending New Performance Info to Live Performance Page
-router.post('/pers/live', (req, res, next)=>{
+router.post('/:id/:perId/live', (req, res, next)=>{
 
   res.render('livePer');
 })
