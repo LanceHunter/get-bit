@@ -7,6 +7,7 @@ const knex = require('knex')(config);
 
 //Setting up express routing
 const express = require('express');
+const session = require('express-session');
 const router = express.Router();
 
 //Setting up bcrypt

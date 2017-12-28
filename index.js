@@ -1,7 +1,8 @@
 'use strict';
 
-// Setting up express, path, and body parser.
+// Setting up express, express-session, path, and body parser.
 const express = require('express');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
 const morgan = require('morgan');
