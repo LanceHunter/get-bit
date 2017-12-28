@@ -19,33 +19,27 @@ const filterInt = function(value) {
 
 
 //ID Variables
-// const id = req.params.id;
-// const bitId = req.params.bitId;
-// const lableId = req.params.labelId;
+// const id = req.params.id; user_id
+// const bitId = req.params.bitId; joke_id
+// const labelId = req.params.labelId; label_id
 
 
 //Rendering bits.ejs page
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
+
   return knex('jokes')
-    .select('*')
+    .innerJoin('labels', 'labels.label_id', 'jokes.label_id')
+    .select('jokes.joke_title', 'labels.label')
     .where('jokes.user_id', id)
-    .then(function(jokes) {
-      return knex('performances')
-        .innerJoin('jokes_performances', 'performances.per_id', 'jokes_performances.per_id')
-        .avg('performances.rating')
-        .where('jokes.user_id', 'performances.user_id')
-        .returning('*')
-    })
-    .then(function(bitsArr) {
-      res.render('bits', {
-        bits: bitsArr
-      });
-    })
-    .catch(function(error) {
-      console.log(error);
-      res.sendStatus(500);
-    });
+
+.then(function(jokesArr){
+  res.render('../views/bits.ejs', {jokes: jokesArr});
+})
+.catch(function(error) {
+    console.log(error);
+    res.sendStatus(500);
+  });
 })
 
 
@@ -53,21 +47,18 @@ router.get('/:id', (req, res, next) => {
 router.get('/:id/:bitId', (req, res, next) => {
   const id = req.params.id;
   const bitId = req.params.bitId;
+
   return knex('jokes')
-    .select('*')
-    .where('jokes.jokes_id', bitId)
-    .then(function(jokes) {
-      return knex('performances')
-        .innerJoin('jokes_performances', 'performances.per_id', 'jokes_performances.per_id')
-        .avg('performances.rating')
-        .where('jokes.user_id', 'performances.user_id')
-        .returning('*')
-    })
-    .then(function(bitObj) {
-      res.render('reviewBit', {
+    .innerJoin('labels', 'labels.label_id', 'jokes.label_id')
+    .select('jokes.joke_title', 'labels.label')
+    .where({'jokes.user_id': id,
+    'jokes.joke_id': bitId})
+
+  .then(function(bitObj) {
+      res.render('../views/reviewBit.ejs', {
         bit: bitObj
       });
-    })
+  })
     .catch(function(error) {
       console.log(error);
       res.sendStatus(500);
@@ -95,7 +86,7 @@ router.delete('/:id/:bitId/:labelId', (req, res, next) => {
 
 //Rendering New Bit Page
 router.get('/:id/new', (req, res, next) => {
-  res.render('newBit');
+  res.render('..views/newBit.ejs');
 })
 
 

@@ -21,6 +21,9 @@ const filterInt = function(value) {
   return NaN;
 };
 
+//ID Variables
+// const id = req.params.id; user_id
+
 router.get('/login', (req, res) => {
   res.render('../views/login.ejs');
 });
