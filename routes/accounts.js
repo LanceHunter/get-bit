@@ -44,7 +44,12 @@ router.post('/login', (req, res) => {
     if (result.length===0) {
       return res.send('no account with that email');
     }
-//    bcrypt.compare(userObj.password)
+    return bcrypt.compare(userObj.password, result[0].password)
+    .then ((res) => {
+      if (res) {
+
+      }
+    })
   })
 });
 
