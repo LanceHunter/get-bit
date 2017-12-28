@@ -146,7 +146,8 @@ router.put('/update', (req, res) => {
         }
       })
       .then(() => {
-        res.sendStatus(200);
+        console.log('send success');
+        res.send('success');
       })
       .catch((error) => { // Catching any error.
         console.error('Error inserting update - ', error);
@@ -167,15 +168,17 @@ router.put('/update', (req, res) => {
           return;
         }
       })
-      .then(() => { // Things are updated, redirect the user to their bits page.
-        res.sendStatus(200);
+      .then(() => { // Things are updated, send success.
+        console.log('send success');
+        res.send('success');
       });
     } else if (updateObj.photo_url) { // If there's no email update, update the photo if there is one.
       knex('users').where('id', req.session.userID).update({
         photo_url : updateObj.photo_url // Putting the new photo url in the DB.
       })
-      .then(() => { // Once photo is updated, send a 200.
-        res.sendStatus(200);
+      .then(() => { // Once photo is updated, send success.
+        console.log('send success');
+        res.send('success');
       });
     }
   }

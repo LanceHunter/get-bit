@@ -53,13 +53,15 @@
           url : '/accounts/update',
           method : "PUT",
           data : updateObj,
-          dataType: 'json'
+          dataType: 'json',
+          success : function(data) {
+            console.log(data);
+            window.location.assign('/');
+          }
         })
-        .done(() => {
+        .always((reply) => {
+          console.log(reply);
           window.location.assign('/');
-        })
-        .fail(() => {
-          alert('Update could not be completed at this time. Please try again later');
         });
       }
     });
