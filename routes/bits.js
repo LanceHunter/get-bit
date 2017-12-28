@@ -35,12 +35,8 @@ router.post('/:id/new', (req, res, next) => {
 
 })
 
-//Create Label
-router.post('/:id/label', (req, res, next) => {
 
-})
-
-//Rendering bits.ejs page
+//Rendering Bits Page
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
 
@@ -59,7 +55,7 @@ router.get('/:id', (req, res, next) => {
 })
 
 
-//Rendering individial bit
+//Rendering individial bit/ review bit
 router.get('/:id/:bitId', (req, res, next) => {
   const id = req.params.id;
   const bitId = req.params.bitId;
@@ -82,16 +78,24 @@ router.get('/:id/:bitId', (req, res, next) => {
 })
 
 
-
-//Updating Bit
+//Updating Bit / review page
 router.put('/:id/:bitId', (req, res, next) => {
 
 })
 
 
+//Delete Bit
+router.delete('/:id/:bitId', (req, res, next) => {
+
+})
+
+//Create Label
+router.post('/:id/label', (req, res, next) => {
+
+})
 
 //Adding Label to Bit
-router.post('/:id/:bitId/label', (req, res, next) => {
+router.post('/:id/:bitId/labelId', (req, res, next) => {
 
 })
 
@@ -100,8 +104,6 @@ router.post('/:id/:bitId/label', (req, res, next) => {
 router.delete('/:id/:bitId/:labelId', (req, res, next) => {
 
 })
-
-
 
 
 //Delete Label

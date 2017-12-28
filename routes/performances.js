@@ -35,7 +35,6 @@ router.post('/:id/new', (req, res, next) => {
 })
 
 
-
 //Sending New Performance Info to Live Performance Page
 router.get('/:id/:perId/live', (req, res, next) => {
     res.render('../views/livePer.ejs');
@@ -43,7 +42,7 @@ router.get('/:id/:perId/live', (req, res, next) => {
 })
 
 
-//Rendering pers.ejs
+//Rendering Performances
 
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
@@ -62,7 +61,7 @@ console.log('wtf');
 })
 
 
-//Rendering individual performance
+//Rendering individual performance - review performances
 router.get('/:id/:perId', (req, res, next) => {
 
   const id = req.params.id;
@@ -72,6 +71,7 @@ router.get('/:id/:perId', (req, res, next) => {
 
 })
 
+
 //Updating Individual Performance
 router.put('/:id/:perId', (req, res, next) => {
 
@@ -79,6 +79,7 @@ router.put('/:id/:perId', (req, res, next) => {
 
 
 
+//Rendering Live Performance Page
 router.post('/:id/:perId/live', (req, res, next) => {
   res.render('../views/livePer.ejs');
 })
