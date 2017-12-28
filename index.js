@@ -13,7 +13,7 @@ const accountsRoute = require('./routes/accounts.js');
 
 const bitsRoute = require('./routes/bits.js');
 
-const performanesRoute = require('./routes/performances.js');
+const performancesRoute = require('./routes/performances.js');
 
 // Disabling the x-powered-by: Express header, for security.
 app.disable('x-powered-by');
