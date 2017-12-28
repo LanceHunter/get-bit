@@ -32,7 +32,7 @@ router.get('/:id/new', (req, res, next) => {
 
 //Creating New bit
 router.post('/:id/new', (req, res, next) => {
-
+  res.redirect('../views/bits.ejs')
 })
 
 
@@ -45,32 +45,11 @@ router.get('/:id', (req, res, next) => {
     .select('jokes.joke_title', 'labels.label')
     .where('jokes.user_id', id)
 
-.then(function(jokesArr){
-  res.render('../views/bits.ejs', {jokes: jokesArr});
-})
-.catch(function(error) {
-    console.log(error);
-    res.sendStatus(500);
-  });
-})
-
-
-//Rendering individial bit/ review bit
-router.get('/:id/:bitId', (req, res, next) => {
-  const id = req.params.id;
-  const bitId = req.params.bitId;
-
-  return knex('jokes')
-    .innerJoin('labels', 'labels.label_id', 'jokes.label_id')
-    .select('jokes.joke_title', 'labels.label')
-    .where({'jokes.user_id': id,
-    'jokes.joke_id': bitId})
-
-  .then(function(bitObj) {
-      res.render('../views/reviewBit.ejs', {
-        bit: bitObj
+    .then(function(jokesArr) {
+      res.render('../views/bits.ejs', {
+        jokes: jokesArr
       });
-  })
+    })
     .catch(function(error) {
       console.log(error);
       res.sendStatus(500);
@@ -78,16 +57,43 @@ router.get('/:id/:bitId', (req, res, next) => {
 })
 
 
-//Updating Bit / review page
+//Rendering individial bit - Review Bit
+router.get('/:id/:bitId', (req, res, next) => {
+  const id = req.params.id;
+  const bitId = req.params.bitId;
+
+  return knex('jokes')
+    .innerJoin('labels', 'labels.label_id', 'jokes.label_id')
+    .select('jokes.joke_title', 'labels.label')
+    .where({
+      'jokes.user_id': id,
+      'jokes.joke_id': bitId
+    })
+
+    .then(function(bitObj) {
+      res.render('../views/reviewBit.ejs', {
+        bit: bitObj
+      });
+    })
+    .catch(function(error) {
+      console.log(error);
+      res.sendStatus(500);
+    });
+})
+
+
+//Updating Bit - Review Bit
 router.put('/:id/:bitId', (req, res, next) => {
-
+  res.redirect('../views/bits.ejs')
 })
 
 
-//Delete Bit
+//Delete Bit - Review Bit
 router.delete('/:id/:bitId', (req, res, next) => {
-
+  res.redirect('../views/bits.ejs')
 })
+
+
 
 //Create Label
 router.post('/:id/label', (req, res, next) => {

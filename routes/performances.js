@@ -23,6 +23,12 @@ const filterInt = function(value) {
 // const perId = req.params.perId; per_id
 
 
+//Rendering Live Performance Page
+router.get('/:id/:perId/live', (req, res, next) => {
+  res.render('../views/livePer.ejs');
+})
+
+
 //Rendering New Performance Page
 router.get('/:id/new', (req, res, next) => {
   res.render('../views/newPer.ejs');
@@ -31,14 +37,9 @@ router.get('/:id/new', (req, res, next) => {
 
 //Creating New Performance
 router.post('/:id/new', (req, res, next) => {
-
-})
-
-
-//Sending New Performance Info to Live Performance Page
-router.get('/:id/:perId/live', (req, res, next) => {
-    res.render('../views/livePer.ejs');
-
+//Create nmew performance
+//Grab new id and jokes for live performance
+  res.redirect('../views/livePer.ejs')
 })
 
 
@@ -46,42 +47,57 @@ router.get('/:id/:perId/live', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
-console.log('wtf');
   return knex('performances')
-  .select('performances.per_title', 'performances.date', 'performances.rating')
-  .where('performances.user_id', id)
-.then(function(persArr){
-  res.render('../views/pers.ejs', {pers: persArr});
-})
-.catch(function(error) {
-    console.log(error);
-    res.sendStatus(500);
-  });
+    .select('performances.per_title', 'performances.date', 'performances.rating')
+    .where('performances.user_id', id)
+    .then(function(persArr) {
+      console.log(persArr);
+      res.render('../views/pers.ejs', {
+        pers: persArr
+      });
+    })
+    .catch(function(error) {
+      console.log(error);
+      res.sendStatus(500);
+    });
 
 })
 
 
-//Rendering individual performance - review performances
+//Rendering individual performance - Review Performance
 router.get('/:id/:perId', (req, res, next) => {
 
   const id = req.params.id;
   const perId = req.params.perId;
 
-  res.render('../views/reviewPer.ejs')
+  return knex('performances')
+    .innerJoin('jokes_performances', 'performances.per_id', 'jokes_performances.per_id')
+    .innerJoin('jokes', 'jokes_performances.joke_id', 'jokes.joke_id')
+    .select('performances.per_title', 'performances.date', 'performances.rating', 'performances.audio', 'jokes.joke_title')
+    .where({
+      'performances.user_id': id,
+      'performances.per_id': perId
+    })
+
+    .then(function(perObj) {
+      console.log(perObj);
+      res.render('../views/reviewPer.ejs', {
+        per: perObj
+      });
+    })
+
+    .catch(function(error) {
+      console.log(error);
+      res.sendStatus(500);
+    });
 
 })
 
 
-//Updating Individual Performance
+
+//Updating Individual Performance - Review Performance
 router.put('/:id/:perId', (req, res, next) => {
-
-})
-
-
-
-//Rendering Live Performance Page
-router.post('/:id/:perId/live', (req, res, next) => {
-  res.render('../views/livePer.ejs');
+  res.redirect('../views/pers.ejs')
 })
 
 
