@@ -36,18 +36,26 @@ router.post('/:id/new', (req, res, next) => {
 })
 
 
-//Rendering Bits Page
+//Rendering Bits
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
 
-  return knex('jokes')
-    .innerJoin('labels', 'labels.label_id', 'jokes.label_id')
-    .select('jokes.joke_title', 'labels.label')
-    .where('jokes.user_id', id)
+  knex('jokes')
+  .innerJoin('labels', 'jokes.user_id', 'labels.user_id')
+  .where('jokes.user_id', id)
+  .returning('*')
 
-    .then(function(jokesArr) {
-      res.render('../views/bits.ejs', {
-        jokes: jokesArr
+.then(function(jokes){
+  knex('jokes')
+  .innerJoin('jokes_performances', 'jokes.joke_id', 'jokes_performances.joke_id')
+  .innerJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
+  .avg('performances.rating')
+  .returning('*')
+})
+  .then(function(jokes) {
+    console.log(jokes)
+    res.render('../views/bits.ejs', {
+      bits: jokes
       });
     })
     .catch(function(error) {
@@ -62,23 +70,7 @@ router.get('/:id/:bitId', (req, res, next) => {
   const id = req.params.id;
   const bitId = req.params.bitId;
 
-  return knex('jokes')
-    .innerJoin('labels', 'labels.label_id', 'jokes.label_id')
-    .select('jokes.joke_title', 'labels.label')
-    .where({
-      'jokes.user_id': id,
-      'jokes.joke_id': bitId
-    })
 
-    .then(function(bitObj) {
-      res.render('../views/reviewBit.ejs', {
-        bit: bitObj
-      });
-    })
-    .catch(function(error) {
-      console.log(error);
-      res.sendStatus(500);
-    });
 })
 
 

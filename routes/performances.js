@@ -44,7 +44,6 @@ router.post('/:id/new', (req, res, next) => {
 
 
 //Rendering Performances
-
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
   return knex('performances')
