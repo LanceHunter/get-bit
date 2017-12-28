@@ -7,7 +7,6 @@ const knex = require('knex')(config);
 
 //Setting up express routing
 const express = require('express');
-const session = require('express-session');
 const router = express.Router();
 
 //Setting up bcrypt
@@ -46,10 +45,12 @@ router.post('/login', (req, res) => {
       return res.send('no account with that email');
     }
     return bcrypt.compare(userObj.password, result[0].password)
-    .then ((res) => {
-      if (res) {
-        //Functionality if login works.
-      } else {
+    .then ((loginCheck) => {
+      if (loginCheck) { // If the passwords match, login and redirect to their bits page.
+        req.session.cookie.userID = result[0].id;
+        console.log('Passwords Match ', req.session);
+        return res.redirect(`/bits/${req.session.cookie.userID}`);
+      } else { // If passwords don't match, send a 401.
         return res.sendStatus(401);
       }
     })

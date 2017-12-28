@@ -31,6 +31,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('short'));
 
+// Middleware. Setting up session.
+app.use(session({
+  secret: 'pure comedy',
+  resave: false,
+  saveUninitialized: true
+}))
+
 app.use('/accounts', accountsRoute);
 app.use('/bits', bitsRoute);
 app.use('/performances', performanesRoute);
