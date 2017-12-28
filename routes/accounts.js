@@ -20,18 +20,25 @@ const filterInt = function(value) {
   return NaN;
 };
 
-router.get('/login', (req, res) => {
+router.get('/login', (req, res) => { // Sends the basic login page.
   res.render('../views/login.ejs');
 });
 
-router.get('/create', (req, res) => {
+router.get('/logout', (req, res) => { // Clears the cookie and redirects to the landing page.
+  req.session.destroy((err) => {
+    if (err) console.error(err);
+    res.redirect('/');
+  })
+});
+
+
+router.get('/create', (req, res) => { // Sends the create account page.
   res.render('../views/createAccount.ejs');
 });
 
 
 ////To be worked on after login paths set...
 router.get('/:id/update', (req, res) => {
-
   res.render('../views/updateAccount.ejs');
 });
 
