@@ -37,7 +37,28 @@ router.get('/:id/update', (req, res) => {
 
 router.post('/create', (req, res) => {
   console.log(req.body);
-  res.sendStatus(200);
+  let newUserObj = req.body;
+  knex.select('user_name').from('users').where('user_name', newUserObj.user_name)
+  .then((result) => {
+    if (result.length !== 0) {
+      return res.send('email exists');
+    }
+    return bcrypt.hash(newUserObj.password, 10, (err, hash) => {
+      newUserObj.hashpw = hash;
+      knex('users').insert({
+        user_name : newUserObj.user_name,
+        password : newUserObj.hashpw
+      })
+      .then(() => {
+        res.sendStatus(200);
+      });
+    })
+  })
+  .catch((err) => {
+    console.error(err);
+    res.sendStatus(500);
+  })
+
 });
 
 
