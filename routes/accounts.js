@@ -42,6 +42,8 @@ router.get('/update', (req, res) => {
   res.render('../views/updateAccount.ejs');
 });
 
+
+// The page for getting the user logged in.
 router.post('/login', (req, res) => {
   let userObj = req.body;
   console.log(userObj);
@@ -64,29 +66,7 @@ router.post('/login', (req, res) => {
   })
 });
 
-
-//Rendering login.ejs page
-router.get('/login', (req, res, next)=>{
-  res.render('login');
-})
-
-
-//Posting login information
-router.post('/login/:id', (req, res, next)=>{
-
-  res.redirect('bits')
-})
-
-
-//Rendering Create Login createAccount.ejs
-router.get('/login/create', (req, res, next)=>{
-  res.render('createAccount');
-})
-
-
-//Posting Login info to database
-router.post('/login/create/:id', (req, res, next)=>{
-
+// For creating the user account from a POST request to /accounts/create
 router.post('/create', (req, res) => {
   console.log(req.body);
   let newUserObj = req.body;
