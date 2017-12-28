@@ -10,6 +10,7 @@ const express = require('express');
 const router = express.Router();
 
 
+
 // filterInt - The function from MDN that confirms a particular value is actually an integer. Because parseInt isn't quite strict enough.
 const filterInt = function(value) {
   if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
@@ -25,8 +26,9 @@ router.get('/login', (req, res, next)=>{
 
 
 //Posting login information
-router.post('/login', (req, res, next)=>{
+router.post('/login/:id', (req, res, next)=>{
 
+  res.redirect('bits')
 })
 
 
@@ -37,8 +39,9 @@ router.get('/login/create', (req, res, next)=>{
 
 
 //Posting Login info to database
-router.post('/login/create', (req, res, next)=>{
+router.post('/login/create/:id', (req, res, next)=>{
 
+  res.redirect('bits')
 })
 
 

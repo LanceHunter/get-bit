@@ -19,31 +19,54 @@ const filterInt = function(value) {
 
 
 //Rendering pers.ejs
-router.get('/pers', (req, res, next)=>{
-  res.render('pers');
+router.get('/pers/:id', (req, res, next)=>{
+const id = req.params.id;
+
+  knex('performances')
+  .select('title', 'date', 'rating')
+  .where('performances.user_id', id)
+  .then(function(persArr){
+    res.render('pers', {pers: persArr});
+  })
+  .catch(function(error) {
+      console.log(error);
+      res.sendStatus(500);
+    });
 })
 
 
 //Rendering individual performance
-router.get('/pers/:id', (req, res, next)=>{
-  res.render('reviewPer');
+router.get('/pers/:id/:perId', (req, res, next)=>{
+const id = req.params.id;
+const perId = req.params.perId;
+
+  knex('performances')
+  .select('title', 'date', 'rating')
+  .where('performances.user_id', id AND 'performances.per_id', perId)
+  .then(function(perObj){
+    res.render('reviewPer', {per: perObj});
+  })
+  .catch(function(error) {
+      console.log(error);
+      res.sendStatus(500);
+    });
 })
 
 
 //Updating Individual Performance
-router.put('/pers/:id', (req, res, next)=>{
+router.put('/pers/:id/:perId', (req, res, next)=>{
 
 })
 
 
 //Rendering New Performance Page
-router.get('/pers/new', (req, res, next){
+router.get('/pers/new', (req, res, next)=>{
   res.render('newPer');
 })
 
 
 //Creating New Performance
-router.post('/pers/new', (req, res, next)=>{
+router.post('/pers/:id/new', (req, res, next)=>{
 
 })
 
