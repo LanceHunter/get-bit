@@ -1,0 +1,58 @@
+A document describing what the jQuery and other front-end javascript needs to do on each of our views.
+
+Landing page / index.ejs (index.ejs)
+- No major functionality.
+
+Login page (login.ejs)
+- No major functionality (can turn form into AJAX call, but not necessary)
+
+Create account page
+- confirm that customer has entered an email address in email field
+- confirm that email addresses match in both fields
+- confirm that passwords in both fields match
+- Do not allow the request to be submitted without all fields filled out and appropriate fields matching
+- Submit the form as AJAX POST call to /login/create
+
+Bits page (bits.ejs) -
+- take information from search bar and send it to server /bits/search
+- place the information received from the server in a pull-down pane below the search bar
+- ability to filter displayed bits depending on what label user selects
+
+Review bit page (reviewBit.ejs) -
+- Create a new tag field when the + button is pressed
+- Ability to add a label to a bit from the pull-down menu (sending a POST request to jokes_labels)
+- Ability to send an AJAX POST to /bits/labels to create an entirely new label
+- Ability to receive the JSON array of labels that is the reply to creating a new label and replacing the contents of the labels pull-down menu with those results
+- Ability to confirm what has changed on the bits page when the submit button is pressed, and then send a PUT request to /bits/:id with the updated information in a JSON body.
+
+New bit page (newBit.ejs) -
+- Create a new tag field when the + button is pressed
+- Ability to confirm that at least the title field is filled out.
+- Ability to send all provided information as a POST request to /bits/new (AJAX call?)
+- Ability to add a label to a bit from the pull-down menu (sending a POST request to jokes_labels) // Same as reviewBit.ejs (The next 2 are the same as well.)
+- Ability to send an AJAX POST to /bits/labels to create an entirely new label
+- Ability to receive the JSON array of labels that is the reply to creating a new label and replacing the contents of the labels pull-down menu with those results
+
+Performances page (pers.ejs) -
+- take information from search bar and send it to server /pers/search
+- place the information received from the server in a pull-down pane below the search bar
+- ability to filter displayed performances depending on what label user selects, possibly sorting them by things like date, name, etc.
+
+Review performance page (reviewPer.ejs)
+- Ability to detect when play button is pressed, call the audio file for the performance from its home, and pipe it into a player that the user can control.
+- Ability to take information from search bar and send it to server /bits/search
+- Ability place the information received from the server in a pull-down pane below the search bar
+- Ability to place any bits selected from search results into the list of 'performed' bits
+- Ability to confirm if any information about performance was changed (bits added, bits marked as performed / not performed, changes to title)
+- Ability to send and changed information to /pers/:id as a PUT request with any changed information included in a JSON body.
+
+New performance page (newPer.ejs)
+- Ability filter the list of bits based on the information in the search bar
+- Ability to filter the list of bits based on the label the user has selected from the labels pull-down
+- Ability to sort the list of bits by average rating and title
+- Ability to take the save the bit title, list of performed bits, the order in which the bits were selected, the total allotted time, and the light time and put them into an object.
+- Ability to make sure the title field is filled out and prevent performance from starting before that is done.
+- Ability to change the screen from the "entering information" frame to the "live performance" frame, displaying a timer and the titles of the bits that were selected to be performed.
+- Ability to capture the audio for the performance, piping it to server for saving (and getting back the url of the saved audio)
+- Ability to make screen flash during the "light" time.
+- Ability to send all information to server once the "stop" button is pressed as a POST to /pers/new (The route can then send that information back to user in the reviewBit page.)

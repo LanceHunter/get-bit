@@ -2,10 +2,25 @@
 <html>
   <head>
     <% include ./partials/header.ejs %>
-    <title>Get Bit</title>
+
+    <title>Get Bit - Login</title>
   </head>
   <body>
-    <h1>Hi</h1>
+    <% include ./partials/bodyHeader.ejs %>
+    <fieldset>
+      <legend>Login</legend>
+      <form method="post" action="/accounts/login" class="form">
+        <div class="form-item">
+          <label>email</label>
+          <input type="email" name="email">
+        </div>
+        <div class="form-item">
+          <label>password</label>
+          <input type="password" name="password">
+        </div>
+        <button class="button secondary round">Submit</button>
+      </form>
+    </fieldset>
   </body>
   <% include ./partials/footer.ejs %>
 </html>

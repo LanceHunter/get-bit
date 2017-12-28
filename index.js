@@ -10,7 +10,9 @@ const port = process.env.PORT || 8888;
 
 // Requiring the code for the accounts, jokes, and perofmrnaces routes.
 const accountsRoute = require('./routes/accounts.js');
-const jokesRoute = require('./routes/bits.js');
+
+const bitsRoute = require('./routes/bits.js');
+
 const performanesRoute = require('./routes/performances.js');
 
 // Disabling the x-powered-by: Express header, for security.
@@ -31,8 +33,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('short'));
 
 app.use('/accounts', accountsRoute);
-app.use('/bits', jokesRoute);
-app.use('/performances', performanesRoute);
+
+app.use('/bits', bitsRoute);
+
+app.use('/performances', performancesRoute);
 
 // Rendering the EJS for the landing page for a request to root.
 app.get('/', (req,res) => {
