@@ -17,13 +17,16 @@ const filterInt = function(value) {
   return NaN;
 };
 
-const id = req.params.id;
-const perId = req.params.perId;
+
+// Id Variables
+// const id = req.params.id;
+// const perId = req.params.perId;
 
 
 
 //Rendering pers.ejs
 router.get('/:id', (req, res, next)=>{
+  const id = req.params.id;
   knex('performances')
   .select('title', 'date', 'rating')
   .where('performances.user_id', id)
@@ -39,7 +42,8 @@ router.get('/:id', (req, res, next)=>{
 
 //Rendering individual performance
 router.get('/:id/:perId', (req, res, next)=>{
-
+  const id = req.params.id;
+  const perId = req.params.perId;
   knex('performances')
   .select('title', 'date', 'rating')
   .where('performances.per_id', perId)
