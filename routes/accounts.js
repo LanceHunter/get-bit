@@ -120,7 +120,65 @@ router.put('/update', (req, res, next) => {
 
 // For PUT requests to /accounts/update - Will update the user's account with the information provided.
 router.put('/update', (req, res) => {
-
+  let updateObj = req.body;
+  if (updateObj.password) { // Checking password first because it's the biggest async task.
+    bcrypt.hash(updateObj.password, 10, (err, hash) => {
+      updateObj.hashpw = hash;
+      knex('users').where('id', req.session.userID).update({
+        password : updateObj.hashpw // Putting the new PW in the DB.
+      })
+      .then(() => { // After entering PW, checking on email update
+        if (updateObj.user_name) {
+          return knex('users').where('id', req.session.userID).update({
+            user_name : updateObj.user_name // Putting the new email in the DB.
+          });
+        } else { // If that wasn't updated, returning empty to move on to next.
+          return;
+        }
+      })
+      .then(() => { // After entering email, checking on photo update
+        if (updateObj.photo_url) {
+          return knex('users').where('id', req.session.userID).update({
+            photo_url : updateObj.photo_url // Putting the new photo url in the DB.
+          });
+        } else { // If that wasn't updated, returning empty to move on to next.
+          return;
+        }
+      })
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((error) => { // Catching any error.
+        console.error('Error inserting update - ', error);
+        res.sendStatus(500);
+      });
+    });
+  } else { // Same logic as above, but if there was no password entered.
+    if (updateObj.user_name) { // First check for username.
+      knex('users').where('id', req.session.userID).update({
+        user_name : updateObj.user_name // Putting the new email in the DB.
+      })
+      .then(() => { // After inserting username, check to see about a photo url.
+        if (updateObj.photo_url) { // If there's a photo url, insert it.
+          return knex('users').where('id', req.session.userID).update({
+            photo_url : updateObj.photo_url // Putting the new photo url in the DB.
+          })
+        } else { // If there's no photo URL, move on.
+          return;
+        }
+      })
+      .then(() => { // Things are updated, redirect the user to their bits page.
+        res.sendStatus(200);
+      });
+    } else if (updateObj.photo_url) { // If there's no email update, update the photo if there is one.
+      knex('users').where('id', req.session.userID).update({
+        photo_url : updateObj.photo_url // Putting the new photo url in the DB.
+      })
+      .then(() => { // Once photo is updated, send a 200.
+        res.sendStatus(200);
+      });
+    }
+  }
 });
 
 

@@ -27,7 +27,7 @@
     event.preventDefault();
     let updateObj = {};
     let update = false;
-    $('#updateButton').replaceWith(`<button class="button secondary round" id="confirmButton">Confirm</button>`);
+    $('#updateButton').replaceWith(`<button class="button secondary round outline" id="confirmButton">Confirm</button>`);
     $('#confirmButton').click(() => {
       event.preventDefault();
       if (newEmail && (oldEmail !== newEmail)) {
@@ -38,7 +38,7 @@
         updateObj.photo_url = newURL;
         update = true;
       }
-      if (pass1 && pass2) {
+      if (pass1 || pass2) {
         if (pass1 === pass2) {
           updateObj.password = pass1;
           update = true;
@@ -49,16 +49,16 @@
         }
       }
       if (update) {
-        let request = $.ajax({
-                        url : '/accounts/update',
-                        method : "PUT",
-                        data : updateObj,
-                        dataType: 'json'
-                      });
-        request.done((reply) => {
+        $.ajax({
+          url : '/accounts/update',
+          method : "PUT",
+          data : updateObj,
+          dataType: 'json'
+        })
+        .done(() => {
           window.location.assign('/');
-        });
-        request.fail(() => {
+        })
+        .fail(() => {
           alert('Update could not be completed at this time. Please try again later');
         });
       }
