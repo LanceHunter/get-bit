@@ -13,7 +13,6 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 
 
-
 // filterInt - The function from MDN that confirms a particular value is actually an integer. Because parseInt isn't quite strict enough.
 const filterInt = function(value) {
   if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
@@ -21,14 +20,7 @@ const filterInt = function(value) {
   return NaN;
 };
 
-
-//ID Variables
-// const id = req.params.id; user_id
-
-router.get('/login', (req, res) => {
-
 router.get('/login', (req, res) => { // Sends the basic login page.
-
   res.render('../views/login.ejs');
 });
 
@@ -46,11 +38,7 @@ router.get('/create', (req, res) => { // Sends the create account page.
 
 
 ////To be worked on after login paths set...
-
-router.get('/:id/update', (req, res) => {
-
 router.get('/update', (req, res) => {
-
   res.render('../views/updateAccount.ejs');
 });
 
@@ -75,7 +63,6 @@ router.post('/login', (req, res) => {
     })
   })
 });
-
 
 
 //Rendering login.ejs page
@@ -123,12 +110,7 @@ router.post('/create', (req, res) => {
     console.error(err);
     res.sendStatus(500);
   })
-
 });
-
-
-  res.redirect('bits')
-})
 
 
 module.exports = router;
