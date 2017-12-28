@@ -17,9 +17,9 @@ $('#submitButton').click(() => { // Click listener for the submit button.
       // Below we post the account object, and if we get a success we replace the field with a confirmation page.
       $.post('/accounts/create', accountObj, (result) => {
         console.log(result);
-        if (result === 'email exists') {
+        if (result === 'email exists') { // Giving an error if user tries to create an account with an email that is already in our system.
           $('#createAccountField').replaceWith(`<h3 class="text-center error">An account with that email has already been created.</h3><a href="/accounts/login" class="button secondary round w100 text-center large">Login</a><p></p><a href="/accounts/create" class="button secondary round w100 text-center large">Create New Account</a>`);
-        } else {
+        } else { // Giving the success message if account was created normally.
           $('#createAccountField').replaceWith(`<h2 class="text-center">Account Created</h2><a href="/accounts/login" class="button secondary round w100 text-center large">Login</a>`);
         }
       })

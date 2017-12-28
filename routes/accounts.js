@@ -35,6 +35,20 @@ router.get('/:id/update', (req, res) => {
   res.render('../views/updateAccount.ejs');
 });
 
+router.post('/login', (req, res) => {
+  let userObj = req.body;
+  console.log(userObj);
+  knex.select('*').from('users').where('user_name', userObj.email)
+  .then((result) => {
+    console.log(result);
+    if (result.length===0) {
+      return res.send('no account with that email');
+    }
+//    bcrypt.compare(userObj.password)
+  })
+});
+
+
 router.post('/create', (req, res) => {
   console.log(req.body);
   let newUserObj = req.body;
