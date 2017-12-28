@@ -49,7 +49,7 @@ router.post('/login', (req, res) => {
       if (res) {
         //Functionality if login works.
       } else {
-        return res.sentStatus(401);
+        return res.sendStatus(401);
       }
     })
   })
