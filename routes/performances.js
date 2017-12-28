@@ -28,10 +28,10 @@ const filterInt = function(value) {
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
   knex('performances')
-    .select('title', 'date', 'rating')
+    .select('performances.performance_title', 'performances.date', 'performances.rating')
     .where('performances.user_id', id)
     .then(function(persArr) {
-      res.render('..views/pers.ejs', {
+      res.render('../views/pers.ejs', {
         pers: persArr
       });
     })
@@ -48,7 +48,8 @@ router.get('/:id/:perId', (req, res, next) => {
   const perId = req.params.perId;
   knex('performances')
     .select('title', 'date', 'rating')
-    .where('performances.per_id', perId)
+    .where({'performances.per_id': id,
+  'performances.per_id': perId})
     .then(function(perObj) {
       res.render('..views/reviewPer.ejs', {
         per: perObj

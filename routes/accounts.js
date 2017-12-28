@@ -35,7 +35,6 @@ router.get('/create', (req, res) => {
 
 ////To be worked on after login paths set...
 router.get('/:id/update', (req, res) => {
-
   res.render('../views/updateAccount.ejs');
 });
 

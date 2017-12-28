@@ -24,6 +24,22 @@ const filterInt = function(value) {
 // const labelId = req.params.labelId; label_id
 
 
+//Rendering New Bit Page
+router.get('/:id/new', (req, res, next) => {
+  res.render('../views/newBit.ejs');
+})
+
+
+//Creating New bit
+router.post('/:id/new', (req, res, next) => {
+
+})
+
+//Create Label
+router.post('/:id/label', (req, res, next) => {
+
+})
+
 //Rendering bits.ejs page
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
@@ -73,6 +89,7 @@ router.put('/:id/:bitId', (req, res, next) => {
 })
 
 
+
 //Adding Label to Bit
 router.post('/:id/:bitId/label', (req, res, next) => {
 
@@ -84,22 +101,7 @@ router.delete('/:id/:bitId/:labelId', (req, res, next) => {
 
 })
 
-//Rendering New Bit Page
-router.get('/:id/new', (req, res, next) => {
-  res.render('..views/newBit.ejs');
-})
 
-
-//Creating New bit
-router.post('/:id/new', (req, res, next) => {
-
-})
-
-
-//Create Label
-router.post('/:id/label', (req, res, next) => {
-
-})
 
 
 //Delete Label
