@@ -38,7 +38,7 @@ router.get('/create', (req, res) => { // Sends the create account page.
 
 
 ////To be worked on after login paths set...
-router.get('/:id/update', (req, res) => {
+router.get('/update', (req, res) => {
   res.render('../views/updateAccount.ejs');
 });
 
