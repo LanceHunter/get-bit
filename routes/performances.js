@@ -37,7 +37,7 @@ router.get('/:id/new', (req, res, next) => {
 
 //Creating New Performance
 router.post('/:id/new', (req, res, next) => {
-//Create nmew performance
+//Create new performance
 //Grab new id and jokes for live performance
   res.redirect('../views/livePer.ejs')
 })
