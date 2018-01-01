@@ -107,7 +107,7 @@ router.post('/create', (req, res) => {
            'label' : 'good'},
           {'user_id' : userID[0],
            'label' : 'closer'},
-        ]
+        ];
         return knex('labels').insert(newUserLabelsDefaultArr);
       })
       .then(() => {
