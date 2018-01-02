@@ -42,28 +42,30 @@ router.post('/:id/new', (req, res, next) => {
   res.redirect('../views/livePer.ejs')
 })
 
-// Middleware for making sure logged in user is accessing their correct page.
+/* // Middleware for making sure logged in user is accessing their correct page.
 router.get('/:id', (req, res, next) => {
-  if (req.session.userID !== req.params.id) {
+  if (req.session.userID === req.params.id) {
+    console.log('params ID and user ID match.');
     next();
   } else {
+    console.log(`params ID and user ID don't match.`);
     res.redirect('/');
   }
-});
+}); */
 
-//Rendering Performances
-router.get('/:id', (req, res, next) => {
-  console.log('The user ID - ', req.session.userID);
-  if (req.session.userID !== req.params.id) {
-    res.redirect('/');
-  }
+// Rendering Performances
+router.get('/:id', (req, res) => {
+  console.log('The session ID - ', req.session.userID);
+  console.log('The user ID - ', req.params.id);
   let id = req.params.id;
   return knex('performances')
     .select('performances.per_title', 'performances.date', 'performances.rating')
     .where('performances.user_id', id)
-    .then(function(persArr) {
+    .then((persArr) => {
       console.log(persArr);
       res.render('../views/pers.ejs', {
+        onBits : false,
+        userID : req.session.userID,
         pers: persArr
       });
     })
@@ -71,7 +73,6 @@ router.get('/:id', (req, res, next) => {
       console.log(error);
       res.sendStatus(500);
     });
-
 })
 
 
