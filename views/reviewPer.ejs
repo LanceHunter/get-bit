@@ -16,18 +16,24 @@
       <h2><%= per[0].per_title %></h2>
       <h2>&nbsp;<%= dateString %></h2>
       <h2>&nbsp;<% include ./partials/stars.ejs %></h2>
+      <% if (per[0].audio) { %>
+      <a href="<%= per[0].audio %>" class="button secondary round w50 w100-sm text-center" id="listenButton">Listen</a>
+      <% } %>
     </div>
     <div class="row align-center">
-      <dl>
-        <% per.forEach((bit) => { %>
-          <dt>
-            <%= bit.joke_title %>
-          </dt>
-          <dd>
-            <label class="checkbox"><input type="checkbox" id="check<%= bit.joke_id %>" checked> Performed</label>
-          </dd>
-        <% }); %>
-      </dl>
+      <fieldset>
+        <legend>Setlist</legend>
+        <dl>
+          <% per.forEach((bit) => { %>
+            <dt>
+              <%= bit.joke_title %>
+            </dt>
+            <dd>
+              <label class="checkbox"><input type="checkbox" id="check<%= bit.joke_id %>" checked> Performed</label>
+            </dd>
+          <% }); %>
+        </dl>
+      </fieldset>
     </div>
 </body>
 <% include ./partials/footer.ejs %>
