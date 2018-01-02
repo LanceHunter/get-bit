@@ -8,9 +8,37 @@
 
 <body>
   <% include ./partials/bodyHeader.ejs %>
-    <h1>Review Bit</h1>
 
     <% include ./partials/tabs.ejs %>
+      <div class="row align-center">
+        <form method="post" action="submit" class="form">
+          <% singleBit.forEach(function(bit) { %>
+
+            <div class="form-item">
+              <label>Title</label>
+              <input type="title" name="joke_title" value="<%= bit.joke_title%>" class="w100">
+            </div>
+
+            <div class="form-item">
+              <label>Body</label>
+              <textarea col="12" row="12" name="body" placeholder="<%= bit.body%>"></textarea>
+            </div>
+
+            <div class="form-item">
+
+
+                <label>Tag</label>
+                <input type="tags" name="tags" value="<%=bit.tags%>" class="w100">
+
+            </div>
+
+
+            <% }); %>
+        </form>
+      </div>
+
+
+
 </body>
 <% include ./partials/footer.ejs %>
 
