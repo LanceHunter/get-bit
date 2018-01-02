@@ -59,13 +59,13 @@ router.get('/:id', (req, res) => {
   console.log('The user ID - ', req.params.id);
   let id = req.params.id;
   return knex('performances')
-    .select('performances.per_title', 'performances.date', 'performances.rating')
+    .select('performances.per_title', 'performances.date', 'performances.rating', 'performances.per_id')
     .where('performances.user_id', id)
     .then((persArr) => {
       console.log(persArr);
       res.render('../views/pers.ejs', {
         onBits : false,
-        userID : req.session.userID,
+        userID : id,
         pers: persArr
       });
     })
