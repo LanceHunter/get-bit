@@ -15,7 +15,7 @@
     <div class="row align-center">
       <h2><%= per[0].per_title %></h2>
       <h2>&nbsp;<%= dateString %></h2>
-      <h2>&nbsp;<% include ./partials/stars.ejs %></h2>
+      <h2>&nbsp;<% include ./partials/stars.ejs %> <a class="muted small noline" id="changeRate">Change Rating</a></h2>
       <% if (per[0].audio) { %>
       <a href="<%= per[0].audio %>" class="button secondary round w50 w100-sm text-center" id="listenButton">Listen</a>
       <% } %>
@@ -40,7 +40,7 @@
       <p class="show-sm"></p>
       <button class="redButton" value="/performances/<%= userID %>/<%= per[0].per_id %>" id="deleteButton">Delete</button>
       <p class="show-sm"></p>
-      <button>Save</button>
+      <button value="/performances/<%= userID %>/<%= per[0].per_id %>" id="saveButton">Save</button>
     </div>
 </body>
 <% include ./partials/footer.ejs %>

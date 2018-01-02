@@ -17,12 +17,6 @@ const filterInt = function(value) {
   return NaN;
 };
 
-
-// Id Variables
-// const id = req.params.id; user_id
-// const perId = req.params.perId; per_id
-
-
 //Rendering Live Performance Page
 router.get('/:id/:perId/live', (req, res, next) => {
   res.render('../views/livePer.ejs');
@@ -31,7 +25,15 @@ router.get('/:id/:perId/live', (req, res, next) => {
 
 //Rendering New Performance Page
 router.get('/:id/new', (req, res, next) => {
-  res.render('../views/newPer.ejs');
+  const id = filterInt(req.params.id);
+  knex('jokes').fullOuterJoin('labels', 'jokes.label_id', 'labels.label_id').select('*').where('jokes.user_id', id)
+  .then((jokesArr) => {
+    res.render('../views/newPer.ejs', {
+      onBits : false,
+      userID : id,
+      jokes : jokesArr
+    });
+  });
 })
 
 
@@ -80,9 +82,8 @@ router.get('/:id', (req, res) => {
 
 //Rendering individual performance - Review Performance
 router.get('/:id/:perId', (req, res) => {
-
-  const id = req.params.id;
-  const perId = req.params.perId;
+  const id = filterInt(req.params.id);
+  const perId = filterInt(req.params.perId);
 
   knex('performances')
     .innerJoin('jokes_performances', 'performances.per_id', 'jokes_performances.per_id')

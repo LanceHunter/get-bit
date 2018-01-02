@@ -22,8 +22,11 @@
       console.log('Deleting - ', deleteRoute);
       //Logic for the AJAX delete call goes here later.
     });
-
   });
 
+  $('#saveButton').click(() => {
+    event.preventDefault();
+    console.log('Adding save/update logic later.');
+  });
 
 })();
