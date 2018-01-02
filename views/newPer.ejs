@@ -8,10 +8,55 @@
 
 <body>
   <% include ./partials/bodyHeader.ejs %>
-    <h1>New Performance</h1>
-
     <% include ./partials/tabs.ejs %>
+    <div class="row align-center">
+      <input type="text" name="set-title" class="w95 large" value="Enter a title for set">
+    </div>
+    <fieldset>
+      <legend>
+        Set Options
+      </legend>
+      <div class="form-item w65">
+        <label>Set Time</label>
+        <input type="number" name="set-time">
+      </div>
+      <div class="form-item w65">
+        <label>Light Me At</label>
+        <input type="number" name="light-time">
+      </div>
+      <button class="button round large secondary float-right w40">Record Set?</button>
+    </fieldset>
+    <fieldset>
+      <legend>
+        Setlist
+      </legend>
+      <form class="form w50 w100-sm">
+        <div class="form-item">
+          <input type="text" class="search" id="bitSearch">
+        </div>
+        <div class="form-item">
+          <div class="append">
+            <select id="bitSelect">
+              <% bits.forEach((bit) => { %>
+                <option value="b<%= bit.joke_id %>">
+                  <%= bit.joke_title %>
+                </option>
+              <% }); %>
+            </select>
+            <button class="button outline" id="addSelectButton">+</button>
+          </div>
+        </div>
+      </form>
+    </fieldset>
+    <button class="button large w100">Start</button>
+    <p></p>
+    <button class="button large secondary w100">Ditch</button>
+    <p></p>
+
 </body>
+
 <% include ./partials/footer.ejs %>
+<script src="/static/js/newPer.js" type="text/javascript"></script>
+
 
 </html>

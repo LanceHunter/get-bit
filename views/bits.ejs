@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <% include ./partials/header.ejs %>
     <title>Get Bit</title>
@@ -39,8 +38,8 @@
                 <%= bit.joke_title %>
               </a>
 
-              <% if (bit.label){%>
-                <span class="label upper focus"><%=bit.label%></span>
+              <% if (bit.label) { %>
+                <span class="label upper focus"><%= bit.label %></span>
               <% } %>
 
               Rating:

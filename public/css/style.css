@@ -6,10 +6,33 @@ h1.title {
   font-family: 'Josefin Sans', sans-serif;
 }
 
+h2.title {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+
 .bodyHeader {
   background-color: #F6F6F6;
 }
 
 .noline {
   text-decoration : none;
+}
+
+.redButton {
+  background-color: #ff3366;
+}
+.redButton:hover {
+  background-color: #ff69b4;
+}
+
+.redButtonOutLine {
+  background-color: #ffffff;
+  border-color: #ff3366;
+  color: #000000;
+}
+.redButtonOutLine:hover {
+  background-color: #ffffff;
+  border-color: #ff69b4;
+  color: #000000;
 }
