@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <% include ./partials/header.ejs %>
     <title>Get Bit</title>
@@ -31,20 +30,19 @@
 
       <div class="row align-center">
         <ul class = "unstyled large">
-          <% let starKey = avg %>
-          <% bits.forEach(function(bit) { %>
+          <% bits.forEach((bit) => { %>
             <li>
-
-              <a href="/bits/<%= bit.user_id%>/<%= bit.joke_id%>">
+              <% let starKey = bit.avg; %>
+              <a href="/bits/<%= bit.user_id %>/<%= bit.joke_id %>">
                 <%= bit.joke_title %>
               </a>
 
-              <% if (bit.label){%>
-                <span class="label upper focus"><%=bit.label%></span>
+              <% if (bit.label) { %>
+                <span class="label upper focus"><%= bit.label %></span>
               <% } %>
 
               Rating:
-                <%= include ./partials/stars.ejs%>
+                <% include ./partials/stars.ejs %>
             </li>
         <% }); %>
         </ul>

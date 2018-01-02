@@ -87,7 +87,7 @@ router.get('/:id/:perId', (req, res) => {
   knex('performances')
     .innerJoin('jokes_performances', 'performances.per_id', 'jokes_performances.per_id')
     .innerJoin('jokes', 'jokes_performances.joke_id', 'jokes.joke_id')
-    .select('performances.per_title', 'performances.date', 'performances.rating', 'performances.audio', 'jokes.joke_title', 'jokes.joke_id')
+    .select('performances.per_title', 'performances.date', 'performances.per_id', 'performances.rating', 'performances.audio', 'jokes.joke_title', 'jokes.joke_id')
     .where({
       'performances.user_id': id,
       'performances.per_id': perId

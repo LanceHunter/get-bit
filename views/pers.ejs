@@ -27,8 +27,8 @@
           <% let starKey = per.rating %>
           <% let perDate = new Date(per.date) %>
           <% let dateString = `${perDate.getMonth() + 1}/${perDate.getDate()}/${perDate.getFullYear()}`; %>
-          <dt><a href="/performances/<%= userID %>/<%= per.per_id %>"><%= per.per_title %>- <%= dateString %></a></dt>
-          <dd><% include ./partials/stars.ejs %></dd>
+          <dt class="large"><a href="/performances/<%= userID %>/<%= per.per_id %>"><%= per.per_title %>- <%= dateString %></a></dt>
+          <dd class="large"><% include ./partials/stars.ejs %></dd>
           <% }); %>
         </dl>
       </div>
