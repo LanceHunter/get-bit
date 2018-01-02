@@ -1,11 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <% include ./partials/header.ejs %>
+
+<head>
+  <% include ./partials/header.ejs %>
     <title>Get Bit</title>
-  </head>
-  <body>
+</head>
+
+<body>
+  <% include ./partials/bodyHeader.ejs %>
     <h1>Performances</h1>
-  </body>
-  <% include ./partials/footer.ejs %>
+
+    <% include ./partials/tabs.ejs %>
+
+
+      <div class="row align-center">
+        <button class="button secondary round w50">New Performance</button>
+      </div>
+
+      <div class="row align-center">
+        <form class="form w50">
+          <div class="form-item">
+            <input type="text" class="search">
+          </div>
+        </form>
+      </div>
+
+      <div class="row align-center">
+        <ul>
+        </ul>
+      </div>
+
+      <div class="row align-center">
+
+
+</body>
+<% include ./partials/footer.ejs %>
+
 </html>
