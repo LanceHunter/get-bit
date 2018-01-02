@@ -42,30 +42,32 @@ router.post('/:id/new', (req, res, next) => {
   res.redirect('../views/livePer.ejs')
 })
 
-/* // Middleware for making sure logged in user is accessing their correct page.
+// Middleware for making sure logged in user is accessing their correct page.
 router.get('/:id', (req, res, next) => {
-  if (req.session.userID === req.params.id) {
+  let sessionID = parseInt(req.session.userID);
+  let paramsID = parseInt(req.params.id);
+  console.log('The session ID - ', req.session.userID);
+  console.log('The user ID - ', req.params.id);
+  if (sessionID === paramsID) {
     console.log('params ID and user ID match.');
     next();
   } else {
     console.log(`params ID and user ID don't match.`);
     res.redirect('/');
   }
-}); */
+});
 
 // Rendering Performances
 router.get('/:id', (req, res) => {
-  console.log('The session ID - ', req.session.userID);
-  console.log('The user ID - ', req.params.id);
   let id = req.params.id;
   return knex('performances')
-    .select('performances.per_title', 'performances.date', 'performances.rating')
+    .select('performances.per_title', 'performances.date', 'performances.rating', 'performances.per_id')
     .where('performances.user_id', id)
     .then((persArr) => {
       console.log(persArr);
       res.render('../views/pers.ejs', {
         onBits : false,
-        userID : req.session.userID,
+        userID : id,
         pers: persArr
       });
     })
@@ -77,29 +79,34 @@ router.get('/:id', (req, res) => {
 
 
 //Rendering individual performance - Review Performance
-router.get('/:id/:perId', (req, res, next) => {
+router.get('/:id/:perId', (req, res) => {
 
   const id = req.params.id;
   const perId = req.params.perId;
 
-  return knex('performances')
+  knex('performances')
     .innerJoin('jokes_performances', 'performances.per_id', 'jokes_performances.per_id')
     .innerJoin('jokes', 'jokes_performances.joke_id', 'jokes.joke_id')
-    .select('performances.per_title', 'performances.date', 'performances.rating', 'performances.audio', 'jokes.joke_title')
+    .select('performances.per_title', 'performances.date', 'performances.rating', 'performances.audio', 'jokes.joke_title', 'jokes.joke_id')
     .where({
       'performances.user_id': id,
       'performances.per_id': perId
     })
-
-    .then(function(perObj) {
+    .then((perObj) => {
       console.log(perObj);
-      res.render('../views/reviewPer.ejs', {
-        per: perObj
-      });
+      if (perObj.length === 0) {
+        res.sendStatus(400);
+      } else {
+        res.render('../views/reviewPer.ejs', {
+          onBits : false,
+          userID : id,
+          per: perObj
+        });
+      }
     })
 
-    .catch(function(error) {
-      console.log(error);
+    .catch((error) => {
+      console.error('Error getting performance for review - ', error);
       res.sendStatus(500);
     });
 

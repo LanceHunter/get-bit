@@ -3,15 +3,40 @@
 
 <head>
   <% include ./partials/header.ejs %>
-    <title>Get Bit</title>
+    <title>Get Bit - Review Performance</title>
 </head>
 
 <body>
+  <% let starKey = per[0].rating %>
+  <% let perDate = new Date(per[0].date) %>
+  <% let dateString = `${perDate.getMonth() + 1}/${perDate.getDate()}/${perDate.getFullYear()}`; %>
   <% include ./partials/bodyHeader.ejs %>
-    <h1>Review Performance</h1>
-
-    <% include ./partials/tabs.ejs %>
+  <% include ./partials/tabs.ejs %>
+    <div class="row align-center">
+      <h2><%= per[0].per_title %></h2>
+      <h2>&nbsp;<%= dateString %></h2>
+      <h2>&nbsp;<% include ./partials/stars.ejs %></h2>
+      <% if (per[0].audio) { %>
+      <a href="<%= per[0].audio %>" class="button secondary round w50 w100-sm text-center" id="listenButton">Listen</a>
+      <% } %>
+    </div>
+    <div class="row align-center">
+      <fieldset>
+        <legend>Setlist</legend>
+        <dl>
+          <% per.forEach((bit) => { %>
+            <dt>
+              <%= bit.joke_title %>
+            </dt>
+            <dd>
+              <label class="checkbox"><input type="checkbox" id="check<%= bit.joke_id %>" checked> Performed</label>
+            </dd>
+          <% }); %>
+        </dl>
+      </fieldset>
+    </div>
 </body>
 <% include ./partials/footer.ejs %>
+<script src="/static/js/reviewPer.js" type="text/javascript"></script>
 
 </html>

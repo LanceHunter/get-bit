@@ -1,0 +1,14 @@
+<% let totalKey = 0; %>
+<% while (starKey >= 1) { %>
+  <i class="material-icons">star</i>
+  <% totalKey++; %>
+  <% starKey = starKey - 1; %>
+<% } %>
+<% if (starKey%1 !== 0) { %>
+  <i class="material-icons">star_half</i>
+  <% totalKey++; %>
+<% } %>
+<% while (totalKey < 5) { %>
+  <i class="material-icons">star_border</i>
+  <% totalKey++; %>
+<% } %>
