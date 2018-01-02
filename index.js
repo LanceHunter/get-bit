@@ -46,6 +46,15 @@ app.use('/bits', bitsRoute);
 
 app.use('/performances', performancesRoute);
 
+// Middleware if user is logged in, passing them to /bits/:id if they are.
+app.get('/', (req, res, next) => {
+  if (req.session.userID) {
+    res.redirect(`/bits/${req.session.userID}`);
+  } else {
+    next();
+  }
+});
+
 // Rendering the EJS for the landing page for a request to root.
 app.get('/', (req,res) => {
   res.render(path.join(__dirname, 'views/index.ejs'), {
