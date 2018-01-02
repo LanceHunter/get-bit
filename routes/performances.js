@@ -42,10 +42,22 @@ router.post('/:id/new', (req, res, next) => {
   res.redirect('../views/livePer.ejs')
 })
 
+// Middleware for making sure logged in user is accessing their correct page.
+router.get('/:id', (req, res, next) => {
+  if (req.session.userID !== req.params.id) {
+    next();
+  } else {
+    res.redirect('/');
+  }
+});
 
 //Rendering Performances
 router.get('/:id', (req, res, next) => {
-  const id = req.params.id;
+  console.log('The user ID - ', req.session.userID);
+  if (req.session.userID !== req.params.id) {
+    res.redirect('/');
+  }
+  let id = req.params.id;
   return knex('performances')
     .select('performances.per_title', 'performances.date', 'performances.rating')
     .where('performances.user_id', id)
