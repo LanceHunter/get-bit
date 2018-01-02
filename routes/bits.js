@@ -66,7 +66,13 @@ router.get('/:id', (req, res, next) => {
 
       console.log(jokeArr)
       res.render('../views/bits.ejs', {
+
         bits: jokeArr
+
+        onBits : true,
+        userID : id,
+        
+
       });
     })
     .catch(function(error) {
