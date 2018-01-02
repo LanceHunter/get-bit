@@ -7,13 +7,27 @@
 </head>
 
 <body>
+  <% let starKey = per[0].rating %>
   <% let perDate = new Date(per[0].date) %>
   <% let dateString = `${perDate.getMonth() + 1}/${perDate.getDate()}/${perDate.getFullYear()}`; %>
   <% include ./partials/bodyHeader.ejs %>
   <% include ./partials/tabs.ejs %>
     <div class="row align-center">
-      <h2><%= per[0].per_title %> -</h2>
+      <h2><%= per[0].per_title %></h2>
       <h2>&nbsp;<%= dateString %></h2>
+      <h2>&nbsp;<% include ./partials/stars.ejs %></h2>
+    </div>
+    <div class="row align-center">
+      <dl>
+        <% per.forEach((bit) => { %>
+          <dt>
+            <%= bit.joke_title %>
+          </dt>
+          <dd>
+            <label class="checkbox"><input type="checkbox" id="check<%= bit.joke_id %>" checked> Performed</label>
+          </dd>
+        <% }); %>
+      </dl>
     </div>
 </body>
 <% include ./partials/footer.ejs %>
