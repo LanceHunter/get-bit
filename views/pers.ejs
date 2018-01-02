@@ -8,11 +8,7 @@
 
 <body>
   <% include ./partials/bodyHeader.ejs %>
-    <h1>Performances</h1>
-
-    <% include ./partials/tabs.ejs %>
-
-
+  <% include ./partials/tabs.ejs %>
       <div class="row align-center">
         <button class="button secondary round w50 w100-sm">New Performance</button>
       </div>
@@ -26,14 +22,12 @@
       </div>
 
       <div class="row align-center">
-        <ul class="unstyled large">
+        <ul class="unstyled">
           <% pers.forEach((per) => { %>
+          <% let starKey = per.rating %>
           <% let perDate = new Date(per.date) %>
-          <% let perMonth = perDate.getMonth() + 1; %>
-          <% let perYear = perDate.getFullYear(); %>
-          <% let perDay = perDate.getDate(); %>
-          <% let dateString = `${perMonth}/${perDay}/${perYear}`; %>
-          <li><a href="/performances/<%= userID %>/<%= per.per_id %>"><%= per.per_title %> - <%= per.rating %> - <%= dateString %></a></li>
+          <% let dateString = `${perDate.getMonth() + 1}/${perDate.getDate()}/${perDate.getFullYear()}`; %>
+          <li><a href="/performances/<%= userID %>/<%= per.per_id %>" class="noline"><%= per.per_title %> - <% include ./partials/stars.ejs %> - <%= dateString %></a></li>
           <% }); %>
         </ul>
       </div>
