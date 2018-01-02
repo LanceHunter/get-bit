@@ -75,7 +75,7 @@ router.post('/login', (req, res) => {
         res.cookie('user', '1', { maxAge: 900000, httpOnly: true });
         req.session.userID = result[0].id;
         console.log('Passwords Match ', req.session);
-        return res.redirect(`/bits/${req.session.userID}`);
+        return res.redirect(`/performances/${req.session.userID}`);
       } else { // If passwords don't match, send a 401.
         return res.sendStatus(401);
       }
