@@ -8,7 +8,7 @@
 
 <body>
   <% include ./partials/bodyHeader.ejs %>
-    <h1>Bits</h1>
+
 
 
     <% include ./partials/tabs.ejs %>
@@ -31,11 +31,11 @@
 
       <div class="row align-center">
         <ul class = "unstyled large">
-          <% let starKey = avg %>
-          <% bits.forEach(function(bit) { %>
-            <li>
 
-              <a href="/bits/<%= bit.user_id%>/<%= bit.joke_id%>">
+          <% bits.forEach(function(bit) { %>
+            <% let starKey = bit.avg %>
+            <li>
+              <a href="/bits/<%= bit.user_id%>/<%= bit.joke_id %>">
                 <%= bit.joke_title %>
               </a>
 
@@ -44,7 +44,7 @@
               <% } %>
 
               Rating:
-                <%= include ./partials/stars.ejs%>
+                <% include ./partials/stars.ejs%>
             </li>
         <% }); %>
         </ul>
@@ -55,13 +55,14 @@
 
       <div class="row align-center auto">
 
-        <a href="#" data-component="dropdown" data-target="#my-dropdown">Labels <span class="caret down"></span></a>
+
+        <a href data-component="dropdown" data-target="#my-dropdown">Labels <span class="caret down"></span></a>
 
 
         <div class="dropdown hide" id="my-dropdown">
-          <a href="" class="close show-sm"></a>
+          <a href class="close show-sm"></a>
           <ul>
-            <li><a href=""></a></li>
+            <li></li>
           </ul>
         </div>
 
