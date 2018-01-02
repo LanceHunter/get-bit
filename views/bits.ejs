@@ -21,18 +21,37 @@
       <p>
       </p>
 
-    <div class = "row align-center auto">
-      <form class="form w50">
-        <div class="form-item">
-          <input type="text" class="search">
-        </div>
-      </form>
-    </div>
-
       <div class="row align-center auto">
-        <ul>
-        </ul>
+        <form class="form w50">
+          <div class="form-item">
+            <input type="text" class="search">
+          </div>
+        </form>
       </div>
+
+      <div class="row align-center">
+        <ul class = "unstyled large">
+          <% let starKey = avg %>
+          <% bits.forEach(function(bit) { %>
+            <li>
+
+              <a href="/bits/<%= bit.user_id%>/<%= bit.joke_id%>">
+                <%= bit.joke_title %>
+              </a>
+
+              <% if (bit.label){%>
+                <span class="label upper focus"><%=bit.label%></span>
+              <% } %>
+
+              Rating:
+                <%= include ./partials/stars.ejs%>
+            </li>
+        <% }); %>
+        </ul>
+
+
+      </div>
+
 
       <div class="row align-center auto">
 
