@@ -1,39 +1,49 @@
 let lance = {
   user_name : 'lance@lance.com',
   password : '$2a$10$fa.V3LnXYMzXv23lOT8N0.5qfiZvh/DdrruGa.tLG0KRhJ1iWWan6',
-  bit1 : {
-    joke_title : 'Farts getting faster',
-    body : [
-      { body : `This is the first body of bit 1`,
-        created_at : '2018-01-01 12:36:21.379288-06'
-      },
-      { body : `This is the second body of bit 1`,
-        created_at : '2018-01-01 12:37:14.34731-06'
-      },
-      { body : `This is the third body of bit 1`,
-        created_at : '2018-01-01 12:37:23.690095-06'
-      }
-    ]
-  },
-  bit2 : {
-    joke_title : 'Forgetting how to type',
-    body : [
-      { body : `This is the first body of bit 2`,
-        created_at : '2018-01-01 12:16:21.379288-06'
-      },
-      { body : `This is the second body of bit 2`,
-        created_at : '2018-01-01 12:38:12.236263-06'
-      }
-    ]
-  },
-  bit3 : {
-    joke_title : 'Tech bros',
-    body : [
-      { body : `This is the first body of bit 3`,
-        created_at : '2018-01-01 12:39:44.434804-06'
-      }
-    ]
-  },
+  bits : [{
+            joke_title : 'Farts getting faster',
+            body : [
+              { body : `This is the first body of bit 1`,
+                created_at : '2018-01-01 12:36:21.379288-06'
+              },
+              { body : `This is the second body of bit 1`,
+                created_at : '2018-01-01 12:37:14.34731-06'
+              },
+              { body : `This is the third body of bit 1`,
+                created_at : '2018-01-01 12:37:23.690095-06'
+              }
+            ],
+            tags : [
+              'Fart fury',
+              'Brenner liked this',
+              `Can't do this one in Oklahoma`
+            ]
+          },
+          {
+            joke_title : 'Forgetting how to type',
+            body : [
+              { body : `This is the first body of bit 2`,
+                created_at : '2018-01-01 12:16:21.379288-06'
+              },
+              { body : `This is the second body of bit 2`,
+                created_at : '2018-01-01 12:38:12.236263-06'
+              }
+            ],
+            tags : [
+              'Type',
+              'Tag1'
+            ]
+          },
+          {
+            joke_title : 'Tech bros',
+            body : [
+              { body : `This is the first body of bit 3`,
+                created_at : '2018-01-01 12:39:44.434804-06'
+              }
+            ],
+            tags : []
+          }],
   performances : [
     {
       per_title : 'Laugh Out Proud',
@@ -68,50 +78,64 @@ let lance = {
 let paige = {
   user_name : 'paige@paige.com',
   password : '$2a$10$tPGtiaeUMPb0Fco4XvMsMukW81T0dT4HVPkkp.s/HfZB9lAv4bZVy',
-  bit1 : {
-    joke_title : 'Baseball canoe',
-    body : [
-      { body : `This is the first body of bit 1`,
-        created_at : '2018-01-01 12:36:21.379288-06'
-      },
-      { body : `This is the second body of bit 1`,
-        created_at : '2018-01-01 12:37:14.34731-06'
-      },
-      { body : `This is the third body of bit 1`,
-        created_at : '2018-01-01 12:37:23.690095-06'
-      }
-    ]
-  },
-  bit2 : {
-    joke_title : 'Top five explosions of 2017',
-    body : [
-      { body : `This is the first body of bit 2`,
-        created_at : '2018-01-01 12:36:21.379288-06'
-      },
-      { body : `This is the second body of bit 2`,
-        created_at : '2018-01-01 12:37:14.34731-06'
-      },
-      { body : `This is the third body of bit 2`,
-        created_at : '2018-01-01 12:37:23.690095-06'
-      }
-    ]
-  },
-  bit3 : {
-    joke_title : 'Restaurants are everywhere',
-    body : [
-      { body : `This is the first body of bit 3`,
-        created_at : '2018-01-01 12:36:21.379288-06'
-      }
-    ]
-  },
-  bit4 : {
-    joke_title : 'The story about that time I did that thing',
-    body : [
-      { body : `This is the first body of bit 4`,
-        created_at : '2018-01-01 12:36:21.379288-06'
-      }
-    ]
-  },
+  bits : [{
+            joke_title : 'Baseball canoe',
+            body : [
+              { body : `This is the first body of bit 1`,
+                created_at : '2018-01-01 12:36:21.379288-06'
+              },
+              { body : `This is the second body of bit 1`,
+                created_at : '2018-01-01 12:37:14.34731-06'
+              },
+              { body : `This is the third body of bit 1`,
+                created_at : '2018-01-01 12:37:23.690095-06'
+              }
+            ],
+            tags : [
+              'Swing and a miss',
+              'Boom goes the dynamite',
+              `Sting every breath`,
+              `We built this city on rock`,
+              `Nobody knows but the best`,
+              `Testing how long a tag can be because tags may get long if a comic is really analytical.`
+            ]
+          },
+          {
+            joke_title : 'Top five explosions of 2017',
+            body : [
+              { body : `This is the first body of bit 2`,
+                created_at : '2018-01-01 12:36:21.379288-06'
+              },
+              { body : `This is the second body of bit 2`,
+                created_at : '2018-01-01 12:37:14.34731-06'
+              },
+              { body : `This is the third body of bit 2`,
+                created_at : '2018-01-01 12:37:23.690095-06'
+              }
+            ],
+            tags : [
+              'Tag1',
+              'Tag2'
+            ]
+          },
+          {
+            joke_title : 'Restaurants are everywhere',
+            body : [
+              { body : `This is the first body of bit 3`,
+                created_at : '2018-01-01 12:36:21.379288-06'
+              }
+            ],
+            tags : []
+          },
+          {
+            joke_title : 'The story about that time I did that thing',
+            body : [
+              { body : `This is the first body of bit 4`,
+                created_at : '2018-01-01 12:36:21.379288-06'
+              }
+            ],
+            tags : []
+          }],
   performances : [
     {
       per_title : 'Reordered Mic',
@@ -216,96 +240,135 @@ exports.seed = function(knex, Promise) {
     })
     .then((labelIDs) => {
       console.log('The label IDs - ', labelIDs);
-      lance.bit1.label_id = labelIDs[0];
-      lance.bit3.label_id = labelIDs[2];
-      paige.bit2.label_id = labelIDs[4];
-      let jokeInsertArr = [
-        { joke_title : lance.bit1.joke_title,
-          label_id : lance.bit1.label_id,
-          user_id : lance.user_id
-        },
-        { joke_title : lance.bit2.joke_title,
-          user_id : lance.user_id
-        },
-        { joke_title : lance.bit3.joke_title,
-          label_id : lance.bit3.label_id,
-          user_id : lance.user_id
-        },
-        { joke_title : paige.bit1.joke_title,
-          user_id : paige.user_id
-        },
-        { joke_title : paige.bit2.joke_title,
-          label_id : paige.bit2.label_id,
-          user_id : paige.user_id
-        },
-        { joke_title : paige.bit3.joke_title,
-          user_id : paige.user_id
-        },
-        { joke_title : paige.bit4.joke_title,
-          user_id : paige.user_id
+      lance.bits[0].label_id = labelIDs[0];
+      lance.bits[2].label_id = labelIDs[2];
+      paige.bits[1].label_id = labelIDs[4];
+      let jokeInsertArr = [];
+      lance.bits.forEach((bit) => {
+        if (bit.label_id) {
+          jokeInsertArr.push({
+            joke_title : bit.joke_title,
+            label_id : bit.label_id,
+            user_id : lance.user_id
+          });
+        } else {
+          jokeInsertArr.push({
+            joke_title : bit.joke_title,
+            user_id : lance.user_id
+          });
         }
-      ];
+      });
+      paige.bits.forEach((bit) => {
+        if (bit.label_id) {
+          jokeInsertArr.push({
+            joke_title : bit.joke_title,
+            label_id : bit.label_id,
+            user_id : paige.user_id
+          });
+        } else {
+          jokeInsertArr.push({
+            joke_title : bit.joke_title,
+            user_id : paige.user_id
+          });
+        }
+      });
       return knex('jokes').returning('joke_id').insert(jokeInsertArr);
     })
     .then((jokeIDs) => {
       console.log('The joke IDs - ', jokeIDs);
-      lance.bit1.joke_id = jokeIDs[0];
-      lance.bit2.joke_id = jokeIDs[1];
-      lance.bit3.joke_id = jokeIDs[2];
-      paige.bit1.joke_id = jokeIDs[3];
-      paige.bit2.joke_id = jokeIDs[4];
-      paige.bit3.joke_id = jokeIDs[5];
-      paige.bit4.joke_id = jokeIDs[6];
       let jokeBodyInsertArr = [];
-      lance.bit1.body.forEach((bitBody) => {
-        jokeBodyInsertArr.push({
-          joke_id : lance.bit1.joke_id,
-          body : bitBody.body,
-          created_at : bitBody.created_at
+      lance.bits.forEach((bit) => {
+        bit.joke_id = jokeIDs.shift();
+        bit.body.forEach((bitBody) => {
+          jokeBodyInsertArr.push({
+            joke_id : bit.joke_id,
+            body : bitBody.body,
+            created_at : bitBody.created_at
+          });
         });
       });
-      lance.bit2.body.forEach((bitBody) => {
-        jokeBodyInsertArr.push({
-          joke_id : lance.bit2.joke_id,
-          body : bitBody.body,
-          created_at : bitBody.created_at
-        });
-      });
-      lance.bit3.body.forEach((bitBody) => {
-        jokeBodyInsertArr.push({
-          joke_id : lance.bit3.joke_id,
-          body : bitBody.body,
-          created_at : bitBody.created_at
-        });
-      });
-      paige.bit1.body.forEach((bitBody) => {
-        jokeBodyInsertArr.push({
-          joke_id : paige.bit1.joke_id,
-          body : bitBody.body,
-          created_at : bitBody.created_at
-        });
-      });
-      paige.bit2.body.forEach((bitBody) => {
-        jokeBodyInsertArr.push({
-          joke_id : paige.bit2.joke_id,
-          body : bitBody.body,
-          created_at : bitBody.created_at
-        });
-      });
-      paige.bit3.body.forEach((bitBody) => {
-        jokeBodyInsertArr.push({
-          joke_id : paige.bit3.joke_id,
-          body : bitBody.body,
-          created_at : bitBody.created_at
-        });
-      });
-      paige.bit4.body.forEach((bitBody) => {
-        jokeBodyInsertArr.push({
-          joke_id : paige.bit4.joke_id,
-          body : bitBody.body,
-          created_at : bitBody.created_at
+      paige.bits.forEach((bit) => {
+        bit.joke_id = jokeIDs.shift();
+        bit.body.forEach((bitBody) => {
+          jokeBodyInsertArr.push({
+            joke_id : bit.joke_id,
+            body : bitBody.body,
+            created_at : bitBody.created_at
+          });
         });
       });
       return knex('joke_body').insert(jokeBodyInsertArr);
+    })
+    .then(() => {
+      let tagsInsertArr = [];
+      lance.bits.forEach((bit) => {
+        bit.tags.forEach((tag) => {
+          tagsInsertArr.push({
+            joke_id : bit.joke_id,
+            tag : tag
+          });
+        });
+      });
+      paige.bits.forEach((bit) => {
+        bit.tags.forEach((tag) => {
+          tagsInsertArr.push({
+            joke_id : bit.joke_id,
+            tag : tag
+          });
+        });
+      });
+      return knex('tags').insert(tagsInsertArr);
+    })
+    .then(() => {
+      let performanceInsertArr = [];
+      lance.performances.forEach((perf) => {
+        performanceInsertArr.push({
+          per_title : perf.per_title,
+          user_id : lance.user_id,
+          location : perf.location,
+          given_time : perf.given_time,
+          per_time : perf.per_time,
+          audio : perf.audio,
+          rating : perf.rating,
+          date : perf.date
+        });
+      });
+      paige.performances.forEach((perf) => {
+        performanceInsertArr.push({
+          per_title : perf.per_title,
+          user_id : paige.user_id,
+          location : perf.location,
+          given_time : perf.given_time,
+          per_time : perf.per_time,
+          audio : perf.audio,
+          rating : perf.rating,
+          date : perf.date
+        });
+      });
+      return knex('performances').returning('per_id').insert(performanceInsertArr);
+    })
+    .then((performanceIDs) => {
+      console.log('Performance IDs - ', performanceIDs);
+      let performancesJokesInsertArr = [];
+      lance.performances.forEach((perf) => {
+        perf.per_id = performanceIDs.shift();
+        lance.bits.forEach((bit) => {
+          performancesJokesInsertArr.push({
+            joke_id : bit.joke_id,
+            per_id : perf.per_id
+          });
+        });
+      });
+      paige.performances.forEach((perf) => {
+        perf.per_id = performanceIDs.shift();
+        paige.bits.forEach((bit) => {
+          performancesJokesInsertArr.push({
+            joke_id : bit.joke_id,
+            per_id : perf.per_id
+          });
+        });
+      });
+      console.log('The performances insert array - ', performancesJokesInsertArr);
+      return knex('jokes_performances').insert(performancesJokesInsertArr);
     });
 };
