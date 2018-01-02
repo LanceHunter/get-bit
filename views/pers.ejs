@@ -10,13 +10,13 @@
   <% include ./partials/bodyHeader.ejs %>
   <% include ./partials/tabs.ejs %>
       <div class="row align-center">
-        <button class="button secondary round w50 w100-sm">New Performance</button>
+        <a href="/performances/<%= userID %>/new" class="button secondary round w50 w100-sm text-center">New Performance</a>
       </div>
       <p></p>
       <div class="row align-center">
         <form class="form w50 w100-sm">
           <div class="form-item">
-            <input type="text" class="search">
+            <input type="text" class="search" id="searchBar">
           </div>
         </form>
       </div>

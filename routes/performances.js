@@ -31,7 +31,7 @@ router.get('/:id/new', (req, res, next) => {
     res.render('../views/newPer.ejs', {
       onBits : false,
       userID : id,
-      jokes : jokesArr
+      bits : jokesArr
     });
   });
 })
