@@ -22,14 +22,15 @@
       </div>
 
       <div class="row align-center">
-        <ul class="unstyled">
+        <dl>
           <% pers.forEach((per) => { %>
           <% let starKey = per.rating %>
           <% let perDate = new Date(per.date) %>
           <% let dateString = `${perDate.getMonth() + 1}/${perDate.getDate()}/${perDate.getFullYear()}`; %>
-          <li><a href="/performances/<%= userID %>/<%= per.per_id %>" class="noline"><%= per.per_title %> - <% include ./partials/stars.ejs %> - <%= dateString %></a></li>
+          <dt><a href="/performances/<%= userID %>/<%= per.per_id %>"><%= per.per_title %>- <%= dateString %></a></dt>
+          <dd><% include ./partials/stars.ejs %></dd>
           <% }); %>
-        </ul>
+        </dl>
       </div>
 
 

@@ -77,12 +77,12 @@ router.get('/:id', (req, res) => {
 
 
 //Rendering individual performance - Review Performance
-router.get('/:id/:perId', (req, res, next) => {
+router.get('/:id/:perId', (req, res) => {
 
   const id = req.params.id;
   const perId = req.params.perId;
 
-  return knex('performances')
+  knex('performances')
     .innerJoin('jokes_performances', 'performances.per_id', 'jokes_performances.per_id')
     .innerJoin('jokes', 'jokes_performances.joke_id', 'jokes.joke_id')
     .select('performances.per_title', 'performances.date', 'performances.rating', 'performances.audio', 'jokes.joke_title')
@@ -90,10 +90,11 @@ router.get('/:id/:perId', (req, res, next) => {
       'performances.user_id': id,
       'performances.per_id': perId
     })
-
-    .then(function(perObj) {
+    .then((perObj) => {
       console.log(perObj);
       res.render('../views/reviewPer.ejs', {
+        onBits : false,
+        userID : id,
         per: perObj
       });
     })
