@@ -1,10 +1,17 @@
 <nav class="tabs" data-component="tabs" data-equals="true">
   <ul>
-    <li class="active"><a href="">Bits</a></li>
+    <% if (onBits) { %>
+      <li class="active"><a href="/bits/<%= userID %>">Bits</a></li>
 
-    <li><a href="">Performances</a></li>
+      <li><a href="/performances/<%= userID %>">Performances</a></li>
+    <% } else { %>
+      <li><a href="/bits/<%= userID %>">Bits</a></li>
+
+      <li class="active"><a href="/performances/<%= userID %>">Performances</a></li>
+    <% }%>
+
   </ul>
 </nav>
 
-<div id="Bits"></div>
-<div id="Performances"></div>
+<!-- <div id="Bits"></div> --!>
+<!-- <div id="Performances"></div> --!>
