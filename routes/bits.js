@@ -46,25 +46,27 @@ router.get('/:id', (req, res, next) => {
     .returning('*')
 
     .then(function(jokes) {
-      jokeArr = jokes.map((joke)=>{
+      jokeArr = jokes.map((joke) => {
         return joke;
 
       });
-      let idArr = jokeArr.map((joke)=>{
+      let idArr = jokeArr.map((joke) => {
         return joke.joke_id;
       })
-        console.log(jokeArr)
-        console.log(idArr)
       return knex('jokes_performances').whereIn('joke_id', idArr)
-      .fullOuterJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
-
+        .innerJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
+        .avg('performances.rating')
+        .groupBy('joke_id')
 
     })
-    .then(function(rating) {
-      jokeArr.push(rating)
+    .then(function(ratingsArr) {
+      jokeArr.forEach(function(joke, index){
+        joke.avg = ratingsArr[index].avg
+      })
+
       console.log(jokeArr)
       res.render('../views/bits.ejs', {
-        bits: rating
+        bits: jokeArr
       });
     })
     .catch(function(error) {
