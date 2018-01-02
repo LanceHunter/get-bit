@@ -7,26 +7,44 @@
 </head>
 
 <body>
-  <h1>Bits</h1>
+  <% include ./partials/bodyHeader.ejs %>
+    <h1>Bits</h1>
 
-  <div class="container">
 
-    <div class="row">
-      <div class="col col-sm-12">
+    <% include ./partials/tabs.ejs %>
+
+
+      <div class="row align-center auto">
+        <button class="button secondary round w50">New Bit</button>
+      </div>
+
+    <div class = "row align-center auto">
+      <form class="form w50">
+        <div class="form-item">
+          <input type="text" class="search">
+        </div>
+      </form>
+    </div>
+
+      <div class="row align-center auto">
         <ul>
-          <% jokes.forEach(function(joke) { %>
-            <li><strong>Title:</strong>
-              <%= joke.joke_title %>
-            </li>
-            <li><strong>Label:</strong>
-              <%= joke.label %>
-            </li>
-
-            <% }); %>
-
         </ul>
       </div>
-    </div>
+
+      <div class="row align-center auto">
+
+        <a href="#" data-component="dropdown" data-target="#my-dropdown">Labels <span class="caret down"></span></a>
+
+
+        <div class="dropdown hide" id="my-dropdown">
+          <a href="" class="close show-sm"></a>
+          <ul>
+            <li><a href=""></a></li>
+          </ul>
+        </div>
+
+      </div>
+
 
 </body>
 <% include ./partials/footer.ejs %>
