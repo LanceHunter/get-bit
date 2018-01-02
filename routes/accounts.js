@@ -94,9 +94,21 @@ router.post('/create', (req, res) => {
     }
     return bcrypt.hash(newUserObj.password, 10, (err, hash) => {
       newUserObj.hashpw = hash;
-      knex('users').insert({
+      knex('users').returning('id').insert({
         user_name : newUserObj.user_name,
         password : newUserObj.hashpw
+      })
+      .then((userID) => {
+        console.log('New user ID - ', userID[0]);
+        let newUserLabelsDefaultArr = [
+          {'user_id' : userID[0],
+           'label' : 'new'},
+          {'user_id' : userID[0],
+           'label' : 'good'},
+          {'user_id' : userID[0],
+           'label' : 'closer'},
+        ];
+        return knex('labels').insert(newUserLabelsDefaultArr);
       })
       .then(() => {
         res.sendStatus(200);
