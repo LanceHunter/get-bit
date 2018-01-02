@@ -39,23 +39,32 @@ router.post('/:id/new', (req, res, next) => {
 //Rendering Bits
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
-
+  let jokeArr = [];
   knex('jokes')
-    .innerJoin('labels', 'jokes.user_id', 'labels.user_id')
+    .leftOuterJoin('labels', 'jokes.label_id', 'labels.label_id')
     .where('jokes.user_id', id)
     .returning('*')
 
     .then(function(jokes) {
-      knex('jokes')
-        .innerJoin('jokes_performances', 'jokes.joke_id', 'jokes_performances.joke_id')
-        .innerJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
-        .avg('performances.rating')
-        .returning('*')
+      jokeArr = jokes.map((joke)=>{
+        return joke;
+
+      });
+      let idArr = jokeArr.map((joke)=>{
+        return joke.joke_id;
+      })
+        console.log(jokeArr)
+        console.log(idArr)
+      return knex('jokes_performances').whereIn('joke_id', idArr)
+      .fullOuterJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
+
+
     })
-    .then(function(jokes) {
-      console.log(jokes)
+    .then(function(rating) {
+      jokeArr.push(rating)
+      console.log(jokeArr)
       res.render('../views/bits.ejs', {
-        bits: jokes
+        bits: rating
       });
     })
     .catch(function(error) {
