@@ -58,16 +58,18 @@ router.get('/:id', (req, res, next) => {
         .avg('performances.rating')
         .groupBy('joke_id')
 
+
     })
     .then(function(ratingsArr) {
-      jokeArr.forEach(function(joke, index){
+      jokeArr.forEach((joke, index) => {
         joke.avg = ratingsArr[index].avg
       })
 
+
       console.log(jokeArr)
       res.render('../views/bits.ejs', {
-        onBits : true,
-        userID : id,
+        onBits: true,
+        userID: id,
         bits: jokeArr
       });
     })
@@ -82,9 +84,89 @@ router.get('/:id', (req, res, next) => {
 router.get('/:id/:bitId', (req, res, next) => {
   const id = req.params.id;
   const bitId = req.params.bitId;
+  let jokeArr = [];
+  //Grabbing Title and Label
+  knex('jokes')
+    .leftOuterJoin('labels', 'jokes.label_id', 'labels.label_id')
+    .where({
+      'jokes.user_id': id,
+      'jokes.joke_id': bitId
+    })
+    .returning('*')
 
+    .then(function(jokes) {
+      jokeArr = jokes.map((joke) => {
+        return joke;
+
+      });
+      let idArr = jokeArr.map((joke) => {
+        return joke.joke_id;
+      })
+      //Grabbing Ratings
+      return knex('jokes_performances').whereIn('joke_id', idArr)
+        .innerJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
+        .avg('performances.rating')
+        .groupBy('joke_id')
+
+    })
+    .then(function(ratingsArr) {
+      console.log(ratingsArr)
+      jokeArr.forEach((joke, index) => {
+        joke.avg = ratingsArr[index].avg
+      })
+    })
+    .then(function() {
+      return knex('tags')
+        .where('tags.joke_id', bitId)
+        .select('tag')
+    })
+    .then(function(tagsArr) {
+      jokeArr.forEach((joke, index) => {
+        joke.tag = tagsArr[index].tag
+      })
+    })
+    .then(function() {
+      return knex('joke_body')
+        .where('joke_body.joke_id', bitId)
+        .select('body', 'created_at')
+    })
+    .then(function(bodyArr) {
+      jokeArr.forEach((joke, index) => {
+        joke.body = bodyArr[index].body
+        joke.created_at = bodyArr[index].created_at
+      })
+    })
+  .then(function(){
+    return knex('jokes')
+    .innerJoin('jokes_performances', 'jokes.joke_id', 'jokes_performances.joke_id')
+    .innerJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
+    .select('performances.per_title')
+    .where({
+      'jokes.user_id': id,
+      'jokes.joke_id': bitId
+    })
+  })
+  .then(function(perArr){
+    jokeArr.forEach((jokePer, index)=>{
+      jokePer.per_title = perArr[index].per_title
+    })
+
+  console.log(jokeArr)
+  res.render('../views/reviewBit.ejs', {
+    onBits: true,
+    userID: id,
+    bitID: bitId,
+    bits: jokeArr
+  });
+})
+  .catch(function(error) {
+    console.log(error);
+    res.sendStatus(500);
+  });
 
 })
+
+
 
 
 //Updating Bit - Review Bit
