@@ -136,33 +136,35 @@ router.get('/:id/:bitId', (req, res, next) => {
         joke.created_at = bodyArr[index].created_at
       })
     })
-  .then(function(){
-    return knex('jokes')
-    .innerJoin('jokes_performances', 'jokes.joke_id', 'jokes_performances.joke_id')
-    .innerJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
-    .select('performances.per_title')
-    .where({
-      'jokes.user_id': id,
-      'jokes.joke_id': bitId
+    .then(function() {
+      return knex('jokes')
+        .innerJoin('jokes_performances', 'jokes.joke_id', 'jokes_performances.joke_id')
+        .innerJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
+        .select('performances.per_title')
+        .where({
+          'jokes.user_id': id,
+          'jokes.joke_id': bitId
+        })
     })
-  })
-  .then(function(perArr){
-    jokeArr.forEach((jokePer, index)=>{
-      jokePer.per_title = perArr[index].per_title
-    })
+    .then(function(perArr) {
+      console.log(perArr)
+      jokeArr.per_titles = [];
+      perArr.forEach((jokePer, index) => {
+        jokeArr.per_titles.push(jokePer.per_title)
+      })
 
-  console.log(jokeArr)
-  res.render('../views/reviewBit.ejs', {
-    onBits: true,
-    userID: id,
-    bitID: bitId,
-    bits: jokeArr
-  });
-})
-  .catch(function(error) {
-    console.log(error);
-    res.sendStatus(500);
-  });
+      console.log(jokeArr)
+      res.render('../views/reviewBit.ejs', {
+        onBits: true,
+        userID: id,
+        bitID: bitId,
+        bits: jokeArr
+      });
+    })
+    .catch(function(error) {
+      console.log(error);
+      res.sendStatus(500);
+    });
 
 })
 
