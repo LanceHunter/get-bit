@@ -7,9 +7,43 @@
 </head>
 
 <body>
-    <% include ./partials/bodyHeader.ejs %>
-  <h1>Bits</h1>
+  <% include ./partials/bodyHeader.ejs %>
+    <h1>Bits</h1>
 
+
+    <% include ./partials/tabs.ejs %>
+
+
+      <div class="row align-center auto">
+        <button class="button secondary round w50">New Bit</button>
+      </div>
+
+    <div class = "row align-center auto">
+      <form class="form w50">
+        <div class="form-item">
+          <input type="text" class="search">
+        </div>
+      </form>
+    </div>
+
+      <div class="row align-center auto">
+        <ul>
+        </ul>
+      </div>
+
+      <div class="row align-center auto">
+
+        <a href="#" data-component="dropdown" data-target="#my-dropdown">Labels <span class="caret down"></span></a>
+
+
+        <div class="dropdown hide" id="my-dropdown">
+          <a href="" class="close show-sm"></a>
+          <ul>
+            <li><a href=""></a></li>
+          </ul>
+        </div>
+
+      </div>
 
 
 </body>

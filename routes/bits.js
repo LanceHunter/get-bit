@@ -41,21 +41,21 @@ router.get('/:id', (req, res, next) => {
   const id = req.params.id;
 
   knex('jokes')
-  .innerJoin('labels', 'jokes.user_id', 'labels.user_id')
-  .where('jokes.user_id', id)
-  .returning('*')
+    .innerJoin('labels', 'jokes.user_id', 'labels.user_id')
+    .where('jokes.user_id', id)
+    .returning('*')
 
-.then(function(jokes){
-  knex('jokes')
-  .innerJoin('jokes_performances', 'jokes.joke_id', 'jokes_performances.joke_id')
-  .innerJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
-  .avg('performances.rating')
-  .returning('*')
-})
-  .then(function(jokes) {
-    console.log(jokes)
-    res.render('../views/bits.ejs', {
-      bits: jokes
+    .then(function(jokes) {
+      knex('jokes')
+        .innerJoin('jokes_performances', 'jokes.joke_id', 'jokes_performances.joke_id')
+        .innerJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
+        .avg('performances.rating')
+        .returning('*')
+    })
+    .then(function(jokes) {
+      console.log(jokes)
+      res.render('../views/bits.ejs', {
+        bits: jokes
       });
     })
     .catch(function(error) {
