@@ -32,15 +32,19 @@
             </div>
           </div>
           <div class="form-item">
-            <label>Label</label>
-            <div class="append">
+            <label><center>Label</center></label>
+
               <select id="labelSelect">
-                    <option value="">
-                    </option>
-                </select>
-              <button class="button outline" id="addSelectButton">+</button>
-            </div>
-          </div>
+                <option value =""></option>
+              <% labels.forEach((lab) => { %>
+                <% if (lab.label) { %>
+                <option value="<b%= lab.user_id %>" id="b<%=lab.user_id%>">
+                  <%= lab.label %>
+                </option>
+                <% } %>
+              <% }); %>
+            </select>
+              
 
         </form>
       </div>

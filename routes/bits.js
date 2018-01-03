@@ -27,11 +27,28 @@ const filterInt = function(value) {
 ////Rendering New Bit Page
 router.get('/:id/new', (req, res, next) => {
   const id = req.params.id;
-  res.render('../views/newBit.ejs', {
-    onBits: true,
-    userID: id
-  });
-})
+
+  let labelArr = [];
+    return knex('labels')
+      .where('labels.user_id', id)
+      .select('labels.label')
+
+  .then(function(labArr) {
+    labArr.forEach((lab) => {
+       labelArr.push({label: lab.label, user_id: lab.user_id})
+     })
+
+     res.render('../views/newBit.ejs', {
+       onBits: true,
+       userID: id,
+       labels: labelArr
+     });
+   })
+   .catch(function(error) {
+     console.log(error);
+     res.sendStatus(500);
+   });
+   })
 
 
 ////Creating New bit
