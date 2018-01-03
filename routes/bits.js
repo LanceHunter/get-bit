@@ -42,6 +42,7 @@ router.post('/:id/new', (req, res, next) => {
 //Rendering Bits
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
+  let secondLabelArr = [];
   let jokeArr = [];
   //Graabing Jokes
   return knex('jokes')
@@ -61,15 +62,13 @@ router.get('/:id', (req, res, next) => {
         .innerJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
         .avg('performances.rating')
         .groupBy('joke_id')
-
-
     })
     .then(function(ratingsArr) {
       jokeArr.forEach((joke, index) => {
         joke.avg = ratingsArr[index].avg
       })
     })
-    //Grabbing Labels
+    //Grabbing Labels for Jokes
     .then(function() {
       return knex('jokes')
         .leftOuterJoin('labels', 'jokes.label_id', 'labels.label_id')
@@ -80,11 +79,23 @@ router.get('/:id', (req, res, next) => {
       jokeArr.forEach((joke, index) => {
         joke.label = labelArr[index].label
       })
-
+    })
+    //Grabbing Labels for dropdown
+    .then(function(){
+      return knex('labels')
+      .where('labels.user_id', id)
+      .select('labels.label')
+    })
+    .then(function(labArr) {
+      secondLabelArr.forEach((lab, index) => {
+        lab.label = labArr[index].label
+      })
+      console.log(jokeArr)
       res.render('../views/bits.ejs', {
         onBits: true,
         userID: id,
-        bits: jokeArr
+        bits: jokeArr,
+        labels: labArr
       });
     })
     .catch(function(error) {
@@ -170,11 +181,12 @@ router.get('/:id/:bitId', (req, res, next) => {
         jokeArr.per_titles.push(jokePer.per_title)
       })
     })
+    //Grabbing Labels
     .then(function() {
       return knex('jokes')
         .leftOuterJoin('labels', 'jokes.label_id', 'labels.label_id')
         .select('labels.label')
-        .where('jokes.joke_id', bitId)
+        .where('jokes.user_id', id)
     })
     .then(function(labelArr) {
       jokeArr.forEach((joke, index) => {

@@ -40,22 +40,25 @@
                 <% }); %>
           </ul>
         </div>
+  <div class="row align-center">
+      <form class ="form w50 w100-sm">
 
-        <div class="row align-center">
           <div class="form-item">
             <div class="append">
               <select id="labelSelect">
-              <% bits.forEach((bit) => { %>
-                <option value="<%= bit.joke_id %>">
-                  <%= bit.label %>
+              <% labels.forEach((lab) => { %>
+                <% if (lab.label) { %>
+                <option value="<%= lab.user_id %>">
+                  <%= lab.label %>
                 </option>
+                <% } %>
               <% }); %>
             </select>
               <button class="button outline" id="addSelectButton">+</button>
             </div>
           </div>
-        </div>
-      </div>
+      </form>
+    </div>
 </body>
 <% include ./partials/footer.ejs %>
 
