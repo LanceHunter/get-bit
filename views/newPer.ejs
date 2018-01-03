@@ -10,21 +10,21 @@
   <% include ./partials/bodyHeader.ejs %>
     <% include ./partials/tabs.ejs %>
     <div class="row align-center">
-      <input type="text" name="set-title" class="w95 large" value="Enter a title for set">
+      <input type="text" name="set-title" class="w95 large" value="Enter a title for this set">
     </div>
     <fieldset>
       <legend>
         Set Options
       </legend>
       <div class="form-item w65">
-        <label>Set Time</label>
+        <label>Allotted Time</label>
         <input type="number" name="set-time">
       </div>
       <div class="form-item w65">
         <label>Light Me At</label>
         <input type="number" name="light-time">
       </div>
-      <button class="button round large secondary float-right w40">Record Set?</button>
+      <button class="button round large secondary float-right w50" id="recordButton">Record?</button>
     </fieldset>
     <fieldset>
       <legend>
@@ -37,9 +37,12 @@
         <div class="form-item">
           <div class="append">
             <select id="bitSelect">
+                <option value="">
               <% bits.forEach((bit) => { %>
-                <option value="b<%= bit.joke_id %>">
-                  <%= bit.joke_title %>
+                <option value="b<%= bit.joke_id %>" id="b<%= bit.joke_id %>">
+                  <%= bit.joke_title %><% if (bit.label) { %>
+                  (<%= bit.label %>)
+                  <% } %>
                 </option>
               <% }); %>
             </select>

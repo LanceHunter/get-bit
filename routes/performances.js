@@ -21,7 +21,22 @@ const filterInt = function(value) {
 router.get('/:id/:perId/live', (req, res, next) => {
   res.render('../views/livePer.ejs');
 })
-
+/*
+// Authorization middleware. Reroutes to / if user isn't logged in to the account they want to access.
+router.get('/:id/new' , (req, res, next) => {
+  let sessionID = parseInt(req.session.userID);
+  let paramsID = parseInt(req.params.id);
+  console.log('The session ID - ', req.session.userID);
+  console.log('The user ID - ', req.params.id);
+  if (sessionID === paramsID) {
+    console.log('params ID and user ID match.');
+    next();
+  } else {
+    console.log(`params ID and user ID don't match.`);
+    res.redirect('/');
+  }
+});
+*/
 
 //Rendering New Performance Page
 router.get('/:id/new', (req, res, next) => {
@@ -39,8 +54,7 @@ router.get('/:id/new', (req, res, next) => {
 
 //Creating New Performance
 router.post('/:id/new', (req, res, next) => {
-  //Create new performance
-  //Grab new id and jokes for live performance
+  console.log(req.body);
   res.redirect('../views/livePer.ejs')
 })
 
