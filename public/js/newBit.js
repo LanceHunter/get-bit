@@ -2,16 +2,20 @@
 
 console.log("Lets create a new Bit");
 
+let jokeTitle;
+let jokeBody;
+let tag;
+let label;
+
+
 $('#saveButton').click(() => { // Click listener for the submit button.
   event.preventDefault();
   console.log('Button Pressed.');
 
-  if($('#joke_title').val() && $('#body').val()){
-
-    $.post('/bits/:id/new', )
-
-        console.log('bob');
-  }
+  jokeTitle = $('#joke_Title').val();
+  jokebody = $('#body').val();
+  tag = $('#tag').val();
+  label = $('#label').val();
 
 
 });

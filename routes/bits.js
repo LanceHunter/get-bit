@@ -53,6 +53,8 @@ router.get('/:id/new', (req, res, next) => {
 
 ////Creating New bit
 router.post('/:id/new', (req, res, next) => {
+  let newJoke = req.body;
+  
   res.redirect('../views/bits.ejs')
 })
 

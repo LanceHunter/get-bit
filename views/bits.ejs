@@ -41,29 +41,38 @@
         </ul>
       </div>
       <p></p>
+
+
       <div class="row align-center">
         <form class="form w50 w100-sm">
 
           <div class="form-item">
-            <label><center>Label</center></label>
+            <label><center>Search for Labels</center></label>
             <div class="append">
               <select id="labelSelect">
-                <option value =""></option>
-              <% labels.forEach((lab) => { %>
-                <% if (lab.label) { %>
-                <option value="<b%= lab.user_id %>" id="b<%=lab.user_id%>">
-                  <%= lab.label %>
-                </option>
-                <% } %>
-              <% }); %>
-            </select>
-              <button class="button outline" id="addSelectButton">+</button>
+                  <option value =""></option>
+                <% labels.forEach((lab) => { %>
+                  <% if (lab.label) { %>
+                  <option value="<b%= lab.user_id %>" id="b<%=lab.user_id%>">
+                    <%= lab.label %>
+                  </option>
+                  <% } %>
+                <% }); %>
+              </select>
             </div>
           </div>
+          <div class="form-item">
+            <label><center>Create New Label</center></label>
+            <div class="append">
+              <input type="text" name="search">
+              <button class="button outline">Submit</button>
+            </div>
+          </div>
+
         </form>
       </div>
 </body>
 <% include ./partials/footer.ejs %>
-<script src="/static/js/newBit.js" type="text/javascript"></script>
+  <script src="/static/js/newBit.js" type="text/javascript"></script>
 
 </html>
