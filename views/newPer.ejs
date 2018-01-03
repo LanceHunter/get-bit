@@ -7,32 +7,36 @@
 </head>
 
 <body>
+  <div id="newPer">
   <% include ./partials/bodyHeader.ejs %>
     <% include ./partials/tabs.ejs %>
     <div class="row align-center">
-      <input type="text" name="set-title" class="w95 large" value="Enter a title for this set">
+      <input type="text" name="set-title" class="w95 large" value="Enter a title for this set" id="setTitle">
+    </div>
+    <div class="row align-center">
+      <input type="text" name="set-location" class="w95 large" value="Enter location for set" id="setLocation">
     </div>
     <fieldset>
       <legend>
         Set Options
       </legend>
       <div class="form-item w65">
-        <label>Allotted Time</label>
-        <input type="number" name="set-time">
+        <label>Allotted Time <span class="req" id="setTimeReq">*</span></label>
+        <input type="number" name="set-time" id="setTime">
       </div>
       <div class="form-item w65">
         <label>Light Me At</label>
-        <input type="number" name="light-time">
+        <input type="number" name="light-time" id="lightTime">
       </div>
       <button class="button round large secondary float-right w50" id="recordButton">Record?</button>
     </fieldset>
-    <fieldset>
+    <fieldset id="setlistField">
       <legend>
         Setlist
       </legend>
       <form class="form w50 w100-sm">
         <div class="form-item">
-          <input type="text" class="search" id="bitSearch">
+          <input type="text" class="search" id="bitSearch" value="Search bits">
         </div>
         <div class="form-item">
           <div class="append">
@@ -51,14 +55,18 @@
         </div>
       </form>
     </fieldset>
-    <button class="button large w100">Start</button>
+    <button class="button large w100" id="startButton">Start</button>
     <p></p>
-    <button class="button large secondary w100">Ditch</button>
+    <button class="button large secondary w100" value="<%= userID %>" id="ditchButton">Ditch</button>
     <p></p>
-
+  </div>
+  <div class="hide" id="livePer">
+    <h1>We are live!</h1>
+  </div>
 </body>
 
 <% include ./partials/footer.ejs %>
+<script src="/static/js/binaryjs.js" type="text/javascript"></script>
 <script src="/static/js/newPer.js" type="text/javascript"></script>
 
 

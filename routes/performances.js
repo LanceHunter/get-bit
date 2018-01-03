@@ -24,8 +24,8 @@ router.get('/:id/:perId/live', (req, res, next) => {
 /*
 // Authorization middleware. Reroutes to / if user isn't logged in to the account they want to access.
 router.get('/:id/new' , (req, res, next) => {
-  let sessionID = parseInt(req.session.userID);
-  let paramsID = parseInt(req.params.id);
+  let sessionID = filterInt(req.session.userID);
+  let paramsID = filterInt(req.params.id);
   console.log('The session ID - ', req.session.userID);
   console.log('The user ID - ', req.params.id);
   if (sessionID === paramsID) {
@@ -51,13 +51,48 @@ router.get('/:id/new', (req, res, next) => {
   });
 })
 
+router.post('/audio', (req, res) => {
+  console.log(req.body);
+});
 
 //Creating New Performance
 router.post('/:id/new', (req, res, next) => {
-  console.log(req.body);
-  res.redirect('../views/livePer.ejs')
+  let id = filterInt(req.params.id);
+  let newPer = req.body;
+  if (newPer.bits) {
+    newPer.bits = newPer.bits.map((bitString) => {
+      return filterInt(bitString);
+    });
+  }
+  console.log(newPer);
+  let insertObj = {
+    user_id : id,
+    per_title : newPer.per_title,
+    location : newPer.location,
+    given_time : newPer.given_time,
+    per_time : 0,
+    date : newPer.date
+  }
+  knex('performances').insert(insertObj).returning('per_id')
+  .then((perID) => {
+    newPer.per_id = perID;
+    console.log('heres the per_id ', newPer.per_id)
+    let perIDint = filterInt(perID[0]);
+    if (newPer.bits) {
+      let jokePerformancesInsertArr = newPer.bits.map((bit) => {
+        return { per_id : perIDint, joke_id : bit}
+      });
+      return knex('jokes_performances').insert(jokePerformancesInsertArr);
+    } else {
+      return;
+    }
+  })
+  .then(() => {
+    res.send(newPer.per_id);
+  });
 })
 
+/*
 // Middleware for making sure logged in user is accessing their correct page.
 router.get('/:id', (req, res, next) => {
   let sessionID = parseInt(req.session.userID);
@@ -72,6 +107,7 @@ router.get('/:id', (req, res, next) => {
     res.redirect('/');
   }
 });
+*/
 
 // Rendering Performances
 router.get('/:id', (req, res) => {
@@ -126,6 +162,7 @@ router.get('/:id/:perId', (req, res) => {
     });
 
 })
+
 
 
 
