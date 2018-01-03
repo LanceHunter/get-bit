@@ -20,21 +20,20 @@
             <label>Body</label>
             <textarea col="12" row="12" name="body" placeholder="Bit body"></textarea>
           </div>
+          <label> Tag</label>
           <div class="form-item">
-            <label>Tag</label>
-            <div class="append">
-              <select id="labelSelect">
-                    <option value="">
-                    </option>
-
-                </select>
-              <button class="button outline" id="addSelectButton">+</button>
-            </div>
+            <input type="tags" name="tags" class="w100">
           </div>
+          <div class="append">
+            <select id="labelSelect">
+          </select>
+            <button class="button outline" id="addSelectButton">+</button>
+          </div>
+          <p></p>
+
           <div class="form-item">
             <label><center>Label</center></label>
-
-              <select id="labelSelect">
+            <select id="labelSelect">
                 <option value =""></option>
               <% labels.forEach((lab) => { %>
                 <% if (lab.label) { %>
@@ -44,14 +43,14 @@
                 <% } %>
               <% }); %>
             </select>
-              
+
 
         </form>
-      </div>
-      <button class="button large w100">Save</button>
-      <p></p>
-      <button class="button large secondary w100">Ditch</button>
-      <p></p>
+        </div>
+        <button class="button large w100">Save</button>
+        <p></p>
+        <button class="button large secondary w100">Ditch</button>
+        <p></p>
       </div>
 </body>
 <% include ./partials/footer.ejs %>
