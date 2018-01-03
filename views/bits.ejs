@@ -3,31 +3,27 @@
 
 <head>
   <% include ./partials/header.ejs %>
-    <title>Get Bit</title>
+    <title>Get Bit - Bits</title>
 </head>
 
 <body>
   <% include ./partials/bodyHeader.ejs %>
     <% include ./partials/tabs.ejs %>
 
-      <div class="row align-center auto">
-        <div class="row align-center">
+      <div class="row align-center">
           <a href="/bits/<%= userID %>/new" class="button secondary round w50 w100-sm text-center">New Bit</a>
         </div>
 
-        <p>
-        </p>
+        <p></p>
 
-        <div class="row align-center auto">
-          <form method="post" action="" class="form">
+        <div class="row align-center">
+          <form class="form w50 w100-sm">
             <div class="form-item">
-              <div class="append w50 w100-sm">
-                <input type="text" name="search" placeholder="Search">
-                <button class="button outline">Go</button>
-              </div>
+              <input type="text" class="search" id="searchBar">
             </div>
           </form>
         </div>
+
         <div class="row align-center">
           <ul class="unstyled large">
             <% bits.forEach(function(bit) { %>
@@ -39,18 +35,18 @@
                   <% if (bit.label) { %>
                     <span class="label upper focus"><%= bit.label %></span>
                     <% } %>
-                      Rating:
-                      <% include ./partials/stars.ejs%>
+                    <% include ./partials/stars.ejs%>
                 </li>
                 <% }); %>
           </ul>
         </div>
-        <div class="row align-center auto">
+
+        <div class="row align-center">
           <div class="form-item">
             <div class="append">
               <select id="labelSelect">
               <% bits.forEach((bit) => { %>
-                <option value="b<%= bit.joke_id %>">
+                <option value="<%= bit.joke_id %>">
                   <%= bit.label %>
                 </option>
               <% }); %>
@@ -59,6 +55,7 @@
             </div>
           </div>
         </div>
+      </div>
 </body>
 <% include ./partials/footer.ejs %>
 

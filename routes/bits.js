@@ -185,7 +185,7 @@ router.get('/:id/:bitId', (req, res, next) => {
         onBits: true,
         userID: id,
         bitID: bitId,
-        bit: jokeArr
+        bitObj: jokeArr
       });
     })
     .catch(function(error) {
