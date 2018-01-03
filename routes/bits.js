@@ -26,7 +26,10 @@ const filterInt = function(value) {
 
 //Rendering New Bit Page
 router.get('/:id/new', (req, res, next) => {
-  res.render('../views/newBit.ejs');
+  const id = req.params.id;
+  res.render('../views/newBit.ejs', {
+    onBits: true,
+    userID: id});
 })
 
 
@@ -149,7 +152,7 @@ router.get('/:id/:bitId', (req, res, next) => {
       console.log(bodyArr)
       jokeArr.forEach((joke, index) => {
         joke.body = bodyArr[index].body
-        
+
       })
     })
     //Grabbing Performance Titles
@@ -182,7 +185,7 @@ router.get('/:id/:bitId', (req, res, next) => {
         onBits: true,
         userID: id,
         bitID: bitId,
-        singleBit: jokeArr
+        bit: jokeArr
       });
     })
     .catch(function(error) {

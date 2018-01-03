@@ -8,37 +8,52 @@
 
 <body>
   <% include ./partials/bodyHeader.ejs %>
-
     <% include ./partials/tabs.ejs %>
+
       <div class="row align-center">
         <form method="post" action="submit" class="form">
-          <% singleBit.forEach(function(bit) { %>
+          <% bit.forEach(function(bit) { %>
 
             <div class="form-item">
               <label>Title</label>
               <input type="title" name="joke_title" value="<%= bit.joke_title%>" class="w100">
             </div>
-
             <div class="form-item">
               <label>Body</label>
               <textarea col="12" row="12" name="body" placeholder="<%= bit.body%>"></textarea>
             </div>
-
-            <div class="form-item">
-
-
+              <div class="form-item">
                 <label>Tag</label>
-                <input type="tags" name="tags" value="<%=bit.tags%>" class="w100">
+                <div class="append">
+                  <select id="labelSelect">
+                      <option value="b<%= bit.joke_id %>">
+                      </option>
 
+                  </select>
+                  <button class="button outline" id="addSelectButton">+</button>
+                </div>
+              </div>
+              <div class="form-item">
+                <label>Label</label>
+                <div class="append">
+                  <select id="labelSelect">
+                      <option value="b<%= bit.joke_id %>">
+                      </option>
+                  </select>
+                  <button class="button outline" id="addSelectButton">+</button>
+                </div>
+              </div>
             </div>
-
-
             <% }); %>
         </form>
       </div>
-
-
-
+      <div class="row align-center">
+        <button class="button secondary" id="ditchButton" value="/bits/<%= userID %>">Ditch</button>
+        <p class="show-sm"></p>
+        <button class="redButton" value="" id="deleteButton">Delete</button>
+        <p class="show-sm"></p>
+        <button value="" id="saveButton">Save</button>
+      </div>
 </body>
 <% include ./partials/footer.ejs %>
 
