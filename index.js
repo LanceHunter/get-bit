@@ -14,6 +14,34 @@ const accountsRoute = require('./routes/accounts.js');
 const bitsRoute = require('./routes/bits.js');
 const performancesRoute = require('./routes/performances.js');
 
+// Work for the binary connection. Will be cleaned up later.
+const binaryServer = require('binaryjs').BinaryServer;
+const wav = require('wav');
+const bserver = binaryServer({port: 8080});
+
+bserver.on('connection', function(client) {
+  var fileWriter = null;
+  console.log('connection attempted')
+  client.on('stream', function(stream, meta) {
+    var fileWriter = new wav.FileWriter('demo.wav', {
+      channels: 1,
+      sampleRate: 48000,
+      bitDepth: 16
+    });
+    stream.pipe(fileWriter);
+    stream.on('end', function() {
+      fileWriter.end();
+    });
+  });
+
+  client.on('close', function() {
+    if (fileWriter != null) {
+      fileWriter.end();
+    }
+  });
+});
+
+
 // Disabling the x-powered-by: Express header, for security.
 app.disable('x-powered-by');
 

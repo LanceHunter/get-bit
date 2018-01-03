@@ -18,6 +18,7 @@
   "homepage": "https://github.com/paige-throck/get-bit#readme",
   "dependencies": {
     "bcrypt": "^1.0.3",
+    "binaryjs": "^0.2.1",
     "body-parser": "^1.18.2",
     "ejs": "^2.5.7",
     "eslint": "^4.13.1",
@@ -26,6 +27,9 @@
     "knex": "^0.14.2",
     "morgan": "^1.9.0",
     "nodemon": "^1.14.7",
-    "pg": "^7.4.0"
+    "pg": "^7.4.0",
+    "recordrtc-nodejs": "^1.0.6",
+    "wav": "^1.0.1",
+    "ws": "^3.3.3"
   }
 }

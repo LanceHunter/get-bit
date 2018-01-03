@@ -90,23 +90,68 @@
       $('#setTimeReq').text('light time cannot exceed set time')
     } else {
       let newPerObj = {}
-      if (chosenBits.length>0)
-        newPerObj = {
-          per_title : setTitle,
-          location : setLocation,
-          given_time : totalTime * 60,
-          date : setDate,
-          bits : chosenBits,
-          record : record
-        }
+      newPerObj = {
+        per_title : setTitle,
+        location : setLocation,
+        given_time : totalTime * 60,
+        date : setDate,
+        bits : chosenBits,
+        record : record
+      };
       $.post(``, newPerObj)
       .done((perID) => {
         console.log('Entry is posted - ', perID);
         $('#newPer').addClass('hide');
         $('#livePer').removeClass('hide');
+        if (record) {
+          var session = {
+            audio: true,
+            video: false
+          };
+          var recordRTC = null;
+          navigator.mediaDevices.getUserMedia(session)
+          .then(initializeRecorder)
+          .catch((err) => $('#livePer').append(`<h2>${err}<h2>`));
+          var client = new BinaryClient('ws://localhost:8080/');
+          client.on('open', function() {
+            console.log('stream is open');
+            window.Stream = client.createStream();
+          });
+        }
+        //Logic for streaming record goes here.
       });
     }
   });
+
+// Functions for recording if it is used.
+function initializeRecorder(stream) {
+  var audioContext = window.AudioContext;
+  var context = new audioContext();
+  var audioInput = context.createMediaStreamSource(stream);
+  var bufferSize = 2048;
+  // create a javascript node
+  var recorder = context.createScriptProcessor(bufferSize, 1, 1);
+  // specify the processing function
+  recorder.onaudioprocess = recorderProcess;
+  // connect stream to our recorder
+  audioInput.connect(recorder);
+  // connect our recorder to the previous destination
+  recorder.connect(context.destination);
+}
+
+function convertFloat32ToInt16(buffer) {
+  l = buffer.length;
+  buf = new Int16Array(l);
+  while (l--) {
+    buf[l] = Math.min(1, buffer[l])*0x7FFF;
+  }
+  return buf.buffer;
+}
+
+function recorderProcess(e) {
+  var left = e.inputBuffer.getChannelData(0);
+  window.Stream.write(convertFloat32ToInt16(left));
+}
 
 
 })();

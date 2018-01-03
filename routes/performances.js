@@ -51,6 +51,9 @@ router.get('/:id/new', (req, res, next) => {
   });
 })
 
+router.post('/audio', (req, res) => {
+  console.log(req.body);
+});
 
 //Creating New Performance
 router.post('/:id/new', (req, res, next) => {
@@ -159,6 +162,7 @@ router.get('/:id/:perId', (req, res) => {
     });
 
 })
+
 
 
 
