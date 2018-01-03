@@ -15,50 +15,57 @@
           <% bitObj.forEach(function(bit) { %>
             <% let starKey = bit.avg %>
 
-            <div class="form-item">
-              <label>Title</label>
-              <input type="title" name="joke_title" value="<%= bit.joke_title%>" class="w100">
-            </div>
+              <div class="form-item">
+                <label>Title</label>
+                <input type="title" name="joke_title" value="<%= bit.joke_title%>" class="w100">
+              </div>
 
-          <% include ./partials/stars.ejs%>
+              <% include ./partials/stars.ejs%>
 
-            <div class="form-item">
-              <label>Body</label>
-              <textarea col="12" row="12" name="body" placeholder="<%= bit.body%>"></textarea>
-            </div>
-            <div class="form-item">
-              <label>Tag</label>
-              <div class="append">
-                <select id="labelSelect">
-                      <option value="<%= bit.joke_id %>">
+                <div class="form-item">
+                  <label>Body</label>
+                  <textarea col="12" row="12" name="body" placeholder="<%= bit.body%>"></textarea>
+                </div>
+                <div class="form-item">
+                  <label>Tag</label>
+                  <div class="append">
+                    <select id="labelSelect">
+                      <option value="<%= bit.tags %>">
                       </option>
 
                   </select>
-                <button class="button outline" id="addSelectButton">+</button>
-              </div>
-            </div>
-            <div class="form-item">
-              <label>Label</label>
-              <div class="append">
-                <select id="labelSelect">
-                      <option value="<%= bit.joke_id %>">
+                    <button class="button outline" id="addSelectButton">+</button>
+                  </div>
+                </div>
+                <div class="form-item">
+                  <label>Label</label>
+                  <div class="append">
+                    <select id="labelSelect">
+                      <option value="<%= bit.label %>">
                       </option>
                   </select>
-                <button class="button outline" id="addSelectButton">+</button>
-              </div>
-            </div>
-            <div class="form-item">
-              <label>Performances</label>
-              <select  multiple="multiple" size="10">
-                <li value="<%= bit.per_title%>"></li>
-            </optgroup>
-        </select>
-            </div>
+                    <button class="button outline" id="addSelectButton">+</button>
+                  </div>
+                </div>
+
       </div>
 
       <% }); %>
         </form>
+        <div class="row align-center">
+          <ul class="unstyled large">
+            <% pers.forEach(function(per) { %>
+              <% let starKey = per.rating %>
+                <li>
+                  <a href="/per/<%= per.user_id%>/<%= per.per_id %>">
+                    <%= per.per_title %>
+                  </a>
+                    <% include ./partials/stars.ejs%>
+                </li>
+                <% }); %>
+          </ul>
         </div>
+
         <div class="row align-center">
           <button class="button secondary" id="ditchButton" value="/bits/<%= userID %>">Ditch</button>
           <p class="show-sm"></p>

@@ -24,7 +24,7 @@ const filterInt = function(value) {
 // const labelId = req.params.labelId; label_id
 
 
-//Rendering New Bit Page
+////Rendering New Bit Page
 router.get('/:id/new', (req, res, next) => {
   const id = req.params.id;
   res.render('../views/newBit.ejs', {
@@ -33,13 +33,13 @@ router.get('/:id/new', (req, res, next) => {
 })
 
 
-//Creating New bit
+////Creating New bit
 router.post('/:id/new', (req, res, next) => {
   res.redirect('../views/bits.ejs')
 })
 
 
-//Rendering Bits
+////Rendering Bits
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
   let secondLabelArr = [];
@@ -105,11 +105,14 @@ router.get('/:id', (req, res, next) => {
 })
 
 
-//Rendering individial bit - Review Bit
+////Rendering individial bit - Review Bit
 router.get('/:id/:bitId', (req, res, next) => {
   const id = req.params.id;
   const bitId = req.params.bitId;
   let jokeArr = [];
+  let perArr = [];
+  // let tagArr = [];
+
   //Grabbing Jokes
   knex('jokes')
     .where('jokes.joke_id', bitId)
@@ -171,15 +174,27 @@ router.get('/:id/:bitId', (req, res, next) => {
       return knex('jokes')
         .innerJoin('jokes_performances', 'jokes.joke_id', 'jokes_performances.joke_id')
         .innerJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
-        .select('performances.per_title')
+        .select('performances.per_id','performances.user_id','performances.per_title', 'performances.rating')
         .where('jokes.joke_id', bitId)
     })
-    .then(function(perArr) {
+    .then(function(persArr) {
+      console.log(persArr)
+      console.log(perArr)
 
-      jokeArr.per_titles = [];
-      perArr.forEach((jokePer, index) => {
-        jokeArr.per_titles.push(jokePer.per_title)
+      persArr.forEach((perf, index) => {
+      perArr.push({per_title:perf.per_title, rating:perf.rating})
+
       })
+
+      // perArr.per_title = [];
+      // perArr.rating =  [];
+      //
+      // persArr.forEach((per, index) => {
+      //   perArr.per_title.push(per.per_title);
+      //   perArr.rating.push(per.rating);
+      // })
+
+      console.log(perArr)
     })
     //Grabbing Labels
     .then(function() {
@@ -192,12 +207,13 @@ router.get('/:id/:bitId', (req, res, next) => {
       jokeArr.forEach((joke, index) => {
         joke.label = labelArr[index].label
       })
-        console.log(jokeArr)
+
       res.render('../views/reviewBit.ejs', {
         onBits: true,
         userID: id,
         bitID: bitId,
-        bitObj: jokeArr
+        bitObj: jokeArr,
+        pers: perArr
       });
     })
     .catch(function(error) {
@@ -208,56 +224,36 @@ router.get('/:id/:bitId', (req, res, next) => {
 })
 
 
-//Updating Bit - Review Bit
+////Updating Bit - Review Bit
 router.put('/:id/:bitId', (req, res, next) => {
   res.redirect('../views/bits.ejs')
 })
 
 
-//Delete Bit - Review Bit
+////Delete Bit - Review Bit
 router.delete('/:id/:bitId', (req, res, next) => {
   res.redirect('../views/bits.ejs')
 })
 
 
-//Get labels
-router.get('/:id/labels', (req, res, next) => {
-const id = req.params.id
-  knex('jokes')
-    .leftOuterJoin('labels', 'jokes.label_id', 'labels.label_id')
-    .select('labels.label')
-    .where('jokes.user_id', id)
-
-    .then(function(labelsArr){
-      console.log(labelsArr)
-      // res.send('../views/bits.ejs', {labels:labelsArr
-      // });
-    })
-    .catch(function(error) {
-      console.log(error);
-      res.sendStatus(500);
-    });
-})
-
-
-//Create Label
+////Create Label
 router.post('/:id/label', (req, res, next) => {
 
 })
 
-//Adding Label to Bit
+////Adding Label to Bit
 router.post('/:id/:bitId/labelId', (req, res, next) => {
 
 })
 
 
-//Deleting Label from Bit
+////Deleting Label from Bit
 router.delete('/:id/:bitId/:labelId', (req, res, next) => {
 
 })
 
 
-//Delete Label
+////Delete Label
 router.delete('id:/label/:labelId', (req, res, next) => {
 
 })
