@@ -11,7 +11,7 @@
     <% include ./partials/tabs.ejs %>
 
       <div class="row align-center">
-        <form method="post" action="submit" class="form">
+        <form class="form w50 w100-sm">
           <% bitObj.forEach(function(bit) { %>
             <% let starKey = bit.avg %>
 
@@ -49,7 +49,7 @@
             </div>
             <div class="form-item">
               <label>Performances</label>
-              <select class="w50 w100-sm" multiple="multiple" size="10">
+              <select  multiple="multiple" size="10">
                 <li value="<%= bit.per_title%>"></li>
             </optgroup>
         </select>
