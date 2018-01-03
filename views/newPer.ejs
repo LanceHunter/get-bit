@@ -11,10 +11,10 @@
   <% include ./partials/bodyHeader.ejs %>
     <% include ./partials/tabs.ejs %>
     <div class="row align-center">
-      <input type="text" name="set-title" class="w95 large" value="Enter a title for this set" id="setTitle">
+      <input type="text" name="set-title" class="w95 large" placeholder="Enter a title for this set" id="setTitle">
     </div>
     <div class="row align-center">
-      <input type="text" name="set-location" class="w95 large" value="Enter location for set" id="setLocation">
+      <input type="text" name="set-location" class="w95 large" placeholder="Enter location for set" id="setLocation">
     </div>
     <fieldset>
       <legend>
@@ -62,6 +62,7 @@
   </div>
   <div class="hide" id="livePer">
     <h1>We are live!</h1>
+    <button class="button large w100" id="stopButton">Stop</button>
   </div>
 </body>
 

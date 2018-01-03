@@ -9,6 +9,7 @@
   let setTitle;
   let setDate;
   let setLocation;
+  let newPerObj = {};
 
   $('#addSelectButton').click(() => {
     event.preventDefault();
@@ -56,12 +57,12 @@
     event.preventDefault();
     totalTime = $('#setTime').val();
     lightTime = $('#lightTime').val();
-    if ($('#setTitle').val() === 'Enter a title for this set') {
+    if (!$('#setTitle').val()) {
       setTitle = 'No Title';
     } else {
       setTitle = $('#setTitle').val();
     }
-    if ($('#setLocation').val() === 'Enter location for set') {
+    if (!$('#setLocation').val()) {
       setLocation = '';
     } else {
       setLocation = $('#setLocation').val();
@@ -89,7 +90,6 @@
       $('#lightTime').addClass('error');
       $('#setTimeReq').text('light time cannot exceed set time')
     } else {
-      let newPerObj = {}
       newPerObj = {
         per_title : setTitle,
         location : setLocation,
@@ -100,25 +100,37 @@
       };
       $.post(``, newPerObj)
       .done((perID) => {
+        newPerObj.per_id = perID[0];
         console.log('Entry is posted - ', perID);
         $('#newPer').addClass('hide');
         $('#livePer').removeClass('hide');
         if (record) {
-          var session = {
-            audio: true,
-            video: false
-          };
-          var recordRTC = null;
-          navigator.mediaDevices.getUserMedia(session)
-          .then(initializeRecorder)
-          .catch((err) => $('#livePer').append(`<h2>${err}<h2>`));
-          var client = new BinaryClient('ws://localhost:8080/');
-          client.on('open', function() {
-            console.log('stream is open');
-            window.Stream = client.createStream();
+          $.get('/record')
+          .done((replystring) => {
+            let replyArr = replystring.split(',');
+            console.log('The reply is: ', replyArr);
+            newPerObj.audio = `/static/audio/${replyArr[1]}`;
+            var session = {
+              audio: true,
+              video: false
+            };
+            var recordRTC = null;
+            navigator.mediaDevices.getUserMedia(session)
+            .then(initializeRecorder)
+            .catch((err) => $('#livePer').append(`<h2>${err}<h2>`));
+            var client = new BinaryClient(`ws://localhost:${replyArr[0]}`);
+            client.on('open', function() {
+              console.log('stream is open');
+              window.Stream = client.createStream();
+            });
+            $('#stopButton').click(() => {
+              window.Stream.end();
+            });
           });
+        } else {
+
         }
-        //Logic for streaming record goes here.
+
       });
     }
   });
@@ -128,6 +140,9 @@ function initializeRecorder(stream) {
   var audioContext = window.AudioContext;
   var context = new audioContext();
   var audioInput = context.createMediaStreamSource(stream);
+  var gainNode = context.createGain();
+  audioInput.connect(gainNode);
+  gainNode.gain.setValueAtTime(0.1, context.currentTime + 1);
   var bufferSize = 2048;
   // create a javascript node
   var recorder = context.createScriptProcessor(bufferSize, 1, 1);
