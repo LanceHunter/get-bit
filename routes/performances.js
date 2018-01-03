@@ -56,9 +56,11 @@ router.get('/:id/new', (req, res, next) => {
 router.post('/:id/new', (req, res, next) => {
   let id = filterInt(req.params.id);
   let newPer = req.body;
-  newPer.bits = newPer.bits.map((bitString) => {
-    return filterInt(bitString);
-  })
+  if (newPer.bits) {
+    newPer.bits = newPer.bits.map((bitString) => {
+      return filterInt(bitString);
+    });
+  }
   console.log(newPer);
   let insertObj = {
     user_id : id,
@@ -73,10 +75,14 @@ router.post('/:id/new', (req, res, next) => {
     newPer.per_id = perID;
     console.log('heres the per_id ', newPer.per_id)
     let perIDint = filterInt(perID[0]);
-    let jokePerformancesInsertArr = newPer.bits.map((bit) => {
-      return { per_id : perIDint, joke_id : bit}
-    });
-    return knex('jokes_performances').insert(jokePerformancesInsertArr);
+    if (newPer.bits) {
+      let jokePerformancesInsertArr = newPer.bits.map((bit) => {
+        return { per_id : perIDint, joke_id : bit}
+      });
+      return knex('jokes_performances').insert(jokePerformancesInsertArr);
+    } else {
+      return;
+    }
   })
   .then(() => {
     res.send(newPer.per_id);

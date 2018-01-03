@@ -102,8 +102,8 @@
       $.post(``, newPerObj)
       .done((perID) => {
         console.log('Entry is posted - ', perID);
-        $('#newPer').addClass('invisible');
-        $('#livePer').removeClass('invisible');
+        $('#newPer').addClass('hide');
+        $('#livePer').removeClass('hide');
       });
     }
   });
