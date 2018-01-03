@@ -19,60 +19,87 @@
                 <label>Title</label>
                 <input type="title" name="joke_title" value="<%= bit.joke_title%>" class="w100">
               </div>
-
+              <label>Average Rating</label>
               <% include ./partials/stars.ejs%>
-
+                <p></p>
                 <div class="form-item">
                   <label>Body</label>
-                  <textarea col="12" row="12" name="body" placeholder="<%= bit.body%>"></textarea>
+                  <textarea col="12" row="12" name="body"><%= bit.body%></textarea>
                 </div>
-                <div class="form-item">
-                  <label>Tag</label>
-                  <div class="append">
-                    <select id="labelSelect">
-                      <option value="<%= bit.tags %>">
+                <% }); %>
+                  <label> Tag</label>
+                  <% tags.forEach(function(tag) { %>
+
+
+                    <div class="form-item">
+                      <input type="tags" name="tags" value="<%= tag.tag%>" class="w100">
+                    </div>
+
+                    <% }); %>
+                      <div class="append">
+                        <select id="labelSelect">
+                  </select>
+                        <button class="button outline" id="addSelectButton">+</button>
+                      </div>
+
+                      <p></p>
+                      <div class="form-item">
+                        <label>Label</label>
+                        <div class="append">
+                          <select class="w100" id="labelSelect">
+                  <% bitObj.forEach(function(bit) { %>
+                      <% if (!bit.label) { %>
+                        <option value="">
+                        </option>
+
+                      <% } else {%>
+                        <option value="<%= bit.user_id%>">
+                          <%= bit.label %>
+                        </option>
+                      <% }%>
+                  <% }); %>
+                    <% label.forEach((lab) => { %>
+
+                      <option value="<%= lab.user_id %>" id="b<%=lab.user_id%>">
+                        <%= lab.label %>
                       </option>
 
+                    <% }); %>
                   </select>
-                    <button class="button outline" id="addSelectButton">+</button>
-                  </div>
                 </div>
-                <div class="form-item">
-                  <label>Label</label>
-                  <div class="append">
-                    <select id="labelSelect">
-                      <option value="<%= bit.label %>">
-                      </option>
-                  </select>
-                    <button class="button outline" id="addSelectButton">+</button>
-                  </div>
-                </div>
-
+            </div>
       </div>
+    </div>
 
-      <% }); %>
-        </form>
-        <div class="row align-center">
+      </form>
+
+      <div class="row align-center">
+        <fieldset>
+          <legend>Performances</legend>
+
           <ul class="unstyled large">
             <% pers.forEach(function(per) { %>
               <% let starKey = per.rating %>
                 <li>
-                  <a href="/per/<%= per.user_id%>/<%= per.per_id %>">
+                  <a href="/performances/<%= per.user_id%>/<%= per.per_id %>">
                     <%= per.per_title %>
                   </a>
-                    <% include ./partials/stars.ejs%>
+                  <% include ./partials/stars.ejs%>
                 </li>
                 <% }); %>
           </ul>
-        </div>
+      </div>
+      </fieldset>
 
-        <div class="row align-center">
-          <button class="button secondary" id="ditchButton" value="/bits/<%= userID %>">Ditch</button>
-          <p class="show-sm"></p>
-          <button class="redButton" value="" id="deleteButton">Delete</button>
-          <p class="show-sm"></p>
-          <button value="" id="saveButton">Save</button>
-        </div>
+      <div class="row align-center">
+
+        <button class="button secondary" id="ditchButton" value="/bits/<%= userID %>">Ditch</button>
+
+        <p class="show-sm"></p>
+        <button class="redButton" value="" id="deleteButton">Delete</button>
+        <p class="show-sm"></p>
+        <button value="" id="saveButton">Save</button>
+      </div>
 </body>
 <% include ./partials/footer.ejs %>
 
