@@ -20,36 +20,37 @@
             <label>Body</label>
             <textarea col="12" row="12" name="body" placeholder="Bit body"></textarea>
           </div>
+          <label> Tag</label>
           <div class="form-item">
-            <label>Tag</label>
-            <div class="append">
-              <select id="labelSelect">
-                    <option value="">
-                    </option>
+            <input type="tags" name="tags" class="w100">
+          </div>
+          <div class="append">
+            <select id="labelSelect">
+          </select>
+            <button class="button outline" id="addSelectButton">+</button>
+          </div>
+          <p></p>
 
-                </select>
-              <button class="button outline" id="addSelectButton">+</button>
-            </div>
-          </div>
           <div class="form-item">
-            <label>Label</label>
-            <div class="append">
-              <select id="labelSelect">
-                    <option value="">
-                    </option>
-                </select>
-              <button class="button outline" id="addSelectButton">+</button>
-            </div>
-          </div>
+            <label><center>Label</center></label>
+            <select id="labelSelect">
+                <option value =""></option>
+              <% labels.forEach((lab) => { %>
+                <% if (lab.label) { %>
+                <option value="<b%= lab.user_id %>" id="b<%=lab.user_id%>">
+                  <%= lab.label %>
+                </option>
+                <% } %>
+              <% }); %>
+            </select>
+
 
         </form>
-      </div>
-      <div class="row align-center">
-        <button class="button secondary" id="ditchButton" value="/bits/<%= userID %>">Ditch</button>
-        <p class="show-sm"></p>
-
-        <p class="show-sm"></p>
-        <button value="" id="saveButton">Save</button>
+        </div>
+        <button class="button large w100">Save</button>
+        <p></p>
+        <button class="button large secondary w100">Ditch</button>
+        <p></p>
       </div>
 </body>
 <% include ./partials/footer.ejs %>
