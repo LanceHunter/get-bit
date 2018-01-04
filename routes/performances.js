@@ -64,9 +64,13 @@ router.post('/live', (req, res) => {
     audio : performanceObj.audio,
   })
   .then(() => {
+    return knex('jokes_performances').insert(performanceObj.performedValueArr);
+  })
+  .then(() => {
     res.sendStatus(200);
   })
   .catch((err) => {
+    console.error('Error inserting live per - ', err);
     res.sendStatus(500);
   })
 });
@@ -93,18 +97,6 @@ router.post('/:id/new', (req, res, next) => {
   knex('performances').insert(insertObj).returning('per_id')
   .then((perID) => {
     newPer.per_id = perID;
-    console.log('heres the per_id ', newPer.per_id)
-    let perIDint = filterInt(perID[0]);
-    if (newPer.bits) {
-      let jokePerformancesInsertArr = newPer.bits.map((bit) => {
-        return { per_id : perIDint, joke_id : bit}
-      });
-      return knex('jokes_performances').insert(jokePerformancesInsertArr);
-    } else {
-      return;
-    }
-  })
-  .then(() => {
     res.send(newPer.per_id);
   });
 })
@@ -155,7 +147,7 @@ router.get('/:id/:perId', (req, res) => {
   knex('performances')
     .fullOuterJoin('jokes_performances', 'performances.per_id', 'jokes_performances.per_id')
     .fullOuterJoin('jokes', 'jokes_performances.joke_id', 'jokes.joke_id')
-    .select('performances.per_title', 'performances.date', 'performances.per_id', 'performances.rating', 'performances.audio', 'jokes.joke_title', 'jokes.joke_id')
+    .select('performances.per_title', 'performances.date', 'performances.per_id', 'performances.rating', 'performances.audio', 'jokes.joke_title', 'jokes.joke_id', 'jokes_performances.performed')
     .where({
       'performances.user_id': id,
       'performances.per_id': perId
