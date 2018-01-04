@@ -291,9 +291,30 @@ router.get('/:id/:bitId', (req, res, next) => {
 
 
 ////Updating Bit - Review Bit
-router.post('/:id/:bitId', (req, res, next) => {
+router.put('/:id/:bitId', (req, res, next) => {
   const id = filterInt(req.params.id);
   res.redirect(`bits/${id}`)
+})
+
+///New Tag - Review Page
+
+router.post('/:id/:bitId', (req, res, next) => {
+  const id = filterInt(req.params.id);
+  const bitId = filterInt(req.params.bitId);
+  const newTag = req.body;
+
+  
+
+  let tag = {
+    joke_id: bitId,
+    tag: newTag.tag
+  }
+  console.log(tag);
+   knex('tags').insert(tag)
+   .then(()=>{
+
+   })
+
 })
 
 

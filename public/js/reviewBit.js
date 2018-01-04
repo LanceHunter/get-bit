@@ -5,7 +5,23 @@ console.log("Updating Bit");
 $('#submitButton').click(() => {
   event.preventDefault();
   console.log($('#submitButton').val());
-  window.location.assign($('#submitButton').val());
+  tag = $('#newTag').val();
+
+  if (!tag) {
+    $('#newTag').addClass('error')
+    $('#newTagReq').text('Please Enter a New Tag')
+  } else {
+    window.location.assign($('#submitButton').val());
+    let tagObj = {}
+    tagObj = {
+      tag: tag
+    };
+
+    $.post(``, tagObj, (results) => {
+      console.log(tagObj)
+    })
+  }
+
 });
 
 
