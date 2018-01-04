@@ -66,7 +66,6 @@ router.post('/live', (req, res) => {
   .catch((err) => {
     res.sendStatus(500);
   })
-
 });
 
 //Creating New Performance
@@ -176,15 +175,18 @@ router.get('/:id/:perId', (req, res) => {
       res.sendStatus(500);
     });
 
-})
-
-
+});
 
 
 //Updating Individual Performance - Review Performance
 router.put('/:id/:perId', (req, res, next) => {
   res.redirect('../views/pers.ejs')
-})
+});
+
+router.delete('/:perID', (req, res) => {
+  console.log('The request body - ', req.body);
+//  knex('jokes_performances').where('')
+});
 
 
 

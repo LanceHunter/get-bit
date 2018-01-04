@@ -26,7 +26,8 @@
                     </select>
                   </div>`;
   let saveButton = `<button class="button large w100" id="saveButton">Save</button>`;
-  let deleteButton = `<button class="button large redButton w100" value="<%= userID %>" id="deleteButton">Delete</button>`;
+  let deleteButton = `<button class="button large redButton w100" value="" id="deleteButton">Delete</button>`;
+  let confirmDeleteButton = `<button class="button large redButtonOutline w100" value="" id="confirmDeleteButton">Confirm Delete</button>`;
 
 
   $('#addSelectButton').click(() => {
@@ -145,44 +146,55 @@
             });
             $('#stopButton').click(() => {
               window.Stream.end();
+              stopPressed = true;
+              if (lightTime) {
+                console.log('Light time - ', lightTime, weFlash);
+                window.clearTimeout(theLight);
+              }
+              newPerObj.per_time = Math.round(perTime);
+              // All the logic taking the values presenting the confirm page.
+              $('#livePer').addClass('hide');
+              $('#newPer').removeClass('hide');
+              $('#setTitle').replaceWith(`<h2>${newPerObj.per_title}</h2>`);
+              if (newPerObj.location) {
+                $('#setLocation').replaceWith(`<h2>${newPerObj.location}</h2>`);
+              } else {
+                $('#setLocation').addClass(`hide`);
+              }
+              $('#setTimeDiv').replaceWith(`<div id="jokesPerformedDiv"></div>`);
+              $('#lightTimeDiv').addClass('hide');
+              $('#recordButton').addClass('hide');
+              $('#setOptionsLegend').text('Options');
+              $('#setlistField').addClass('hide');
+              $('#setOptions').prepend(starField);
+              $('#jokesPerformedDiv').append(rawBitsArr);
+              $('#startButton').replaceWith(saveButton);
+              $('#ditchButton').replaceWith(deleteButton);
 
-              $('#stopButton').click(() => {
-                stopPressed = true;
-                if (lightTime) {
-                  console.log('Light time - ', lightTime, weFlash);
-                  window.clearTimeout(theLight);
-                }
-                newPerObj.per_time = Math.round(perTime);
-                // All the logic taking the values presenting the confirm page.
-                $('#livePer').addClass('hide');
-                $('#newPer').removeClass('hide');
-                $('#setTitle').replaceWith(`<h2>${newPerObj.per_title}</h2>`);
-                if (newPerObj.location) {
-                  $('#setLocation').replaceWith(`<h2>${newPerObj.location}</h2>`);
-                } else {
-                  $('#setLocation').addClass(`hide`);
-                }
-                $('#setTimeDiv').replaceWith(`<div id="jokesPerformedDiv"></div>`);
-                $('#lightTimeDiv').addClass('hide');
-                $('#recordButton').addClass('hide');
-                $('#setOptionsLegend').text('Options');
-                $('#setlistField').addClass('hide');
-                $('#setOptions').prepend(starField);
-                $('#jokesPerformedDiv').append(rawBitsArr);
-                $('#startButton').replaceWith(saveButton);
-                $('#ditchButton').replaceWith(deleteButton);
-                $('#saveButton').click(() => {
-                  newPerObj.rating = $('#theRating').val();
-                  console.log('The rating - ', newPerObj.rating);
-                  $.post('/performances/live', newPerObj)
-                  .done(() => {
-                    console.log(`It's done.`);
-                    window.location.assign('/');
+              $('#deleteButton').click(() => {
+                console.log('Delete button was clicked');
+                $('#deleteButton').replaceWith(confirmDeleteButton);
+                $('#confirmDeleteButton').click(() => {
+                  $.ajax({
+                    url: `/performances/${newPerObj.per_id}`,
+                    type: 'DELETE',
+                    success : deleteCall,
+                    data: newPerObj,
+                    contentType: json
                   });
                 });
               });
 
 
+              $('#saveButton').click(() => {
+                newPerObj.rating = $('#theRating').val();
+                console.log('The rating - ', newPerObj.rating);
+                $.post('/performances/live', newPerObj)
+                .done(() => {
+                  console.log(`It's done.`);
+                  window.location.assign('/');
+                });
+              });
 
             });
           });
@@ -298,5 +310,8 @@ function flashTheLight() {
   }, 500);
 }
 
+function deleteCall() {
+  window.location.assign('/');
+}
 
 })();
