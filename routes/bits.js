@@ -67,11 +67,12 @@ router.post('/:id/new', (req, res, next) => {
 
 const id = filterInt(req.params.id);
   const newJoke = req.body;
-  console.log(req.body)
+  console.log(req.body, "new joke")
 
   let joke = {
     user_id: id,
-    joke_title: newJoke.joke_title
+    joke_title: newJoke.joke_title,
+    label_id: filterInt(newJoke.label_id)
   }
 
   let body = {
@@ -80,10 +81,6 @@ const id = filterInt(req.params.id);
 
   let tag = {
     tag: newJoke.tag
-  }
-
-  let label = {
-    label: newJoke.label,
   }
 
   knex('jokes').insert(joke).returning('*')
@@ -103,7 +100,6 @@ const id = filterInt(req.params.id);
     })
 })
 
-
 ////Rendering Bits
 router.get('/:id', (req, res, next) => {
   const id = filterInt(req.params.id);
@@ -111,11 +107,8 @@ router.get('/:id', (req, res, next) => {
   let jokeArr = [];
   //Grabbing Jokes
   return knex('jokes')
-    // .select('jokes.*', 'labels.label')
-    // .innerJoin('labels', 'jokes.label_id', 'labels.label_id')
     .where('jokes.user_id', id)
     .then(function(jokes) {
-      console.log(jokes);
       jokeArr = jokes;
       let idArr = jokeArr.map((joke) => {
         return joke.joke_id;
@@ -127,7 +120,6 @@ router.get('/:id', (req, res, next) => {
         .groupBy('joke_id')
     })
     .then(function(ratingsArr) {
-      console.log(ratingsArr);
       jokeArr.forEach((joke, index) => {
         if (ratingsArr[index]) {
           joke.avg = ratingsArr[index].avg
@@ -139,14 +131,17 @@ router.get('/:id', (req, res, next) => {
     })
     // Grabbing individual Label for Jokes
     .then(function() {
-      return knex('jokes')
-        .leftOuterJoin('labels', 'jokes.label_id', 'labels.label_id')
-        .select('labels.label')
-        .where('jokes.user_id', id)
+      return knex('labels')
+        .where('labels.user_id', id)
+        .select('labels.label', 'labels.label_id')
     })
     .then(function(labelArr) {
       jokeArr.forEach((joke, index) => {
-        joke.label = labelArr[index].label
+        labelArr.forEach((label)=>{
+          if (label.label_id === joke.label_id){
+            joke.label = label.label
+          }
+        })
       })
     })
     // Grabbing Labels for dropdown
@@ -158,6 +153,7 @@ router.get('/:id', (req, res, next) => {
     .then(function(labArr) {
       console.log(jokeArr);
       console.log(labArr);
+
       res.render('../views/bits.ejs', {
         onBits: true,
         userID: id,

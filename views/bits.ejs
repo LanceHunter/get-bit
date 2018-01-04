@@ -27,7 +27,7 @@
       <div class="row align-center">
         <ul class="unstyled large">
           <% bits.forEach(function(bit) { %>
-            
+
               <li>
                 <a href="/bits/<%= bit.user_id%>/<%= bit.joke_id %>">
                   <%= bit.joke_title %>
@@ -35,7 +35,6 @@
                 <% if (bit.label) { %>
                   <span class="label upper focus"><%= bit.label %></span>
                   <% } %>
-
 
               </li>
               <% }); %>
@@ -54,7 +53,7 @@
                   <option value =""></option>
                 <% labels.forEach((lab) => { %>
                   <% if (lab.label) { %>
-                  <option value="<%= lab.user_id %>" id="labels">
+                  <option name="label" value="<%= lab.label_id %>" id="labels">
                     <%= lab.label %>
                   </option>
                   <% } %>
