@@ -36,7 +36,10 @@
                   <span class="label upper focus"><%= bit.label %></span>
                   <% } %>
 
+<<<<<<< HEAD
                     
+=======
+>>>>>>> d72137d4829f5844554c75ff43c880faf5b5d51f
               </li>
               <% }); %>
         </ul>
@@ -54,7 +57,7 @@
                   <option value =""></option>
                 <% labels.forEach((lab) => { %>
                   <% if (lab.label) { %>
-                  <option value="<%= lab.user_id %>" id="labels">
+                  <option name="label" value="<%= lab.label_id %>" id="labels">
                     <%= lab.label %>
                   </option>
                   <% } %>
@@ -67,7 +70,7 @@
             <label><center>Create New Label<span class="req" id="newLabelReq"></span></center></label>
             <div class="append">
               <input type="text" name="label" id="newLabel">
-              <button class="button" id="submitButton">Submit</button>
+              <button class="button" id="submitButton">+</button>
             </div>
         </div>
       </form>

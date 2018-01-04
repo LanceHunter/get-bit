@@ -1,5 +1,6 @@
 (function() {
 
+
 console.log("Lets create a new Bit");
 
 let jokeTitle;
@@ -18,6 +19,8 @@ $('#saveButton').click(() => { // Click listener for the submit button.
   tag = $('#tag').val();
   label = $('#labelSelect').val();
 
+
+
    if (!jokeTitle || !jokeBody) {
      $('#joke_title').addClass('error')
      $('#joke_titleReq').text('Title Required')
@@ -31,7 +34,7 @@ $('#saveButton').click(() => { // Click listener for the submit button.
        joke_title: jokeTitle,
        body: jokeBody,
        tag: tag,
-       label: label
+       label_id: label
      };
 
      $.post(``, newJokeObj, (result)=>{
