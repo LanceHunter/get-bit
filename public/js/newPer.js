@@ -26,8 +26,8 @@
                     </select>
                   </div>`;
   let saveButton = `<button class="button large w100" id="saveButton">Save</button>`;
-  let deleteButton = `<button class="button large redButton w100" value="" id="deleteButton">Delete</button>`;
-  let confirmDeleteButton = `<button class="button large redButtonOutline w100" value="" id="confirmDeleteButton">Confirm Delete</button>`;
+  let deleteButton = `<button class="button large redButton w100" id="deleteButton">Delete</button>`;
+  let confirmDeleteButton = `<a class="button large redButtonOutline w100 text-center" id="confirmDeleteButton">Confirm Delete</a>`;
 
 
   $('#addSelectButton').click(() => {
@@ -74,8 +74,8 @@
 
   $('#startButton').click(() => {
     event.preventDefault();
-    givenTime = $('#setTime').val();
-    lightTime = $('#lightTime').val();
+    givenTime = parseInt($('#setTime').val());
+    lightTime = parseInt($('#lightTime').val());
     if (!$('#setTitle').val()) {
       setTitle = 'No Title';
     } else {
@@ -100,9 +100,11 @@
       $('#setTime').addClass('error');
       $('#setTimeReq').text('set time required')
     } else if (givenTime < lightTime) {
+      console.log('Given time - ', givenTime);
+      console.log('Light time - ', lightTime)
       $('#setTime').addClass('error');
       $('#lightTime').addClass('error');
-      $('#setTimeReq').text('light time cannot exceed set time')
+      $('#setTimeReq').text('light time cannot exceed set time');
     } else {
       newPerObj = {
         per_title : setTitle,
@@ -171,21 +173,6 @@
               $('#startButton').replaceWith(saveButton);
               $('#ditchButton').replaceWith(deleteButton);
 
-              $('#deleteButton').click(() => {
-                console.log('Delete button was clicked');
-                $('#deleteButton').replaceWith(confirmDeleteButton);
-                $('#confirmDeleteButton').click(() => {
-                  $.ajax({
-                    url: `/performances/${newPerObj.per_id}`,
-                    type: 'DELETE',
-                    success : deleteCall,
-                    data: newPerObj,
-                    contentType: json
-                  });
-                });
-              });
-
-
               $('#saveButton').click(() => {
                 newPerObj.rating = $('#theRating').val();
                 console.log('The rating - ', newPerObj.rating);
@@ -195,6 +182,22 @@
                   window.location.assign('/');
                 });
               });
+
+              $('#deleteButton').click(() => {
+                event.preventDefault();
+                console.log('Delete button was clicked');
+                $('#deleteButton').replaceWith(confirmDeleteButton);
+                $('#confirmDeleteButton').click(() => {
+                  event.preventDefault();
+                  $.ajax({
+                    url: `/performances/${newPerObj.per_id}`,
+                    type: 'DELETE',
+                    success : deleteCall,
+                    data: newPerObj
+                  });
+                });
+              });
+
 
             });
           });
@@ -229,6 +232,24 @@
             $('#jokesPerformedDiv').append(rawBitsArr);
             $('#startButton').replaceWith(saveButton);
             $('#ditchButton').replaceWith(deleteButton);
+
+            $('#deleteButton').click(() => {
+              event.preventDefault();
+              console.log('Delete button was clicked');
+              $('#deleteButton').replaceWith(confirmDeleteButton);
+              $('#confirmDeleteButton').click(() => {
+                event.preventDefault();
+                $.ajax({
+                  url: `/performances/${newPerObj.per_id}`,
+                  type: 'DELETE',
+                  success : deleteCall,
+                  data: newPerObj
+                });
+              });
+            });
+
+
+
             $('#saveButton').click(() => {
               newPerObj.rating = $('#theRating').val();
               console.log('The rating - ', newPerObj.rating);

@@ -183,9 +183,21 @@ router.put('/:id/:perId', (req, res, next) => {
   res.redirect('../views/pers.ejs')
 });
 
+// The route for deleting a performance. Takes the performance ID.
 router.delete('/:perID', (req, res) => {
-  console.log('The request body - ', req.body);
-//  knex('jokes_performances').where('')
+  let deleteID = req.params.perID;
+  knex('jokes_performances').where('per_id', deleteID).del()
+  .then(() => {
+    return knex('performances').where('per_id', deleteID).del();
+  })
+  .then(() => {
+    res.sendStatus(200);
+  })
+  .catch((err) => {
+    console.error('Error while deleting - ', err);
+    res.sendStatus(500);
+  })
+
 });
 
 
