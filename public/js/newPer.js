@@ -12,7 +12,8 @@
   let setLocation;
   let newPerObj = {};
   let weFlash = false;
-  let flashEnd = false;
+  let stopPressed = false;
+  let bitTitlesArr = [];
 
   $('#addSelectButton').click(() => {
     event.preventDefault();
@@ -78,13 +79,8 @@
     let rawBitsArr = $('h5');
     for (let i=0; i < rawBitsArr.length; i++) {
       chosenBits.push(rawBitsArr[i].id);
+      bitTitlesArr.push(`<h2>${rawBitsArr[i].innerText}</h2>`);
     }
-    console.log('The bits - ', chosenBits);
-    console.log('The total time - ', givenTime);
-    console.log('The light time - ', lightTime);
-    console.log('The set title - ', setTitle);
-    console.log('The set date - ', setDate);
-    console.log('Are we recording? ', record);
     if (!givenTime) {
       $('#setTime').addClass('error');
       $('#setTimeReq').text('set time required')
@@ -107,6 +103,9 @@
         console.log('Entry is posted - ', perID);
         $('#newPer').addClass('hide');
         $('#livePer').removeClass('hide');
+        bitTitlesArr.forEach((bitH1) => {
+          $('#bitHolder').append(bitH1);
+        });
         if (record) { // If the user wants to record the audio.
           $.get('/record')
           .done((replystring) => {
@@ -142,7 +141,7 @@
             var theLight = window.setTimeout(flashTheLight, (lightTime*60000));
           }
           $('#stopButton').click(() => {
-            flashEnd = true;
+            stopPressed = true;
             if (lightTime) {
               console.log('Light time - ', lightTime, weFlash);
               window.clearTimeout(theLight);
@@ -200,13 +199,13 @@ function createTimer(timeLeft) {
   $('#livePer').prepend(`<h1 class="title text-center" id="timer">${timeString}</h1>`);
   timeLeft--;
   let counter = setInterval(() => {
+    if ((timeLeft === 0) || stopPressed) {clearInterval(counter);}
     let timeLeftNow = timeLeft;
     minute = Math.floor(timeLeftNow/60);
     second = timeLeftNow-(minute*60);
     if (second<10) {second = `0${second}`;}
     timeString = `${minute}:${second}`;
     $('#timer').text(timeString);
-    if ((timeLeft === 0) || flashEnd) {clearInterval(counter);}
     timeLeft = timeLeft-1;
     perTime++;
   }, 1000);
@@ -217,13 +216,12 @@ function flashTheLight() {
   let flashingScreen = setInterval(function() {
     $('#livePer').toggleClass('hide');
     $('#theLightDiv').toggleClass('hide');
-    if (flashEnd) {
+    if (stopPressed) {
       $('#livePer').removeClass('hide');
       $('#theLightDiv').addClass('hide');
       clearInterval(flashingScreen);
     }
   }, 500);
-  // Put in something to make the screen flash...
 }
 
 
