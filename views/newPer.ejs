@@ -11,20 +11,20 @@
   <% include ./partials/bodyHeader.ejs %>
     <% include ./partials/tabs.ejs %>
     <div class="row align-center">
-      <input type="text" name="set-title" class="w95 large" value="Enter a title for this set" id="setTitle">
+      <input type="text" name="set-title" class="w95 large" placeholder="Enter a title for this set" id="setTitle">
     </div>
     <div class="row align-center">
-      <input type="text" name="set-location" class="w95 large" value="Enter location for set" id="setLocation">
+      <input type="text" name="set-location" class="w95 large" placeholder="Enter location for set" id="setLocation">
     </div>
-    <fieldset>
-      <legend>
+    <fieldset id="setOptions">
+      <legend id="setOptionsLegend">
         Set Options
       </legend>
-      <div class="form-item w65">
+      <div class="form-item w65" id="setTimeDiv">
         <label>Allotted Time <span class="req" id="setTimeReq">*</span></label>
         <input type="number" name="set-time" id="setTime">
       </div>
-      <div class="form-item w65">
+      <div class="form-item w65" id="lightTimeDiv">
         <label>Light Me At</label>
         <input type="number" name="light-time" id="lightTime">
       </div>
@@ -61,7 +61,10 @@
     <p></p>
   </div>
   <div class="hide" id="livePer">
-    <h1>We are live!</h1>
+    <div id="bitHolder"></div>
+    <button class="button large w100" id="stopButton">Stop</button>
+  </div>
+  <div class="hide theLightDiv" id="theLightDiv">
   </div>
 </body>
 
