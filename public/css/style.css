@@ -50,3 +50,9 @@ h2.title {
   margins: auto;
   font-size: 5em;
 }
+
+.theLightDiv {
+  background-color: #ff0000;
+  width: 100%;
+  height: 700px;
+}

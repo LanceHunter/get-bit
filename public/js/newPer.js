@@ -4,12 +4,15 @@
   let chosenBits = [];
   let chosenTitle = '';
   let record = false;
-  let totalTime;
+  let givenTime;
+  let perTime = 0;
   let lightTime;
   let setTitle;
   let setDate;
   let setLocation;
   let newPerObj = {};
+  let weFlash = false;
+  let flashEnd = false;
 
   $('#addSelectButton').click(() => {
     event.preventDefault();
@@ -55,7 +58,7 @@
 
   $('#startButton').click(() => {
     event.preventDefault();
-    totalTime = $('#setTime').val();
+    givenTime = $('#setTime').val();
     lightTime = $('#lightTime').val();
     if (!$('#setTitle').val()) {
       setTitle = 'No Title';
@@ -77,15 +80,15 @@
       chosenBits.push(rawBitsArr[i].id);
     }
     console.log('The bits - ', chosenBits);
-    console.log('The total time - ', totalTime);
+    console.log('The total time - ', givenTime);
     console.log('The light time - ', lightTime);
     console.log('The set title - ', setTitle);
     console.log('The set date - ', setDate);
     console.log('Are we recording? ', record);
-    if (!totalTime) {
+    if (!givenTime) {
       $('#setTime').addClass('error');
       $('#setTimeReq').text('set time required')
-    } else if (totalTime < lightTime) {
+    } else if (givenTime < lightTime) {
       $('#setTime').addClass('error');
       $('#lightTime').addClass('error');
       $('#setTimeReq').text('light time cannot exceed set time')
@@ -93,7 +96,7 @@
       newPerObj = {
         per_title : setTitle,
         location : setLocation,
-        given_time : totalTime * 60,
+        given_time : givenTime * 60,
         date : setDate,
         bits : chosenBits,
         record : record
@@ -135,9 +138,16 @@
         } else { // Live Performance page without recording audio.
           createTimer(newPerObj.given_time);
           newPerObj.audio = null;
+          if (lightTime) {
+            var theLight = window.setTimeout(flashTheLight, (lightTime*60000));
+          }
           $('#stopButton').click(() => {
-            console.log(newPerObj);
-
+            flashEnd = true;
+            if (lightTime) {
+              console.log('Light time - ', lightTime, weFlash);
+              window.clearTimeout(theLight);
+            }
+            newPerObj.per_time = perTime;
             $.post('/performances/live', newPerObj)
             .done(() => {
               console.log(`It's done.`);
@@ -189,18 +199,32 @@ function createTimer(timeLeft) {
   timeString = `${minute}:${second}`;
   $('#livePer').prepend(`<h1 class="title text-center" id="timer">${timeString}</h1>`);
   timeLeft--;
-  let counter = setInterval(function() {
+  let counter = setInterval(() => {
     let timeLeftNow = timeLeft;
     minute = Math.floor(timeLeftNow/60);
     second = timeLeftNow-(minute*60);
     if (second<10) {second = `0${second}`;}
     timeString = `${minute}:${second}`;
     $('#timer').text(timeString);
-    if (timeLeft === 0) {clearInterval(counter);}
+    if ((timeLeft === 0) || flashEnd) {clearInterval(counter);}
     timeLeft = timeLeft-1;
+    perTime++;
   }, 1000);
 }
 
+function flashTheLight() {
+  weFlash = true;
+  let flashingScreen = setInterval(function() {
+    $('#livePer').toggleClass('hide');
+    $('#theLightDiv').toggleClass('hide');
+    if (flashEnd) {
+      $('#livePer').removeClass('hide');
+      $('#theLightDiv').addClass('hide');
+      clearInterval(flashingScreen);
+    }
+  }, 500);
+  // Put in something to make the screen flash...
+}
 
 
 })();
