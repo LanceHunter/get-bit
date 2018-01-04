@@ -153,12 +153,11 @@ router.get('/:id', (req, res, next) => {
         .select('labels.label', 'labels.label_id')
     })
     .then(function(labArr) {
-<<<<<<< HEAD
-=======
+
       console.log(jokeArr);
       console.log(labArr);
 
->>>>>>> d72137d4829f5844554c75ff43c880faf5b5d51f
+
       res.render('../views/bits.ejs', {
         onBits: true,
         userID: id,
