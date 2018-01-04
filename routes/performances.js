@@ -53,9 +53,16 @@ router.get('/:id/new', (req, res, next) => {
 
 // For posting the final details of a live set.
 router.post('/live', (req, res) => {
-  console.log('This is the live performance post route', req.body);
   let performanceObj = req.body;
-  
+  console.log('This is the live performance post route', performanceObj);
+  knex('performances').where('per_id', performanceObj.per_id).update({
+    per_time : performanceObj.per_time,
+    audio : performanceObj.audio,
+  })
+  .then(() => {
+
+  })
+
 });
 
 //Creating New Performance

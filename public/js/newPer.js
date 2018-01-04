@@ -14,6 +14,17 @@
   let weFlash = false;
   let stopPressed = false;
   let bitTitlesArr = [];
+  let starField = `<div class="form-item">
+                    <label>Rate the set:</label>
+                    <select id="theRating">
+                      <option value="0">0</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                  </div>`;
 
   $('#addSelectButton').click(() => {
     event.preventDefault();
@@ -146,19 +157,34 @@
               console.log('Light time - ', lightTime, weFlash);
               window.clearTimeout(theLight);
             }
-            newPerObj.per_time = perTime;
+            newPerObj.per_time = Math.round(perTime);
+            // All the logic taking the values presenting the confirm page.
+            $('#livePer').addClass('hide');
+            $('#newPer').removeClass('hide');
+            $('#setTitle').replaceWith(`<h2>${newPerObj.per_title}</h2>`);
+            if (newPerObj.location) {
+              $('#setLocation').replaceWith(`<h2>${newPerObj.location}</h2>`);
+            } else {
+              $('#setLocation').addClass(`hide`);
+            }
+            $('#setTimeDiv').replaceWith(`<div id="jokesPerformedDiv"></div>`);
+            $('#lightTimeDiv').addClass('hide');
+            $('#recordButton').addClass('hide');
+            $('#setOptionsLegend').text('Options');
+            $('#setlistField').addClass('hide');
+            $('#setOptions').prepend(starField);
+            $('#jokesPerformedDiv');
             $.post('/performances/live', newPerObj)
             .done(() => {
               console.log(`It's done.`);
             });
           });
         }
-
       });
     }
   });
 
-// Functions for recording if user selects it. Much of these are from Gabriel Poça at http://codetheory.in/controlling-the-volume-of-an-audio-file-in-javascript/
+// Functions for recording if user selects it. Most of these next three functions are from Gabriel Poça at https://subvisual.co/blog/posts/39-tutorial-html-audio-capture-streaming-to-node-js-no-browser-extensions/
 function initializeRecorder(stream) {
   var audioContext = window.AudioContext;
   var context = new audioContext();
@@ -202,13 +228,13 @@ function createTimer(timeLeft) {
     if ((timeLeft === 0) || stopPressed) {clearInterval(counter);}
     let timeLeftNow = timeLeft;
     minute = Math.floor(timeLeftNow/60);
-    second = timeLeftNow-(minute*60);
+    second = Math.floor(timeLeftNow-(minute*60));
     if (second<10) {second = `0${second}`;}
     timeString = `${minute}:${second}`;
     $('#timer').text(timeString);
-    timeLeft = timeLeft-1;
-    perTime++;
-  }, 1000);
+    timeLeft = timeLeft-0.01;
+    perTime = perTime+0.01;
+  }, 10);
 }
 
 function flashTheLight() {
