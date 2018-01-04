@@ -57,12 +57,15 @@ router.post('/live', (req, res) => {
   console.log('This is the live performance post route', performanceObj);
   knex('performances').where('per_id', performanceObj.per_id).update({
     per_time : performanceObj.per_time,
+    rating : performanceObj.rating,
     audio : performanceObj.audio,
   })
   .then(() => {
-
+    res.sendStatus(200);
   })
-
+  .catch((err) => {
+    res.sendStatus(500);
+  })
 });
 
 //Creating New Performance
@@ -147,8 +150,8 @@ router.get('/:id/:perId', (req, res) => {
   const perId = filterInt(req.params.perId);
 
   knex('performances')
-    .innerJoin('jokes_performances', 'performances.per_id', 'jokes_performances.per_id')
-    .innerJoin('jokes', 'jokes_performances.joke_id', 'jokes.joke_id')
+    .fullOuterJoin('jokes_performances', 'performances.per_id', 'jokes_performances.per_id')
+    .fullOuterJoin('jokes', 'jokes_performances.joke_id', 'jokes.joke_id')
     .select('performances.per_title', 'performances.date', 'performances.per_id', 'performances.rating', 'performances.audio', 'jokes.joke_title', 'jokes.joke_id')
     .where({
       'performances.user_id': id,
@@ -172,15 +175,30 @@ router.get('/:id/:perId', (req, res) => {
       res.sendStatus(500);
     });
 
-})
-
-
+});
 
 
 //Updating Individual Performance - Review Performance
 router.put('/:id/:perId', (req, res, next) => {
   res.redirect('../views/pers.ejs')
-})
+});
+
+// The route for deleting a performance. Takes the performance ID.
+router.delete('/:perID', (req, res) => {
+  let deleteID = req.params.perID;
+  knex('jokes_performances').where('per_id', deleteID).del()
+  .then(() => {
+    return knex('performances').where('per_id', deleteID).del();
+  })
+  .then(() => {
+    res.sendStatus(200);
+  })
+  .catch((err) => {
+    console.error('Error while deleting - ', err);
+    res.sendStatus(500);
+  })
+
+});
 
 
 
