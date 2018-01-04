@@ -26,7 +26,7 @@
                   <label>Body</label>
                   <textarea col="12" row="12" name="body"><%= bit.body%></textarea>
                 </div>
-                <% }); %>
+
 
                 <div class="form-item">
                   <label>Current Tags</label>
@@ -39,7 +39,7 @@
                   </option>
                   <% }); %>
                 </select>
-                <button class="button outline">Delete</button>
+                <button class="redButton">Delete</button>
               </div>
               </div>
               <p></p>
@@ -47,7 +47,7 @@
                 <label>New Tag</label>
                 <div class="append">
                   <input type="text" name="search">
-                  <button class="button outline">Submit</button>
+                  <button class="button" id="submitButton" value="">Submit</button>
                 </div>
               </div>
             <p></p>
@@ -55,7 +55,7 @@
                 <label>Label</label>
                   <div class="append">
                   <select class="w100" id="labelSelect">
-
+          <% }); %>
           <% bitObj.forEach(function(bit) { %>
               <% if (!bit.label) { %>
           <option value="">
@@ -69,7 +69,8 @@
                   <% }); %>
                     <% label.forEach((lab) => { %>
 
-                      <option value="<%= lab.user_id %>" id="b<%=lab.user_id%>">
+                      <option
+                        value="<%= lab.label_id %>" id="label">
                         <%= lab.label %>
                       </option>
 

@@ -6,6 +6,7 @@ $('#submitButton').click(() => {
   event.preventDefault();
   console.log($('#submitButton').val());
 
+
   label = $('#newLabel').val();
 
   if (!label){
