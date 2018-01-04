@@ -6,7 +6,7 @@
     <title>Get Bit - Review Bit</title>
 </head>
 
-<body>
+<body id="<%=userID%>">
   <% include ./partials/bodyHeader.ejs %>
     <% include ./partials/tabs.ejs %>
 
@@ -17,14 +17,14 @@
 
               <div class="form-item">
                 <label>Title</label>
-                <input type="title" name="joke_title" value="<%= bit.joke_title%>" class="w100">
+                <input type="title" name="joke_title" id="joke_title" value="<%= bit.joke_title%>" class="w100">
               </div>
               <label>Average Rating</label>
               <% include ./partials/stars.ejs%>
                 <p></p>
                 <div class="form-item">
                   <label>Body</label>
-                  <textarea col="12" row="12" name="body"><%= bit.body%></textarea>
+                  <textarea col="12" row="12" name="body" id="body"><%= bit.body%></textarea>
                 </div>
 
 
@@ -34,7 +34,7 @@
                     <select class="w100" id="tagSelect">
 
                 <% tags.forEach(function(tag) { %>
-                  <option value="<%= tag.joke_id%>">
+                  <option name="tag" value="<%= tag.joke_id%>">
                     <%= tag.tag %>
                   </option>
                   <% }); %>
@@ -44,10 +44,10 @@
               </div>
               <p></p>
               <div class="form-item">
-                <label>New Tag</label>
+                <label>New Tag<span class="req" id="newTagReq"></span></label>
                 <div class="append">
-                  <input type="text" name="search">
-                  <button class="button" id="submitButton" value="">Submit</button>
+                  <input type="text" name="tag" id="newTag">
+                  <button class="button" id="submitButton">+</button>
                 </div>
               </div>
             <p></p>
@@ -102,15 +102,16 @@
       </fieldset>
 
       <div class="row align-center">
-
+<% bitObj.forEach(function(bit) { %>
         <button class="button secondary" id="ditchButton" value="/bits/<%=userID %>">Ditch</button>
-
+    <p class="show-sm"></p>
         <p class="show-sm"></p>
-        <button class="redButton" value="/bits/<%= userID %>/<%= bitID %>" id="deleteButton">Delete</button>
+        <button class="redButton" value="<%= bit.joke_id%>" id="deleteButton">Delete</button>
+
         <p class="show-sm"></p>
         <button value="" id="saveButton">Save</button>
       </div>
-
+  <% }); %>
 </body>
 <% include ./partials/footer.ejs %>
 <script src="/static/js/reviewBit.js" type="text/javascript"></script>
