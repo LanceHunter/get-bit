@@ -1,4 +1,8 @@
 (function() {
+
+console.log("Updating Bit");
+
+
   $('#ditchButton').click(() => {
     event.preventDefault();
     console.log($('#ditchButton').val());
@@ -17,6 +21,9 @@
 
   $('#saveButton').click(() => {
     event.preventDefault();
+
+    $.post('/bits/:id/new', updateJoke, (result)=>{
+    })
 
   });
 
