@@ -5,6 +5,9 @@ const env = 'development';
 const config = require('../knexfile.js')[env];
 const knex = require('knex')(config);
 
+//Setting up FS (for deleting audio files)
+const fs = require('fs');
+
 //Setting up express routing
 const express = require('express');
 const router = express.Router();
@@ -179,8 +182,51 @@ router.get('/:id/:perId', (req, res) => {
 
 
 //Updating Individual Performance - Review Performance
-router.put('/:id/:perId', (req, res, next) => {
-  res.redirect('../views/pers.ejs')
+router.put('/:perId', (req, res) => {
+  let performanceID = req.params.perId;
+  let putObj = req.body;
+  console.log(putObj);
+  if (!putObj.rating) {
+    knex('jokes_performances').where('per_id', putObj.performanceArr[0].per_id).del()
+    .then(() => {
+      return knex('jokes_performances').insert(putObj.performanceArr);
+    })
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error while updating performance - ', err);
+      res.sendStatus(500);
+    });
+  } else if (!putObj.performanceArr) {
+    knex('performances').where('per_id', performanceID).update({
+      rating : putObj.rating
+    })
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error while updating performance - ', err);
+      res.sendStatus(500);
+    });
+  } else {
+    knex('performances').where('per_id', performanceID).update({
+      rating : putObj.rating
+    })
+    .then(() => {
+      return knex('jokes_performances').where('per_id', putObj.performanceArr[0].per_id).del();
+    })
+    .then(() => {
+      return knex('jokes_performances').insert(putObj.performanceArr);
+    })
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error while updating performance - ', err);
+      res.sendStatus(500);
+    });
+  }
 });
 
 // The route for deleting a performance. Takes the performance ID.
