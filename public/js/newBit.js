@@ -10,7 +10,7 @@ $('#saveButton').click(() => { // Click listener for the submit button.
 
     $.post('/bits/:id/new', )
 
-
+        console.log('bob');
   }
 
 
