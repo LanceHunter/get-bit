@@ -2,17 +2,39 @@
 
 console.log("Lets create a new Bit");
 
+let jokeTitle;
+let jokeBody;
+let tag;
+let label;
+
+
 $('#saveButton').click(() => { // Click listener for the submit button.
   event.preventDefault();
   console.log('Button Pressed.');
 
-  if($('#joke_title').val() && $('#body').val()){
+  jokeTitle = $('#joke_title').val();
+  jokeBody = $('#body').val();
+  tag = $('#tag').val();
+  label = $('#label').val();
 
-    $.post('/bits/:id/new', )
+  if (!jokeTitle || !jokeBody) {
+    $('#joke_title').addClass('error')
+    $('#joke_titleReq').text('Title Required')
+    $('#body').addClass('error')
+    $('#bodyReq').text('Body Required')
 
-        console.log('bob');
+  } else {
+    let newJokeObj = {}
+    newJokeObj = {
+      joke_title: jokeTitle,
+      body: jokeBody,
+      tag: tag,
+      label: label
+    };
+
+    $.post('/bits/:id/new', newJokeObj, (result)=>{
+    })
   }
-
 
 });
 

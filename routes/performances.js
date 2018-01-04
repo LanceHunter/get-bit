@@ -58,6 +58,7 @@ router.post('/audio', (req, res) => {
 //Creating New Performance
 router.post('/:id/new', (req, res, next) => {
   let id = filterInt(req.params.id);
+  console.log(id)
   let newPer = req.body;
   if (newPer.bits) {
     newPer.bits = newPer.bits.map((bitString) => {
