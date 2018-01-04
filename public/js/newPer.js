@@ -38,7 +38,7 @@
 
   $('#recordButton').click(() => {
     $('#recordButton').toggleClass('secondary');
-    $('#recordButton').toggleClass('redButton');
+    $('#recordButton').toggleClass('recordButton');
     if (!record) {
       record = true;
       $('#recordButton').text('Record!');
@@ -123,8 +123,13 @@
               console.log('stream is open');
               window.Stream = client.createStream();
             });
+            createTimer(newPerObj.given_time);
             $('#stopButton').click(() => {
               window.Stream.end();
+              $.post('/performances/live', newPerObj)
+              .done(() => {
+                console.log(`It's done.`);
+              });
             });
           });
         } else {
@@ -140,9 +145,6 @@ function initializeRecorder(stream) {
   var audioContext = window.AudioContext;
   var context = new audioContext();
   var audioInput = context.createMediaStreamSource(stream);
-  var gainNode = context.createGain();
-  audioInput.connect(gainNode);
-  gainNode.gain.setValueAtTime(0.1, context.currentTime + 1);
   var bufferSize = 2048;
   // create a javascript node
   var recorder = context.createScriptProcessor(bufferSize, 1, 1);
@@ -167,6 +169,27 @@ function recorderProcess(e) {
   var left = e.inputBuffer.getChannelData(0);
   window.Stream.write(convertFloat32ToInt16(left));
 }
+
+// The function to put a timer on the page.
+function createTimer(timeLeft) {
+  console.log('The time left is ', timeLeft);
+  let startTime = timeLeft;
+  let minute = Math.floor(startTime/60);
+  let second = startTime-(minute*60);
+  if (second===0) {second = '00'};
+  timeString = `${minute}:${second}`;
+  $('#livePer').prepend(`<h1 class="title text-center" id="timer">${timeString}</h1>`);
+  timeLeft--;
+  let counter = setInterval(function() {
+    let timeLeftNow = timeLeft;
+    minute = Math.floor(timeLeftNow/60);
+    second = timeLeftNow-(minute*60);
+    timeString = `${minute}:${second}`;
+    $('#timer').text(timeString);
+    timeLeft = timeLeft-1;
+  }, 1000);
+}
+
 
 
 })();

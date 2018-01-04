@@ -22,6 +22,12 @@ h2.title {
 .redButton {
   background-color: #ff3366;
 }
+
+.recordButton {
+  background-color: #ff3366;
+}
+
+
 .redButton:hover {
   background-color: #ff69b4;
 }
@@ -35,4 +41,9 @@ h2.title {
   background-color: #ffffff;
   border-color: #ff69b4;
   color: #000000;
+}
+
+.timer {
+  margins: auto;
+  font-size: 5em;
 }

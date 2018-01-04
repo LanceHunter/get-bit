@@ -51,7 +51,8 @@ router.get('/:id/new', (req, res, next) => {
   });
 })
 
-router.post('/audio', (req, res) => {
+// For posting the final details of a live set.
+router.post('/live', (req, res) => {
   console.log(req.body);
 });
 
