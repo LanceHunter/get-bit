@@ -132,8 +132,16 @@
               });
             });
           });
-        } else {
-
+        } else { // Live Performance page without recording audio.
+          createTimer(newPerObj.given_time);
+          newPerObj.audio = null;
+          $('#stopButton').click(() => {
+            console.log(newPerObj);
+            $.post('/performances/live', newPerObj)
+            .done(() => {
+              console.log(`It's done.`);
+            });
+          });
         }
 
       });
@@ -184,8 +192,10 @@ function createTimer(timeLeft) {
     let timeLeftNow = timeLeft;
     minute = Math.floor(timeLeftNow/60);
     second = timeLeftNow-(minute*60);
+    if (second<10) {second = `0${second}`;}
     timeString = `${minute}:${second}`;
     $('#timer').text(timeString);
+    if (timeLeft === 0) {clearInterval(counter);}
     timeLeft = timeLeft-1;
   }, 1000);
 }

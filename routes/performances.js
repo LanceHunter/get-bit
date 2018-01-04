@@ -53,7 +53,7 @@ router.get('/:id/new', (req, res, next) => {
 
 // For posting the final details of a live set.
 router.post('/live', (req, res) => {
-  console.log(req.body);
+  console.log('This is the live performance post route', req.body);
 });
 
 //Creating New Performance
