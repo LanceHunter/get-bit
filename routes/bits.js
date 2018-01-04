@@ -115,15 +115,16 @@ router.get('/:id', (req, res, next) => {
     // .innerJoin('labels', 'jokes.label_id', 'labels.label_id')
     .where('jokes.user_id', id)
     .then(function(jokes) {
-      console.log(jokes);
       jokeArr = jokes;
       let idArr = jokeArr.map((joke) => {
         return joke.joke_id;
       })
+      console.log(idArr);
       //Grabbing Ratings
       return knex('jokes_performances').whereIn('joke_id', idArr)
-        .innerJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
+        .fullOuterJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
         .avg('performances.rating')
+        // .select('*')
         .groupBy('joke_id')
     })
     .then(function(ratingsArr) {
@@ -156,8 +157,6 @@ router.get('/:id', (req, res, next) => {
         .select('labels.label', 'labels.label_id')
     })
     .then(function(labArr) {
-      console.log(jokeArr);
-      console.log(labArr);
       res.render('../views/bits.ejs', {
         onBits: true,
         userID: id,
