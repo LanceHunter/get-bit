@@ -67,14 +67,11 @@ router.post('/:id/new', (req, res, next) => {
 
   const id = req.params.id;
   const newJoke = req.body;
-
-
-
+  console.log(req.body)
 
   let joke = {
     user_id: id,
     joke_title: newJoke.joke_title
-
   }
 
   let body = {
@@ -95,8 +92,11 @@ router.post('/:id/new', (req, res, next) => {
       body.joke_id = jokes[0].joke_id;
       return knex('joke_body').insert(body).returning('*')
     }).then((body) => {
-      tag.joke_id = body[0].joke_id;
-      return knex('tags').insert(tag).returning('*')
+      if (tag != undefined){
+        tag.joke_id = body[0].joke_id;
+        return knex('tags').insert(tag).returning('*')
+      }
+
     })
     .then(() => {
       res.redirect(`bits/${id}`)
@@ -203,7 +203,11 @@ router.get('/:id/:bitId', (req, res, next) => {
     .then(function(ratingsArr) {
 
       jokeArr.forEach((joke, index) => {
-        joke.avg = ratingsArr[index].avg
+        if (ratingsArr[index]) {
+          joke.avg = ratingsArr[index].avg
+        } else {
+          joke.avg = 0;
+        }
       })
     })
     //Grabbing Tags

@@ -4,8 +4,8 @@ console.log("Lets create a new Bit");
 
 let jokeTitle;
 let jokeBody;
-let tag;
-let label;
+let tag = [];
+let label = [];
 
 
 $('#saveButton').click(() => { // Click listener for the submit button.
@@ -22,6 +22,10 @@ $('#saveButton').click(() => { // Click listener for the submit button.
      $('#joke_titleReq').text('Title Required')
      $('#body').addClass('error')
      $('#bodyReq').text('Body Required')
+
+
+
+
 
    } else {
      let newJokeObj = {}
