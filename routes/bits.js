@@ -303,7 +303,7 @@ router.post('/:id/:bitId', (req, res, next) => {
   const bitId = filterInt(req.params.bitId);
   const newTag = req.body;
 
-  
+
 
   let tag = {
     joke_id: bitId,
@@ -321,7 +321,21 @@ router.post('/:id/:bitId', (req, res, next) => {
 ////Delete Bit - Review Bit
 router.delete('/:id/:bitId', (req, res, next) => {
   const id = filterInt(req.params.id);
-  res.redirect('../views/bits.ejs')
+  const bitId = filterInt(req.params.bitId);
+
+  console.log("wtf is going on", req.body);
+
+  knex('jokes_performances').where('joke_id', bitId).del()
+  .then(()=>{
+    return knex('jokes').where('joke_id', bitId).del();
+  })
+  .then(()=>{
+    res.sendStatus(200);
+  })
+  .catch((err) => {
+    console.error('Error while deleting - ', err);
+    res.sendStatus(500);
+  })
 })
 
 
