@@ -25,6 +25,9 @@
                       <option value="5">5</option>
                     </select>
                   </div>`;
+  let saveButton = `<button class="button large w100" id="saveButton">Save</button>`;
+  let deleteButton = `<button class="button large redButton w100" value="<%= userID %>" id="deleteButton">Delete</button>`;
+
 
   $('#addSelectButton').click(() => {
     event.preventDefault();
@@ -119,10 +122,14 @@
         });
         if (record) { // If the user wants to record the audio.
           $.get('/record')
-          .done((replystring) => {
+          .done((replystring) => { // Starting the live performance logic.
+            createTimer(newPerObj.given_time);
+            if (lightTime) {
+              var theLight = window.setTimeout(flashTheLight, (lightTime*60000));
+            }
             let replyArr = replystring.split(',');
             console.log('The reply is: ', replyArr);
-            newPerObj.audio = `/static/audio/${replyArr[1]}`;
+            newPerObj.audio = `/static/audio/${replyArr[1]}.wav`;
             var session = {
               audio: true,
               video: false
@@ -136,13 +143,47 @@
               console.log('stream is open');
               window.Stream = client.createStream();
             });
-            createTimer(newPerObj.given_time);
             $('#stopButton').click(() => {
               window.Stream.end();
-              $.post('/performances/live', newPerObj)
-              .done(() => {
-                console.log(`It's done.`);
+
+              $('#stopButton').click(() => {
+                stopPressed = true;
+                if (lightTime) {
+                  console.log('Light time - ', lightTime, weFlash);
+                  window.clearTimeout(theLight);
+                }
+                newPerObj.per_time = Math.round(perTime);
+                // All the logic taking the values presenting the confirm page.
+                $('#livePer').addClass('hide');
+                $('#newPer').removeClass('hide');
+                $('#setTitle').replaceWith(`<h2>${newPerObj.per_title}</h2>`);
+                if (newPerObj.location) {
+                  $('#setLocation').replaceWith(`<h2>${newPerObj.location}</h2>`);
+                } else {
+                  $('#setLocation').addClass(`hide`);
+                }
+                $('#setTimeDiv').replaceWith(`<div id="jokesPerformedDiv"></div>`);
+                $('#lightTimeDiv').addClass('hide');
+                $('#recordButton').addClass('hide');
+                $('#setOptionsLegend').text('Options');
+                $('#setlistField').addClass('hide');
+                $('#setOptions').prepend(starField);
+                $('#jokesPerformedDiv').append(rawBitsArr);
+                $('#startButton').replaceWith(saveButton);
+                $('#ditchButton').replaceWith(deleteButton);
+                $('#saveButton').click(() => {
+                  newPerObj.rating = $('#theRating').val();
+                  console.log('The rating - ', newPerObj.rating);
+                  $.post('/performances/live', newPerObj)
+                  .done(() => {
+                    console.log(`It's done.`);
+                    window.location.assign('/');
+                  });
+                });
               });
+
+
+
             });
           });
         } else { // Live Performance page without recording audio.
@@ -173,10 +214,17 @@
             $('#setOptionsLegend').text('Options');
             $('#setlistField').addClass('hide');
             $('#setOptions').prepend(starField);
-            $('#jokesPerformedDiv');
-            $.post('/performances/live', newPerObj)
-            .done(() => {
-              console.log(`It's done.`);
+            $('#jokesPerformedDiv').append(rawBitsArr);
+            $('#startButton').replaceWith(saveButton);
+            $('#ditchButton').replaceWith(deleteButton);
+            $('#saveButton').click(() => {
+              newPerObj.rating = $('#theRating').val();
+              console.log('The rating - ', newPerObj.rating);
+              $.post('/performances/live', newPerObj)
+              .done(() => {
+                console.log(`It's done.`);
+                window.location.assign('/');
+              });
             });
           });
         }

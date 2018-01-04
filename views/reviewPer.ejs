@@ -21,6 +21,7 @@
       <% } %>
     </div>
     <div class="row align-center">
+  <% if (per[0].joke_title) {  %>
       <fieldset>
         <legend>Setlist</legend>
         <dl>
@@ -34,6 +35,9 @@
           <% }); %>
         </dl>
       </fieldset>
+  <% } else { %>
+    <p></p>
+  <% } %>
     </div>
     <div class="row align-center">
       <button class="button secondary" id="ditchButton" value="/performances/<%= userID %>">Ditch</button>
