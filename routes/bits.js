@@ -27,71 +27,74 @@ const filterInt = function(value) {
 ////Rendering New Bit Page
 router.get('/:id/new', (req, res, next) => {
   let id = filterInt(req.params.id);
-  console.log(id);
+   console.log(id);
 
-  return knex('labels')
-    .where('labels.user_id', id)
-    .select('*')
-    .then(function(labelsArr) {
-      res.render('../views/newBit.ejs', {
-        onBits: true,
-        userID: id,
-        labels: labelsArr
-      });
-    })
+   return knex('labels')
+     .where('labels.user_id', id)
+     .select('*')
+     .then(function(labelsArr) {
+       res.render('../views/newBit.ejs', {
+         onBits: true,
+         userID: id,
+         labels: labelsArr
+       });
+     })
+   .catch(function(error) {
+     console.log(error);
+     res.sendStatus(500);
+   });
+   })
 
-})
 
-
-////Creating New Bit
+////Creating New bit
 router.post('/:id/new', (req, res, next) => {
-  const id = req.params.id;
-  console.log(id)
-  const newJoke = req.body;
-  console.log(newJoke, "new Joke");
+   const id = req.params.id;
+   console.log(id)
+   const newJoke = req.body;
+   console.log(newJoke, "new Joke");
+ 
+   let joke = {
+ 
+     joke_title: newJoke.joke_title
+   }
+   console.log(joke);
+   let body = {
+     body: newJoke.body
+   }
+   console.log(body);
+   let tag = {
+     tag: newJoke.tag
+   }
+   console.log(tag);
+   let label = {
+ 
+     label: newJoke.label,
+ 
+   }
+   console.log(label);
+ 
+   // knex('labels').insert(label).where('labels.user_id', id).returning('*')
+   //   .then((labels) => {
+   //     joke.label_id = labels[0].label_id;
+   //     return knex('jokes').insert(joke).returning('*')
+   //   }).then((jokes) => {
+   //     body.joke_id = jokes.joke_id;
+   //     return knex('joke_body').insert(body).returning('*')
+   //   })
+   //   .then((body) => {
+   //     tag.joke_id = body[0].joke_id;
+   //     return knex('tags').insert(tag);
+   //   })
+   //   .then(() => {
+   //     res.redirect('../views/bits.ejs')
+   //   })
+ 
+ })
 
-  let joke = {
-
-    joke_title: newJoke.joke_title
-  }
-  console.log(joke);
-  let body = {
-    body: newJoke.body
-  }
-  console.log(body);
-  let tag = {
-    tag: newJoke.tag
-  }
-  console.log(tag);
-  let label = {
-
-    label: newJoke.label,
-
-  }
-  console.log(label);
-
-  // knex('labels').insert(label).where('labels.user_id', id).returning('*')
-  //   .then((labels) => {
-  //     joke.label_id = labels[0].label_id;
-  //     return knex('jokes').insert(joke).returning('*')
-  //   }).then((jokes) => {
-  //     body.joke_id = jokes.joke_id;
-  //     return knex('joke_body').insert(body).returning('*')
-  //   })
-  //   .then((body) => {
-  //     tag.joke_id = body[0].joke_id;
-  //     return knex('tags').insert(tag);
-  //   })
-  //   .then(() => {
-  //     res.redirect('../views/bits.ejs')
-  //   })
-
-})
 
 ////Rendering Bits
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
-  console.log(id);
   let secondLabelArr = [];
   let jokeArr = [];
   //Graabing Jokes
@@ -237,7 +240,7 @@ router.get('/:id/:bitId', (req, res, next) => {
     .then(function() {
       return knex('jokes')
         .leftOuterJoin('labels', 'jokes.label_id', 'labels.label_id')
-        .select('jokes.label_id', 'labels.label_id', 'labels.label')
+        .select('jokes.label_id', 'labels.label_id','labels.label')
         .where('jokes.joke_id', bitId)
     })
     .then(function(labelsArr) {
@@ -276,10 +279,7 @@ router.get('/:id/:bitId', (req, res, next) => {
 
 
 ////Updating Bit - Review Bit
-router.put('/:id/:bitId', (req, res, next)
- => {
-   const id = req.params.id;
-   console.log(id);
+router.put('/:id/:bitId', (req, res, next) => {
   res.redirect('../views/bits.ejs')
 })
 

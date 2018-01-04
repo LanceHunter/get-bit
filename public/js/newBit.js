@@ -18,25 +18,31 @@ $('#saveButton').click(() => { // Click listener for the submit button.
   label = $('#label').val();
 
   if (!jokeTitle || !jokeBody) {
-    $('#joke_title').addClass('error')
-    $('#joke_titleReq').text('Title Required')
-    $('#body').addClass('error')
-    $('#bodyReq').text('Body Required')
+    jokeTitle = $('#joke_title').val();
+ +  jokeBody = $('#body').val();
+    tag = $('#tag').val();
+    label = $('#label').val();
 
-  } else {
-    let newJokeObj = {}
-    newJokeObj = {
-      joke_title: jokeTitle,
-      body: jokeBody,
-      tag: tag,
-      label: label
-    };
+   if (!jokeTitle || !jokeBody) {
+     $('#joke_title').addClass('error')
+     $('#joke_titleReq').text('Title Required')
+     $('#body').addClass('error')
+     $('#bodyReq').text('Body Required')
 
-    $.post('/bits/:id/new', newJokeObj, (result)=>{
-    })
-  }
+   } else {
+     let newJokeObj = {}
+     newJokeObj = {
+       joke_title: jokeTitle,
+       body: jokeBody,
+       tag: tag,
+       label: label
+     };
 
-});
+     $.post('/bits/${userID}/new', newJokeObj, (result)=>{
+     })
+   }
+
+  });
 
   $('#ditchButton').click(() => {
     event.preventDefault();

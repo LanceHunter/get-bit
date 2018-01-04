@@ -18,6 +18,9 @@
   $('#saveButton').click(() => {
     event.preventDefault();
 
+    $.post('/bits/:id/new', updateJoke, (result)=>{
+    })
+
   });
 
 
