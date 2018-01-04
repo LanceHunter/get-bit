@@ -12,11 +12,29 @@ $('#saveButton').click(() => { // Click listener for the submit button.
   event.preventDefault();
   console.log('Button Pressed.');
 
-  jokeTitle = $('#joke_Title').val();
-  jokebody = $('#body').val();
+  jokeTitle = $('#joke_title').val();
+  jokeBody = $('#body').val();
   tag = $('#tag').val();
   label = $('#label').val();
 
+  if (!jokeTitle || !jokeBody) {
+    $('#joke_title').addClass('error')
+    $('#joke_titleReq').text('Title Required')
+    $('#body').addClass('error')
+    $('#bodyReq').text('Body Required')
+
+  } else {
+    let newJokeObj = {}
+    newJokeObj = {
+      joke_title: jokeTitle,
+      body: jokeBody,
+      tag: tag,
+      label: label
+    };
+
+    $.post('/bits/:id/new', newJokeObj, (result)=>{
+    })
+  }
 
 });
 
