@@ -104,7 +104,7 @@
         console.log('Entry is posted - ', perID);
         $('#newPer').addClass('hide');
         $('#livePer').removeClass('hide');
-        if (record) {
+        if (record) { // If the user wants to record the audio.
           $.get('/record')
           .done((replystring) => {
             let replyArr = replystring.split(',');
@@ -137,6 +137,7 @@
           newPerObj.audio = null;
           $('#stopButton').click(() => {
             console.log(newPerObj);
+
             $.post('/performances/live', newPerObj)
             .done(() => {
               console.log(`It's done.`);
@@ -148,7 +149,7 @@
     }
   });
 
-// Functions for recording if it is used.
+// Functions for recording if user selects it. Much of these are from Gabriel Poça at http://codetheory.in/controlling-the-volume-of-an-audio-file-in-javascript/
 function initializeRecorder(stream) {
   var audioContext = window.AudioContext;
   var context = new audioContext();

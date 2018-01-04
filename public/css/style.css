@@ -27,6 +27,9 @@ h2.title {
   background-color: #ff3366;
 }
 
+.recordButton:hover {
+  background-color: #ff3366;
+}
 
 .redButton:hover {
   background-color: #ff69b4;
