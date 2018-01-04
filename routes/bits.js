@@ -42,7 +42,7 @@ const filterInt = function(value) {
 
 ////Rendering New Bit Page
 router.get('/:id/new', (req, res, next) => {
-  let id = filterInt(req.params.id);
+  const id = filterInt(req.params.id);
   console.log(id);
 
   return knex('labels')
@@ -65,7 +65,7 @@ router.get('/:id/new', (req, res, next) => {
 ////Creating New bit
 router.post('/:id/new', (req, res, next) => {
 
-  const id = req.params.id;
+const id = filterInt(req.params.id);
   const newJoke = req.body;
   console.log(req.body)
 
@@ -101,16 +101,12 @@ router.post('/:id/new', (req, res, next) => {
     .then(() => {
       res.redirect(`bits/${id}`)
     })
-
-
 })
-
-
 
 
 ////Rendering Bits
 router.get('/:id', (req, res, next) => {
-  const id = req.params.id;
+  const id = filterInt(req.params.id);
 
   let jokeArr = [];
   //Grabbing Jokes
@@ -178,8 +174,8 @@ router.get('/:id', (req, res, next) => {
 
 ////Rendering individial bit - Review Bit
 router.get('/:id/:bitId', (req, res, next) => {
-  const id = req.params.id;
-  const bitId = req.params.bitId;
+  const id = filterInt(req.params.id);
+  const bitId = filterInt(req.params.bitId);
   let jokeArr = [];
   let perArr = [];
   let tagArr = [];
@@ -300,38 +296,43 @@ router.get('/:id/:bitId', (req, res, next) => {
 
 ////Updating Bit - Review Bit
 router.post('/:id/:bitId', (req, res, next) => {
+  const id = filterInt(req.params.id);
   res.redirect(`bits/${id}`)
 })
 
 
 ////Delete Bit - Review Bit
 router.delete('/:id/:bitId', (req, res, next) => {
+  const id = filterInt(req.params.id);
   res.redirect('../views/bits.ejs')
 })
 
 
 ////Create Label
-router.post('/:id/label', (req, res, next) => {
-  const id = req.params.id;
-  const label = req.body;
-  console.log(label);
+router.post('/:id', (req, res, next) => {
+  const id = filterInt(req.params.id);
+  const newLabel = req.body;
+
+  console.log(newLabel)
   console.log(id)
+
+  let label = {
+    user_id: id,
+    label: newLabel.label
+  }
+  console.log(label);
+   knex('labels').insert(label)
+   .then(()=>{
+
+   })
+
 })
 
-////Adding Label to Bit
-router.post('/:id/:bitId/labelId', (req, res, next) => {
 
-})
-
-
-////Deleting Label from Bit
-router.delete('/:id/:bitId/:labelId', (req, res, next) => {
-
-})
 
 
 ////Delete Label
-router.delete('id:/label/:labelId', (req, res, next) => {
+router.delete('id:/:bitID/:tagID', (req, res, next) => {
 
 })
 

@@ -29,7 +29,7 @@ $('#submitButton').click(() => {
     event.preventDefault();
     window.location.assign($('#saveButton').val());
 
-    $.post('/bits/:id/:bitId', updateJoke, (result)=>{
+    $.post(``, updateJoke, (result)=>{
     })
 
   });

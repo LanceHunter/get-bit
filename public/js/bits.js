@@ -1,29 +1,28 @@
 (function() {
 
-console.log("Lets create a new Label");
+  console.log("Lets create a new Label");
 
-$('#submitButton').click(() => {
-  event.preventDefault();
-  console.log($('#submitButton').val());
+  $('#submitButton').click(() => {
+    event.preventDefault();
+    console.log($('#submitButton').val());
+    label = $('#newLabel').val();
 
+    if (!label) {
+      $('#newLabel').addClass('error')
+      $('#newLabelReq').text('Label Required')
+    } else {
+      window.location.assign($('#submitButton').val());
+      let labelObj = {}
+      labelObj = {
+        label: label
+      };
 
-  label = $('#newLabel').val();
+      $.post(``, labelObj, (results) => {
+        console.log(labelObj)
+      })
+    }
 
-  if (!label){
-    $('#newLabel').addClass('error')
-    $('#newLabelReq').text('Label Required')
-  } else {
-    let labelObj = {}
-    labelObj = {
-      label: label
-    };
-
-    $.post(`/bits/${userID}/label`, labelObj, (results)=>{
-      console.log(labelObj)
-    })
-  }
-
-});
+  });
 
 
 })();
