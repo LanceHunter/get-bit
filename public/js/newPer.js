@@ -27,7 +27,7 @@
                   </div>`;
   let saveButton = `<button class="button large w100" id="saveButton">Save</button>`;
   let deleteButton = `<button class="button large redButton w100" id="deleteButton">Delete</button>`;
-  let confirmDeleteButton = `<a class="button large redButtonOutline w100 text-center" id="confirmDeleteButton">Confirm Delete</a>`;
+  let confirmDeleteButton = `<button class="button outline large redButtonOutLine w100" id="confirmDeleteButton">Confirm Delete</button>`;
 
 
   $('#addSelectButton').click(() => {
@@ -247,8 +247,6 @@
                 });
               });
             });
-
-
 
             $('#saveButton').click(() => {
               newPerObj.rating = $('#theRating').val();

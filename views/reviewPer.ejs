@@ -42,7 +42,7 @@
     <div class="row align-center">
       <button class="button secondary" id="ditchButton" value="/performances/<%= userID %>">Ditch</button>
       <p class="show-sm"></p>
-      <button class="redButton" value="/performances/<%= userID %>/<%= per[0].per_id %>" id="deleteButton">Delete</button>
+      <button class="redButton" value="<%= per[0].per_id %>" id="deleteButton">Delete</button>
       <p class="show-sm"></p>
       <button value="/performances/<%= userID %>/<%= per[0].per_id %>" id="saveButton">Save</button>
     </div>

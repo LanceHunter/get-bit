@@ -16,11 +16,17 @@
 
   $('#deleteButton').click(() => {
     event.preventDefault();
-    let deleteRoute = $('#deleteButton').val();
-    $(`#deleteButton`).replaceWith(`<button class="outline redButtonOutLine" value="/performances/<%= userID %>/<%= per[0].per_id %>" id="finalDeleteButton">Confirm Delete</button>`);
+    let deleteVal = $('#deleteButton').val();
+    console.log('The delete val - ', deleteVal);
+    $(`#deleteButton`).replaceWith(`<button class="outline redButtonOutLine" id="finalDeleteButton">Confirm Delete</button>`);
     $('#finalDeleteButton').click(() => {
-      console.log('Deleting - ', deleteRoute);
-      //Logic for the AJAX delete call goes here later.
+      console.log('Deleting - ', deleteVal);
+      $.ajax({
+        url: `/performances/${deleteVal}`,
+        type: 'DELETE',
+        success : deleteFunction,
+        data: deleteVal
+      });
     });
   });
 
@@ -28,5 +34,9 @@
     event.preventDefault();
     console.log('Adding save/update logic later.');
   });
+
+  function deleteFunction() {
+    window.location.assign('/');
+  }
 
 })();
