@@ -30,7 +30,11 @@
               <%= bit.joke_title %>
             </dt>
             <dd>
-              <label class="checkbox"><input class="jokePerformed" type="checkbox" id="p<%= bit.joke_id %>" checked> Performed</label>
+              <% if (bit.performed) { %>
+                <label class="checkbox"><input class="jokePerformed" type="checkbox" id="p<%= bit.joke_id %>" checked> Performed</label>
+              <% } else { %>
+                <label class="checkbox"><input class="jokePerformed" type="checkbox" id="p<%= bit.joke_id %>">Performed</label>
+              <% } %>
             </dd>
           <% }); %>
         </dl>
