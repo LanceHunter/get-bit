@@ -51,6 +51,10 @@ $('#submitButton').click(() => {
     event.preventDefault();
     window.location.assign($('#saveButton').val());
 
+    let newTitle = $('#joke_title').val();
+    let newBody = $('#body').val();
+    let label = $('#labelSelect').val();
+
     $.post(``, updateJoke, (result)=>{
     })
 

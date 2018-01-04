@@ -95,7 +95,7 @@ const id = filterInt(req.params.id);
         return knex('tags').insert(tag).returning('*')
         }
       })
-    .then(() => {
+    .then((joke) => {
       res.redirect(`bits/${id}`)
     })
 })
