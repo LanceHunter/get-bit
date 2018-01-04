@@ -2,6 +2,7 @@
 
   console.log('I see you.');
   let chosenBits = [];
+  let userID = $('body').attr('id');
   let chosenTitle = '';
   let record = false;
   let givenTime;
@@ -14,6 +15,7 @@
   let weFlash = false;
   let stopPressed = false;
   let bitTitlesArr = [];
+  let rawBitsArr;
   let starField = `<div class="form-item">
                     <label>Rate the set:</label>
                     <select id="theRating">
@@ -28,6 +30,7 @@
   let saveButton = `<button class="button large w100" id="saveButton">Save</button>`;
   let deleteButton = `<button class="button large redButton w100" id="deleteButton">Delete</button>`;
   let confirmDeleteButton = `<button class="button outline large redButtonOutLine w100" id="confirmDeleteButton">Confirm Delete</button>`;
+  let theLight;
 
 
   $('#addSelectButton').click(() => {
@@ -91,7 +94,7 @@
     while (chosenBits.length > 0) {
       chosenBits.pop();
     }
-    let rawBitsArr = $('h5');
+    rawBitsArr = $('h5');
     for (let i=0; i < rawBitsArr.length; i++) {
       chosenBits.push(rawBitsArr[i].id);
       bitTitlesArr.push(`<h2>${rawBitsArr[i].innerText}</h2>`);
@@ -128,7 +131,7 @@
           .done((replystring) => { // Starting the live performance logic.
             createTimer(newPerObj.given_time);
             if (lightTime) {
-              var theLight = window.setTimeout(flashTheLight, (lightTime*60000));
+              theLight = window.setTimeout(flashTheLight, (lightTime*60000));
             }
             let replyArr = replystring.split(',');
             console.log('The reply is: ', replyArr);
@@ -148,66 +151,18 @@
             });
             $('#stopButton').click(() => {
               window.Stream.end();
-              stopPressed = true;
-              if (lightTime) {
-                console.log('Light time - ', lightTime, weFlash);
-                window.clearTimeout(theLight);
-              }
-              newPerObj.per_time = Math.round(perTime);
-              // All the logic taking the values presenting the confirm page.
-              $('#livePer').addClass('hide');
-              $('#newPer').removeClass('hide');
-              $('#setTitle').replaceWith(`<h2>${newPerObj.per_title}</h2>`);
-              if (newPerObj.location) {
-                $('#setLocation').replaceWith(`<h2>${newPerObj.location}</h2>`);
-              } else {
-                $('#setLocation').addClass(`hide`);
-              }
-              $('#setTimeDiv').replaceWith(`<div id="jokesPerformedDiv"></div>`);
-              $('#lightTimeDiv').addClass('hide');
-              $('#recordButton').addClass('hide');
-              $('#setOptionsLegend').text('Options');
-              $('#setlistField').addClass('hide');
-              $('#setOptions').prepend(starField);
-              $('#jokesPerformedDiv').append(rawBitsArr);
-              $('#startButton').replaceWith(saveButton);
-              $('#ditchButton').replaceWith(deleteButton);
-
-              $('#saveButton').click(() => {
-                newPerObj.rating = $('#theRating').val();
-                console.log('The rating - ', newPerObj.rating);
-                $.post('/performances/live', newPerObj)
-                .done(() => {
-                  console.log(`It's done.`);
-                  window.location.assign('/');
-                });
-              });
-
-              $('#deleteButton').click(() => {
-                event.preventDefault();
-                console.log('Delete button was clicked');
-                $('#deleteButton').replaceWith(confirmDeleteButton);
-                $('#confirmDeleteButton').click(() => {
-                  event.preventDefault();
-                  $.ajax({
-                    url: `/performances/${newPerObj.per_id}`,
-                    type: 'DELETE',
-                    success : deleteCall,
-                    data: newPerObj
-                  });
-                });
-              });
-
-
+              confirmPerformancePage();
             });
           });
         } else { // Live Performance page without recording audio.
-          createTimer(newPerObj.given_time);
           newPerObj.audio = null;
+          createTimer(newPerObj.given_time);
           if (lightTime) {
-            var theLight = window.setTimeout(flashTheLight, (lightTime*60000));
+            theLight = window.setTimeout(flashTheLight, (lightTime*60000));
           }
           $('#stopButton').click(() => {
+            confirmPerformancePage();
+            /*
             stopPressed = true;
             if (lightTime) {
               console.log('Light time - ', lightTime, weFlash);
@@ -257,6 +212,7 @@
                 window.location.assign('/');
               });
             });
+*/
           });
         }
       });
@@ -330,7 +286,108 @@ function flashTheLight() {
 }
 
 function deleteCall() {
-  window.location.assign('/');
+  window.location.assign(`/`);
+}
+
+function confirmPerformancePage() {
+  stopPressed = true;
+  if (lightTime) {
+    console.log('Light time - ', lightTime, weFlash);
+    window.clearTimeout(theLight);
+  }
+  newPerObj.per_time = Math.round(perTime);
+  // All the logic taking the values presenting the confirm page.
+  $('#livePer').addClass('hide');
+  $('#newPer').removeClass('hide');
+  $('#setTitle').replaceWith(`<h2>${newPerObj.per_title}</h2>`);
+  if (newPerObj.location) {
+    $('#setLocation').replaceWith(`<h2>${newPerObj.location}</h2>`);
+  } else {
+    $('#setLocation').addClass(`hide`);
+  }
+  $('#setTimeDiv').replaceWith(`<div id="jokesPerformedDiv"></div>`);
+  $('#lightTimeDiv').addClass('hide');
+  $('#recordButton').addClass('hide');
+  $('#setOptionsLegend').text('Options');
+  $('#setlistField').addClass('hide');
+  $('#setOptions').prepend(starField);
+  $('#jokesPerformedDiv').append(`<dl id="performedBitsList"></dl>`);
+  console.log('RawbitsArr - ', rawBitsArr);
+  for (let i=0; i<rawBitsArr.length; i++) {
+    console.log('This bits ID - ', rawBitsArr[i].id);
+    console.log('This bits ID - ', rawBitsArr[i].innerText);
+    $('#performedBitsList').append(`<dt>
+      ${rawBitsArr[i].innerText}
+    </dt>
+    <dd>
+      <label class="checkbox"><input class="jokePerformed" type="checkbox" id="${rawBitsArr[i].id}" checked> Performed</label>
+    </dd>`);
+  }
+
+/*
+
+<dl>
+  <% per.forEach((bit) => { %>
+    <dt>
+      <%= bit.joke_title %>
+    </dt>
+    <dd>
+      <% if (bit.performed) { %>
+        <label class="checkbox"><input class="jokePerformed" type="checkbox" id="p<%= bit.joke_id %>" checked> Performed</label>
+      <% } else { %>
+        <label class="checkbox"><input class="jokePerformed" type="checkbox" id="p<%= bit.joke_id %>">Performed</label>
+      <% } %>
+    </dd>
+  <% }); %>
+</dl>
+
+
+*/
+
+  $('#startButton').replaceWith(saveButton);
+  $('#ditchButton').replaceWith(deleteButton);
+
+  $('#saveButton').click(() => {
+    newPerObj.rating = $('#theRating').val();
+    console.log('Body id - ', userID);
+    let jokesPerformedArr = $('.jokePerformed');
+    let jokeIDArr = [];
+    for (let i=0; i < jokesPerformedArr.length; i++) {
+      jokeIDArr.push(jokesPerformedArr[i].id);
+    }
+    newPerObj.user_id = userID;
+    newPerObj.performedValueArr = jokeIDArr.map((jokeID) => {
+      let idString = jokeID;
+      return {
+        joke_id : idString,
+        performed : document.getElementById(jokeID).checked,
+        per_id : newPerObj.per_id
+      };
+    });
+
+    console.log('The rating - ', newPerObj.rating);
+    $.post('/performances/live', newPerObj)
+    .done(() => {
+      console.log(`It's done.`);
+      window.location.assign(`/performances/${userID}`);
+    });
+  });
+
+  $('#deleteButton').click(() => {
+    event.preventDefault();
+    console.log('Delete button was clicked');
+    $('#deleteButton').replaceWith(confirmDeleteButton);
+    $('#confirmDeleteButton').click(() => {
+      event.preventDefault();
+      $.ajax({
+        url: `/performances/${newPerObj.per_id}`,
+        type: 'DELETE',
+        success : deleteCall,
+        data: newPerObj
+      });
+    });
+  });
+
 }
 
 })();

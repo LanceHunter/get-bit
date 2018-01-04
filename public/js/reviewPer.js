@@ -39,7 +39,7 @@
       $.ajax({
         url: `/performances/${idArr[1]}`,
         type: 'DELETE',
-        success : deleteFunction,
+        success : postAJAXFunction,
         data: deleteVal
       });
     });
@@ -65,11 +65,24 @@
         per_id : idArr[1]
       };
     });
-    console.log('performedValueArr - ', performedValueArr);
+    let putObj = {
+      rating : newRating,
+      performanceArr : performedValueArr
+    };
+    if (!newRating && (performedValueArr.length===0)) {
+      postAJAXFunction();
+    }
+    $.ajax({
+      url: `/performances/${idArr[1]}`,
+      type: 'PUT',
+      success : postAJAXFunction,
+      data: putObj
+    });
   });
 
-  function deleteFunction() {
-    window.location.assign('/');
+  function postAJAXFunction() {
+    window.location.assign(`/performances/${idArr[0]}`);
   }
+
 
 })();
