@@ -17,12 +17,6 @@ $('#saveButton').click(() => { // Click listener for the submit button.
   tag = $('#tag').val();
   label = $('#label').val();
 
-  if (!jokeTitle || !jokeBody) {
-    jokeTitle = $('#joke_title').val();
- +  jokeBody = $('#body').val();
-    tag = $('#tag').val();
-    label = $('#label').val();
-
    if (!jokeTitle || !jokeBody) {
      $('#joke_title').addClass('error')
      $('#joke_titleReq').text('Title Required')
@@ -31,6 +25,7 @@ $('#saveButton').click(() => { // Click listener for the submit button.
 
    } else {
      let newJokeObj = {}
+
      newJokeObj = {
        joke_title: jokeTitle,
        body: jokeBody,
@@ -38,12 +33,10 @@ $('#saveButton').click(() => { // Click listener for the submit button.
        label: label
      };
 
-     $.post('/bits/${userID}/new', newJokeObj, (result)=>{
+     $.post(``, newJokeObj, (result)=>{
      })
-   }
-
-  });
-
+ }
+})
   $('#ditchButton').click(() => {
     event.preventDefault();
     console.log($('#ditchButton').val());

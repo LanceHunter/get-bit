@@ -24,15 +24,11 @@
           <div class="form-item">
             <input type="tags" name="tags" class="w100" id="tag">
           </div>
-          <div class="append">
-            <select id="tagSelect">
-          </select>
-            <button class="button outline" id="tagSelectButton">+</button>
-          </div>
+        
           <p></p>
 
           <div class="form-item">
-            <label><center>Label</center></label>
+            <label>Label</label>
             <select id="labelSelect">
                 <option value =""></option>
               <% labels.forEach((lab) => { %>
@@ -46,7 +42,7 @@
         </form>
         </div>
 
-        <button class="button large w100" id="saveButton">Save</button>
+        <button class="button large w100" id="saveButton" value="/bits/<%=userID %>" >Save</button>
         <p></p>
         <button class="button large w100 secondary" id="ditchButton" value="/bits/<%=userID %>">Ditch</button>
         <p></p>

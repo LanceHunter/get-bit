@@ -1,4 +1,8 @@
 (function() {
+
+console.log("Updating Bit");
+
+
   $('#ditchButton').click(() => {
     event.preventDefault();
     console.log($('#ditchButton').val());
