@@ -2,6 +2,12 @@
 
 console.log("Updating Bit");
 
+$('#submitButton').click(() => {
+  event.preventDefault();
+  console.log($('#submitButton').val());
+  window.location.assign($('#submitButton').val());
+});
+
 
   $('#ditchButton').click(() => {
     event.preventDefault();
@@ -21,8 +27,9 @@ console.log("Updating Bit");
 
   $('#saveButton').click(() => {
     event.preventDefault();
+    window.location.assign($('#saveButton').val());
 
-    $.post('/bits/:id/new', updateJoke, (result)=>{
+    $.post(``, updateJoke, (result)=>{
     })
 
   });

@@ -11,21 +11,18 @@ let label = [];
 $('#saveButton').click(() => { // Click listener for the submit button.
   event.preventDefault();
   console.log('Button Pressed.');
+  window.location.assign($('#saveButton').val());
 
   jokeTitle = $('#joke_title').val();
   jokeBody = $('#body').val();
   tag = $('#tag').val();
-  label = $('#label').val();
+  label = $('#labelSelect').val();
 
    if (!jokeTitle || !jokeBody) {
      $('#joke_title').addClass('error')
      $('#joke_titleReq').text('Title Required')
      $('#body').addClass('error')
      $('#bodyReq').text('Body Required')
-
-
-
-
 
    } else {
      let newJokeObj = {}
