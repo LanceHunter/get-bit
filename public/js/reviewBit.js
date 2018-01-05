@@ -51,34 +51,32 @@
 
   $('#saveButton').click(() => {
     event.preventDefault();
+    let updateVal = [];
+    updateVal.push({
+      updateId: $('#saveButton').val()
+    });
 
-    let updateVal = $('#saveButton').val();
     let newTitle = $('#joke_title').val();
     let newBody = $('#body').val();
     let newLabel = $('#labelSelect').val();
 
+    console.log(newLabel);
+
     let updateObj = {};
 
     updateObj = {
-      joke_id: updateVal,
       joke_title: newTitle,
       body: newBody,
       label_id: newLabel
     }
 
-    console.log(updateObj, "update obeject");
-
     $.ajax({
-      url: `/bits/${userID}/${updateVal}`,
+      url: `/bits/${userID}/${updateVal[0].updateId}`,
       method: "PUT",
       data: updateObj,
-      dataType: 'json',
       success: postAjax
     });
-
   });
-
-
 
   function postAjax() {
     console.log("postAjax is working");

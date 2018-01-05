@@ -298,9 +298,33 @@ router.get('/:id/:bitId', (req, res, next) => {
 router.put('/:id/:bitId', (req, res, next) => {
   const id = filterInt(req.params.id);
   const bitId = filterInt(req.params.bitId);
+  const joke = req.body;
+console.log("wtf is going on", req.body);
 
-  console.log(req.body);
-  res.redirect(`bits/${id}`)
+  let title = {
+    joke_title: joke.joke_title,
+    label_id: filterInt(joke.label_id)
+  }
+  let body = {
+    body: joke.body
+  }
+
+  knex('jokes')
+  .where('joke_id', bitId)
+  .update(title)
+  .then(()=>{
+    console.log("wtf")
+    return knex('joke_body')
+    .where('joke_id', bitId)
+    .update(body)
+  }).then(() => {
+    res.sendStatus(200);
+  })
+  .catch((err) => {
+    console.error('Error while updating', err);
+    res.sendStatus(500);
+  })
+
 })
 
 
