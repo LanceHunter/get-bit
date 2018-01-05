@@ -371,26 +371,25 @@ router.post('/:id/:bitId', (req, res, next) => {
 })
 
 ////Create Label
-router.post('/:id', (req, res, next) => {
+router.post('/newLabel', (req, res, next) => {
   const id = filterInt(req.params.id);
   const newLabel = req.body;
 
-  console.log(newLabel)
-  console.log(id)
+  console.log(newLabel, 'body of label')
+
 
   let label = {
-    user_id: id,
+
+    user_id: filterInt(newLabel.user_id),
     label: newLabel.label
   }
-  console.log(label);
+  console.log(label, "obeject");
   knex('labels').insert(label)
     .then(() => {
 
     })
 
 })
-
-
 
 
 ////Delete Label

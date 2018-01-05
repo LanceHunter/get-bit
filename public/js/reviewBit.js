@@ -11,7 +11,7 @@
       $('#newTag').addClass('error')
       $('#newTagReq').text('Please Enter a New Tag')
     } else {
-      window.location.assign($('#submitButton').val());
+      // window.location.assign($('#submitButton').val());
       let tagObj = {}
       tagObj = {
         tag: tag
@@ -20,6 +20,31 @@
       $.post(``, tagObj, (results) => {
         console.log(tagObj)
       })
+        window.location.reload();
+    }
+
+  });
+
+  $('#labelsubmitButton').click(() => {
+    event.preventDefault();
+
+    label = $('#newLabel').val();
+    console.log(label)
+    if (!label) {
+      $('#newLabel').addClass('error')
+      $('#newLabelReq').text('Label Required')
+    } else {
+
+      let labelObj = {}
+      labelObj = {
+        user_id: userID,
+        label: label
+      };
+
+      $.post(`/bits/newLabel`, labelObj, (results) => {
+        console.log(labelObj)
+      })
+      window.location.reload();
     }
 
   });
