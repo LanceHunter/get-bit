@@ -50,7 +50,7 @@ let lance = {
       location : 'Institution Theatre',
       given_time : 420,
       per_time : 400,
-      audio : 'http://lancehunter.net/example/test-audio.flac',
+      audio : '/static/audio/test.mp3',
       rating : 4,
       date : '2018-01-01 13:46:23.405289-06'
     },
@@ -59,7 +59,7 @@ let lance = {
       location : 'Institution Theatre',
       given_time : 420,
       per_time : 415,
-      audio : 'http://lancehunter.net/example/test-audio.flac',
+      audio : '/static/audio/test.mp3',
       rating : 2,
       date : '2018-12-05 13:46:23.405289-06'
     },
@@ -68,7 +68,7 @@ let lance = {
       location : 'Institution Theatre',
       given_time : 420,
       per_time : 435,
-      audio : 'http://lancehunter.net/example/test-audio.flac',
+      audio : '/static/audio/test.mp3',
       rating : 4,
       date : '2017-12-01 13:46:23.405289-06'
     }
@@ -87,7 +87,7 @@ let paige = {
               { body : `This is the second body of bit 1`,
                 created_at : '2018-01-01 12:37:14.34731-06'
               },
-              { body : `This is the third body of bit 1`,
+              { body : `What is people played baseball in canoes? That would be crazy, right? I mean, the water is so wet, and baseball is SO DRY!`,
                 created_at : '2018-01-01 12:37:23.690095-06'
               }
             ],
@@ -109,19 +109,19 @@ let paige = {
               { body : `This is the second body of bit 2`,
                 created_at : '2018-01-01 12:37:14.34731-06'
               },
-              { body : `This is the third body of bit 2`,
+              { body : `I watch so many shows on The Smithsonian channel, and they always have these lists shows about really generic topics. Shows that are just "top 5 airplanes!" How can you rate the top 5 airplanes? Who is the judge of these top 5s? So here's my list of Top 5 Explosions!`,
                 created_at : '2018-01-01 12:37:23.690095-06'
               }
             ],
             tags : [
-              'Tag1',
-              'Tag2'
+              `Yosemite's gonna go eventually!`,
+              `Or how I bombed tonight!`
             ]
           },
           {
             joke_title : 'Restaurants are everywhere',
             body : [
-              { body : `This is the first body of bit 3`,
+              { body : `I was making this project for quarter 1, about finding restaurants. There are SO MANY!`,
                 created_at : '2018-01-01 12:36:21.379288-06'
               }
             ],
@@ -130,19 +130,65 @@ let paige = {
           {
             joke_title : 'The story about that time I did that thing',
             body : [
-              { body : `This is the first body of bit 4`,
+              { body : `Telling a story, but never using any proper nouns. Everything is always as generic as possible.`,
                 created_at : '2018-01-01 12:36:21.379288-06'
               }
             ],
             tags : []
-          }],
+          },
+          {
+            joke_title : 'Farts getting faster',
+            body : [
+              { body : `This is the first body of bit 1`,
+                created_at : '2018-01-01 12:36:21.379288-06'
+              },
+              { body : `This is the second body of bit 1`,
+                created_at : '2018-01-01 12:37:14.34731-06'
+              },
+              { body : `When I was a kid I remember people farting all the time. Now that I'm an adult, nobody farts. When's the last time you heard a fart in public? Are farts just getting faster?`,
+                created_at : '2018-01-01 12:37:23.690095-06'
+              }
+            ],
+            tags : [
+              'Fart fury',
+              'Brenner liked this',
+              `Can't do this one in Oklahoma`
+            ]
+          },
+          {
+            joke_title : 'Forgetting how to type',
+            body : [
+              { body : `This is the first body of bit 2`,
+                created_at : '2018-01-01 12:16:21.379288-06'
+              },
+              { body : `ouh;oenub;soruntbs;rgbnr;tjbnsr;tbjnrstb`,
+                created_at : '2018-01-01 12:38:12.236263-06'
+              }
+            ],
+            tags : [
+              'Typing is hard',
+              `That's why Siri is the future!`
+            ]
+          },
+          {
+            joke_title : 'Tech bros',
+            body : [
+              { body : `SO. MANY. BROS.`,
+                created_at : '2018-01-01 12:39:44.434804-06'
+              }
+            ],
+            tags : []
+          },
+
+
+        ],
   performances : [
     {
       per_title : 'Reordered Mic',
       location : 'Kick Butt Coffee',
       given_time : 300,
       per_time : 290,
-      audio : 'http://lancehunter.net/example/test-audio.flac',
+      audio : '/static/audio/test.mp3',
       rating : 2,
       date : '2018-01-01 13:46:23.405289-06'
     },
@@ -151,7 +197,7 @@ let paige = {
       location : 'Cap City Comedy Club',
       given_time : 300,
       per_time : 295,
-      audio : 'http://lancehunter.net/example/test-audio.flac',
+      audio : '/static/audio/test.mp3',
       rating : 4,
       date : '2018-12-05 13:46:23.405289-06'
     },
@@ -160,7 +206,7 @@ let paige = {
       location : 'Spiderhouse Ballroom',
       given_time : 900,
       per_time : 899,
-      audio : 'http://lancehunter.net/example/test-audio.flac',
+      audio : '/static/audio/test.mp3',
       rating : 5,
       date : '2017-12-01 13:46:23.405289-06'
     },
@@ -169,7 +215,7 @@ let paige = {
       location : 'Coldtowne Theatre',
       given_time : 300,
       per_time : 280,
-      audio : 'http://lancehunter.net/example/test-audio.flac',
+      audio : '/static/audio/test.mp3',
       rating : 4,
       date : '2017-10-01 13:46:23.405289-06'
     },
@@ -178,9 +224,36 @@ let paige = {
       location : 'The Velv',
       given_time : 300,
       per_time : 290,
-      audio : 'http://lancehunter.net/example/test-audio.flac',
+      audio : '/static/audio/test.mp3',
       rating : 4,
       date : '2017-11-01 13:46:23.405289-06'
+    },
+    {
+      per_title : 'Laugh Out Proud',
+      location : 'Institution Theatre',
+      given_time : 420,
+      per_time : 400,
+      audio : '/static/audio/test.mp3',
+      rating : 4,
+      date : '2018-01-01 13:46:23.405289-06'
+    },
+    {
+      per_title : 'Laugh Out Proud',
+      location : 'Institution Theatre',
+      given_time : 420,
+      per_time : 415,
+      audio : '/static/audio/test.mp3',
+      rating : 2,
+      date : '2018-12-05 13:46:23.405289-06'
+    },
+    {
+      per_title : 'Laugh Out Proud',
+      location : 'Institution Theatre',
+      given_time : 420,
+      per_time : 435,
+      audio : '/static/audio/test.mp3',
+      rating : 4,
+      date : '2017-12-01 13:46:23.405289-06'
     }
   ]
 
