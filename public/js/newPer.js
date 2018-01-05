@@ -144,7 +144,7 @@
             navigator.mediaDevices.getUserMedia(session)
             .then(initializeRecorder)
             .catch((err) => $('#livePer').append(`<h2>${err}<h2>`));
-            var client = new BinaryClient(`ws://getbit.herokuapp.com/:${replyArr[0]}`);
+            var client = new BinaryClient(`wss://getbit.herokuapp.com/:${replyArr[0]}`);
             client.on('open', function() {
               console.log('stream is open');
               window.Stream = client.createStream();
