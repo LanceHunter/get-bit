@@ -62,7 +62,7 @@
                         </option>
 
               <% } else {%>
-              <option value="<%= bit.user_id%>">
+              <option value="<%= bit.label_id%>">
                   <%= bit.label %>
               </option>
                       <% }%>
@@ -70,7 +70,7 @@
                     <% label.forEach((lab) => { %>
 
                       <option
-                        value="<%= lab.label_id %>" id="label">
+                        value="<%= lab.label_id %>" id="labelSelect">
                         <%= lab.label %>
                       </option>
 
@@ -109,7 +109,7 @@
         <button class="redButton" value="<%= bit.joke_id%>" id="deleteButton">Delete</button>
 
         <p class="show-sm"></p>
-        <button value="" id="saveButton">Save</button>
+        <button value="<%= bit.joke_id%>" id="saveButton">Save</button
       </div>
   <% }); %>
 </body>

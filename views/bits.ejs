@@ -16,19 +16,19 @@
 
       <p></p>
 
-      <div class="row align-center">
+      <!-- <div class="row align-center">
         <form class="form w50 w100-sm">
           <div class="form-item">
             <input type="text" class="search" id="searchBar">
           </div>
         </form>
-      </div>
+      </div> -->
 
       <div class="row align-center">
-        <ul class="unstyled large">
+        <dl>
           <% bits.forEach(function(bit) { %>
 
-              <li>
+              <dt class="large">
                 <a href="/bits/<%= bit.user_id%>/<%= bit.joke_id %>">
                   <%= bit.joke_title %>
                 </a>
@@ -36,9 +36,9 @@
                   <span class="label upper focus"><%= bit.label %></span>
                   <% } %>
 
-              </li>
+              </dt>
               <% }); %>
-        </ul>
+        </dd>
       </div>
       <p></p>
 
@@ -47,7 +47,7 @@
         <form class="form w50 w100-sm">
 
           <div class="form-item">
-            <label><center>Search for Labels</center></label>
+            <label>Current Labels</label>
             <div class="append">
               <select id="labelSelect">
                   <option value =""></option>
@@ -63,7 +63,7 @@
           </div>
 
           <div class="form-item">
-            <label><center>Create New Label<span class="req" id="newLabelReq"></span></center></label>
+            <label>Create New Label<span class="req" id="newLabelReq"></span></label>
             <div class="append">
               <input type="text" name="label" id="newLabel">
               <button class="button" id="submitButton">+</button>
