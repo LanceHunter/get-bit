@@ -16,19 +16,19 @@
             <% let starKey = bit.avg %>
 
               <div class="form-item">
-                <label>Title</label>
+                <label><h6>Title</h6></label>
                 <input type="title" name="joke_title" id="joke_title" value="<%= bit.joke_title%>" class="w100">
               </div>
-              <label>Average Rating</label>
+              <label><h6>Average Rating</h6></label>
               <% include ./partials/stars.ejs%>
                 <p></p>
                 <div class="form-item">
-                  <label>Body</label>
+                  <label><h6>Body<h6></label>
                   <textarea col="12" row="12" name="body" id="body"><%= bit.body%></textarea>
                 </div>
 
 
-                <div class="form-item">
+                <!-- <div class="form-item">
                   <label>Current Tags</label>
                   <div class="append">
                     <select class="w100" id="tagSelect">
@@ -37,26 +37,41 @@
                   <option name="tag" value="<%= tag.joke_id%>">
                     <%= tag.tag %>
                   </option>
-                  <% }); %>
+                <% }); %>
                 </select>
-                <button class="redButton">Delete</button>
-              </div>
-              </div>
-              <p></p>
-              <div class="form-item">
-                <label>New Tag<span class="req" id="newTagReq"></span></label>
-                <div class="append">
-                  <input type="text" name="tag" id="newTag">
-                  <button class="button" id="submitButton">+</button>
+
+                    <button class="redButton" id="tagDeleteButton" value="">Delete</button>
+                  </div>
+                </div> -->
+
+
+                <div class="form-item">
+                  <label><h6>Current Tags</h6></label>
+                  <select class="tags" multiple="multiple" size="10">
+                            <% tags.forEach(function(tag) { %>
+                            <optgroup>
+                                <option value="<%= tag.joke_id%>"><%= tag.tag %></option>
+                            </optgroup>
+                              <% }); %>
+                        </select>
                 </div>
-              </div>
-            <p></p>
-              <div class="form-item">
-                <label>Label</label>
+
+                <p></p>
+                <div class="form-item">
+                  <label><h6>New Tag</h6><span class="req" id="newTagReq"></span></label>
                   <div class="append">
-                  <select class="w100" id="labelSelect">
+                    <input type="text" name="tag" id="newTag">
+                    <button class="button" id="submitButton">+</button>
+                  </div>
+                </div>
+                <p></p>
+                <div class="form-item">
+                  <label><h6>Label<h6></label>
+                  <div class="append">
+                    <select class="w100" id="labelSelect">
           <% }); %>
           <% bitObj.forEach(function(bit) { %>
+
               <% if (!bit.label) { %>
           <option value="">
                         </option>
@@ -67,8 +82,8 @@
               </option>
                       <% }%>
                   <% }); %>
-                    <% label.forEach((lab) => { %>
 
+                    <% label.forEach((lab) => { %>
                       <option
                         value="<%= lab.label_id %>" id="labelSelect">
                         <%= lab.label %>
@@ -76,16 +91,18 @@
 
                     <% }); %>
                   </select>
+                  </div>
                 </div>
-            </div>
       </div>
-    </div>
+      </div>
 
       </form>
 
       <div class="row align-center">
         <fieldset>
+
           <legend>Performances</legend>
+
 
           <ul class="unstyled large">
             <% pers.forEach(function(per) { %>
@@ -102,14 +119,14 @@
       </fieldset>
 
       <div class="row align-center">
-<% bitObj.forEach(function(bit) { %>
-        <button class="button secondary" id="ditchButton" value="/bits/<%=userID %>">Ditch</button>
-    <p class="show-sm"></p>
-        <p class="show-sm"></p>
-        <button class="redButton" value="<%= bit.joke_id%>" id="deleteButton">Delete</button>
+        <% bitObj.forEach(function(bit) { %>
+          <button class="button secondary" id="ditchButton" value="/bits/<%=userID %>">Ditch</button>
+          <p class="show-sm"></p>
+          <p class="show-sm"></p>
+          <button class="redButton" value="<%= bit.joke_id%>" id="deleteButton">Delete</button>
 
-        <p class="show-sm"></p>
-        <button value="<%= bit.joke_id%>" id="saveButton">Save</button
+          <p class="show-sm"></p>
+          <button value="<%= bit.joke_id%>" id="saveButton">Save</button
       </div>
   <% }); %>
 </body>

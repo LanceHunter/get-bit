@@ -12,7 +12,7 @@
   $('#saveButton').click(() => { // Click listener for the submit button.
     event.preventDefault();
     console.log('Button Pressed.');
-    window.location.assign($('#saveButton').val());
+
 
     jokeTitle = $('#joke_title').val();
     jokeBody = $('#body').val();
@@ -28,6 +28,7 @@
       $('#bodyReq').text('Body Required')
 
     } else {
+      window.location.assign($('#saveButton').val());
       let newJokeObj = {}
 
       newJokeObj = {

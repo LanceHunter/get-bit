@@ -262,10 +262,10 @@ router.get('/:id/:bitId', (req, res, next) => {
       return knex('jokes')
         .leftOuterJoin('labels', 'jokes.label_id', 'labels.label_id')
         .select('labels.label', 'labels.label_id')
-        .where('jokes.user_id', id)
+        .where('jokes.joke_id', bitId)
     })
     .then(function(labelsArr) {
-      console.log(labelsArr)
+      console.log(labelsArr, "here")
       jokeArr.forEach((joke, index) => {
         joke.label = labelsArr[index].label
       })
@@ -277,6 +277,8 @@ router.get('/:id/:bitId', (req, res, next) => {
         .select('labels.label', 'labels.label_id')
     })
     .then(function(labArr) {
+      console.log(labArr, "labels");
+      console.log(jokeArr, "jokes");
       res.render('../views/reviewBit.ejs', {
         onBits: true,
         userID: id,
@@ -305,6 +307,7 @@ console.log("wtf is going on", req.body);
     joke_title: joke.joke_title,
     label_id: filterInt(joke.label_id)
   }
+  console.log(title);
   let body = {
     body: joke.body
   }
