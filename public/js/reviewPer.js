@@ -39,8 +39,7 @@
       $.ajax({
         url: `/performances/${idArr[1]}`,
         type: 'DELETE',
-        success : postAJAXFunction,
-        data: deleteVal
+        success : postAJAXFunction
       });
     });
   });
