@@ -1,28 +1,28 @@
 (function() {
-let userID = $("body").attr('id')
-console.log("Updating Bit");
+  let userID = $("body").attr('id')
+  console.log("Updating Bit");
 
-$('#submitButton').click(() => {
-  event.preventDefault();
-  console.log($('#submitButton').val());
-  tag = $('#newTag').val();
+  $('#submitButton').click(() => {
+    event.preventDefault();
+    console.log($('#submitButton').val());
+    tag = $('#newTag').val();
 
-  if (!tag) {
-    $('#newTag').addClass('error')
-    $('#newTagReq').text('Please Enter a New Tag')
-  } else {
-    window.location.assign($('#submitButton').val());
-    let tagObj = {}
-    tagObj = {
-      tag: tag
-    };
+    if (!tag) {
+      $('#newTag').addClass('error')
+      $('#newTagReq').text('Please Enter a New Tag')
+    } else {
+      window.location.assign($('#submitButton').val());
+      let tagObj = {}
+      tagObj = {
+        tag: tag
+      };
 
-    $.post(``, tagObj, (results) => {
-      console.log(tagObj)
-    })
-  }
+      $.post(``, tagObj, (results) => {
+        console.log(tagObj)
+      })
+    }
 
-});
+  });
 
 
   $('#ditchButton').click(() => {
@@ -34,8 +34,10 @@ $('#submitButton').click(() => {
   $('#deleteButton').click(() => {
     event.preventDefault();
     let deleteVal = [];
-  deleteVal.push({deleteId: $('#deleteButton').val()});
-  console.log(deleteVal);
+    deleteVal.push({
+      deleteId: $('#deleteButton').val()
+    });
+    console.log(deleteVal);
     $(`#deleteButton`).replaceWith(`<button class="outline redButtonOutLine" id="finalDeleteButton">Confirm Delete</button>`);
     $('#finalDeleteButton').click(() => {
       $.ajax({
@@ -49,28 +51,36 @@ $('#submitButton').click(() => {
 
   $('#saveButton').click(() => {
     event.preventDefault();
-    window.location.assign($('#saveButton').val());
 
+    let updateVal = $('#saveButton').val();
     let newTitle = $('#joke_title').val();
     let newBody = $('#body').val();
-    let label = $('#labelSelect').val();
+    let newLabel = $('#labelSelect').val();
 
-    $.post(``, updateJoke, (result)=>{
-    })
+    let updateObj = {};
+
+    updateObj = {
+      joke_id: updateVal,
+      joke_title: newTitle,
+      body: newBody,
+      label_id: newLabel
+    }
+
+    console.log(updateObj, "update obeject");
+
+    $.ajax({
+      url: `/bits/${userID}/${updateVal}`,
+      method: "PUT",
+      data: updateObj,
+      dataType: 'json',
+      success: postAjax
+    });
 
   });
 
-  // $.ajax({
-  //   url : '/accounts/update',
-  //   method : "PUT",
-  //   data : updateJoke,
-  //   dataType: 'json',
-  //   success : function(data) {
-  //     console.log(data);
-  //     window.location.assign('/');
-  //   }
 
-  function postAjax(){
+
+  function postAjax() {
     console.log("postAjax is working");
     window.location.assign(`/bits/${userID}`)
 

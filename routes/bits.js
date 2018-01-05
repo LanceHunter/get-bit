@@ -65,7 +65,7 @@ router.get('/:id/new', (req, res, next) => {
 ////Creating New bit
 router.post('/:id/new', (req, res, next) => {
 
-const id = filterInt(req.params.id);
+  const id = filterInt(req.params.id);
   const newJoke = req.body;
   console.log(req.body, "new joke")
 
@@ -88,13 +88,13 @@ const id = filterInt(req.params.id);
       body.joke_id = jokes[0].joke_id;
       return knex('joke_body').insert(body).returning('*')
     }).then((body) => {
-      if (!tag.tag){
+      if (!tag.tag) {
         return;
-      }  else {
+      } else {
         tag.joke_id = body[0].joke_id;
         return knex('tags').insert(tag).returning('*')
-        }
-      })
+      }
+    })
     .then((joke) => {
       res.redirect(`bits/${id}`)
     })
@@ -139,8 +139,8 @@ router.get('/:id', (req, res, next) => {
     })
     .then(function(labelArr) {
       jokeArr.forEach((joke, index) => {
-        labelArr.forEach((label)=>{
-          if (label.label_id === joke.label_id){
+        labelArr.forEach((label) => {
+          if (label.label_id === joke.label_id) {
             joke.label = label.label
           }
         })
@@ -182,7 +182,7 @@ router.get('/:id/:bitId', (req, res, next) => {
 
   //Grabbing Jokes
   knex('jokes')
-  .select('*')
+    .select('*')
     .where('jokes.joke_id', bitId)
     .then(function(jokes) {
       jokeArr = jokes.map((joke) => {
@@ -297,29 +297,12 @@ router.get('/:id/:bitId', (req, res, next) => {
 ////Updating Bit - Review Bit
 router.put('/:id/:bitId', (req, res, next) => {
   const id = filterInt(req.params.id);
+  const bitId = filterInt(req.params.bitId);
+
+  console.log(req.body);
   res.redirect(`bits/${id}`)
 })
 
-///New Tag - Review Page
-
-router.post('/:id/:bitId', (req, res, next) => {
-  const id = filterInt(req.params.id);
-  const bitId = filterInt(req.params.bitId);
-  const newTag = req.body;
-
-
-
-  let tag = {
-    joke_id: bitId,
-    tag: newTag.tag
-  }
-  console.log(tag);
-   knex('tags').insert(tag)
-   .then(()=>{
-
-   })
-
-})
 
 
 ////Delete Bit - Review Bit
@@ -330,18 +313,35 @@ router.delete('/:id/:bitId', (req, res, next) => {
   console.log("wtf is going on", req.body);
 
   knex('jokes_performances').where('joke_id', bitId).del()
-  .then(()=>{
-    return knex('jokes').where('joke_id', bitId).del();
-  })
-  .then(()=>{
-    res.sendStatus(200);
-  })
-  .catch((err) => {
-    console.error('Error while deleting - ', err);
-    res.sendStatus(500);
-  })
+    .then(() => {
+      return knex('jokes').where('joke_id', bitId).del();
+    })
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('Error while deleting - ', err);
+      res.sendStatus(500);
+    })
 })
 
+///New Tag - Review Page
+router.post('/:id/:bitId', (req, res, next) => {
+  const id = filterInt(req.params.id);
+  const bitId = filterInt(req.params.bitId);
+  const newTag = req.body;
+
+  let tag = {
+    joke_id: bitId,
+    tag: newTag.tag
+  }
+  console.log(tag);
+  knex('tags').insert(tag)
+    .then(() => {
+
+    })
+
+})
 
 ////Create Label
 router.post('/:id', (req, res, next) => {
@@ -356,10 +356,10 @@ router.post('/:id', (req, res, next) => {
     label: newLabel.label
   }
   console.log(label);
-   knex('labels').insert(label)
-   .then(()=>{
+  knex('labels').insert(label)
+    .then(() => {
 
-   })
+    })
 
 })
 
