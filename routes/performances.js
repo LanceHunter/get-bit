@@ -1,8 +1,8 @@
 'use strict';
 
 //Setting up knex
-const env = 'development';
-const config = require('../knexfile.js')[production];
+const env = 'production';
+const config = require('../knexfile.js')[env];
 const knex = require('knex')(config);
 
 //Setting up FS (for deleting audio files)
