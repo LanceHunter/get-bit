@@ -305,6 +305,7 @@ console.log("wtf is going on", req.body);
     joke_title: joke.joke_title,
     label_id: filterInt(joke.label_id)
   }
+  console.log(title);
   let body = {
     body: joke.body
   }
