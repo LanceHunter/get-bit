@@ -2,7 +2,7 @@
 
 //Setting up knex
 const env = 'development';
-const config = require('../knexfile.js')[env];
+const config = require('../knexfile.js')[production];
 const knex = require('knex')(config);
 
 //Setting up FS (for deleting audio files)
