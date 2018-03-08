@@ -24,19 +24,19 @@ const filterInt = function(value) {
 // const labelId = req.params.labelId; label_id
 
 // Authorization middleware. Reroutes to / if user isn't logged in to the account they want to access.
-// router.get('/:id/new' , (req, res, next) => {
-//   let sessionID = filterInt(req.session.userID);
-//   let paramsID = filterInt(req.params.id);
-//   console.log('The session ID - ', req.session.userID);
-//   console.log('The user ID - ', req.params.id);
-//   if (sessionID === paramsID) {
-//     console.log('params ID and user ID match.');
-//     next();
-//   } else {
-//     console.log(`params ID and user ID don't match.`);
-//     res.redirect('/');
-//   }
-// });
+router.get('/:id/new' , (req, res, next) => {
+  let sessionID = filterInt(req.session.userID);
+  let paramsID = filterInt(req.params.id);
+  console.log('The session ID - ', req.session.userID);
+  console.log('The user ID - ', req.params.id);
+  if (sessionID === paramsID) {
+    console.log('params ID and user ID match.');
+    next();
+  } else {
+    console.log(`params ID and user ID don't match.`);
+    res.redirect('/');
+  }
+});
 
 
 
