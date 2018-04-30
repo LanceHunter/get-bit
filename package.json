@@ -21,6 +21,7 @@
     "bcrypt": "^1.0.3",
     "binaryjs": "^0.2.1",
     "body-parser": "^1.18.2",
+    "dotenv": "^5.0.1",
     "ejs": "^2.5.7",
     "eslint": "^4.13.1",
     "express": "^4.16.2",

@@ -9,6 +9,8 @@ const morgan = require('morgan');
 const app = express();
 const port = process.env.PORT || 8888;
 
+
+
 // Requiring the code for the accounts, jokes, and perofmrnaces routes.
 const accountsRoute = require('./routes/accounts.js');
 const bitsRoute = require('./routes/bits.js');
@@ -34,7 +36,7 @@ app.use(morgan('short'));
 
 // Middleware. Setting up session.
 app.use(session({
-  secret: 'pure comedy',
+  secret: process.env.SESSIONSECRET,
   resave: false,
   saveUninitialized: true,
   cookie : {
