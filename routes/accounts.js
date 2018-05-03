@@ -126,7 +126,7 @@ router.put('/update', (req, res, next) => {
   if (req.session.userID) {
     next();
   } else {
-    res.sendStatus(401);
+    res.status(401).send('You must be logged in to update account information.');
   }
 });
 
