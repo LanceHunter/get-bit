@@ -62,22 +62,22 @@ router.get('/update', (req, res) => {
 // The page for getting the user logged in.
 router.post('/login', (req, res) => {
   let userObj = req.body;
-  console.log(userObj);
+//  console.log(userObj);
   knex.select('*').from('users').where('user_name', userObj.email)
   .then((result) => {
-    console.log(result);
+//    console.log(result);
     if (result.length===0) {
-      return res.send('no account with that email');
+      return res.send(401).send('Account name or password incorrect');
     }
     return bcrypt.compare(userObj.password, result[0].password)
     .then ((loginCheck) => {
       if (loginCheck) { // If the passwords match, login and redirect to their bits page.
         res.cookie('user', '1', { maxAge: 900000, httpOnly: true });
         req.session.userID = result[0].id;
-        console.log('Passwords Match ', req.session);
-        return res.redirect(`/performances/${req.session.userID}`);
+//        console.log('Passwords Match ', req.session);
+        return res.redirect(`/performances/`);
       } else { // If passwords don't match, send a 401.
-        return res.sendStatus(401);
+        return res.send(401).send('Account name or password incorrect');
       }
     })
   })
@@ -85,12 +85,12 @@ router.post('/login', (req, res) => {
 
 // For creating the user account from a POST request to /accounts/create
 router.post('/create', (req, res) => {
-  console.log(req.body);
+//  console.log(req.body);
   let newUserObj = req.body;
   knex.select('user_name').from('users').where('user_name', newUserObj.user_name)
   .then((result) => {
     if (result.length !== 0) {
-      return res.send('email exists');
+      return res.status(400).send('An account with that email already exists');
     }
     return bcrypt.hash(newUserObj.password, 10, (err, hash) => {
       newUserObj.hashpw = hash;
@@ -99,7 +99,7 @@ router.post('/create', (req, res) => {
         password : newUserObj.hashpw
       })
       .then((userID) => {
-        console.log('New user ID - ', userID[0]);
+//        console.log('New user ID - ', userID[0]);
         let newUserLabelsDefaultArr = [
           {'user_id' : userID[0],
            'label' : 'new'},
@@ -124,7 +124,7 @@ router.post('/create', (req, res) => {
 // Middleware to check and see if user is logged in. Passes them on to the update PUT route if they are. Otherwise, sends 401.
 router.put('/update', (req, res, next) => {
   if (req.session.userID) {
-    next()
+    next();
   } else {
     res.sendStatus(401);
   }
