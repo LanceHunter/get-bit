@@ -39,7 +39,7 @@ router.get('/create', (req, res) => { // Sends the create account page.
 // Middleware to check and see if user is logged in. Passes them on to the regular update route if they are. Otherwise, redirects to /
 router.get('/update', (req, res, next) => {
   if (req.session.userID) {
-    next()
+    next();
   } else {
     res.redirect('/');
   }
