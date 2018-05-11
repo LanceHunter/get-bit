@@ -33,5 +33,9 @@
     "recordrtc-nodejs": "^1.0.6",
     "wav": "^1.0.1",
     "ws": "^3.3.3"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.1.1"
   }
 }
