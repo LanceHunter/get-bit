@@ -189,7 +189,6 @@ router.put('/update', (req, res) => {
         photo_url : updateObj.photo_url // Putting the new photo url in the DB.
       })
       .then(() => { // Once photo is updated, send success.
-//        console.log('send success');
         res.status(200).send('update successful');
       });
     }

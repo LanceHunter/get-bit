@@ -24,16 +24,12 @@ const filterInt = function(value) {
 // const labelId = req.params.labelId; label_id
 
 // Authorization middleware. Reroutes to / if user isn't logged in to the account they want to access.
-router.get('/:id/new' , (req, res, next) => {
-  let sessionID = filterInt(req.session.userID);
-  let paramsID = filterInt(req.params.id);
-  console.log('The session ID - ', req.session.userID);
-  console.log('The user ID - ', req.params.id);
-  if (sessionID === paramsID) {
-    console.log('params ID and user ID match.');
+router.get('/new' , (req, res, next) => {
+  if (req.session.userID) {
+    console.log('user is logged in');
     next();
   } else {
-    console.log(`params ID and user ID don't match.`);
+    console.log(`user is NOT logged in.`);
     res.redirect('/');
   }
 });
@@ -41,7 +37,7 @@ router.get('/:id/new' , (req, res, next) => {
 
 
 ////Rendering New Bit Page
-router.get('/:id/new', (req, res, next) => {
+router.get('/new', (req, res, next) => {
   const id = filterInt(req.params.id);
   console.log(id);
 
