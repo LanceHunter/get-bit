@@ -101,26 +101,27 @@ router.post('/:id/new', (req, res, next) => {
   });
 })
 
-/*
+
 // Middleware for making sure logged in user is accessing their correct page.
-router.get('/:id', (req, res, next) => {
-  let sessionID = parseInt(req.session.userID);
-  let paramsID = parseInt(req.params.id);
-  console.log('The session ID - ', req.session.userID);
-  console.log('The user ID - ', req.params.id);
-  if (sessionID === paramsID) {
-    console.log('params ID and user ID match.');
-    next();
-  } else {
-    console.log(`params ID and user ID don't match.`);
-    res.redirect('/');
-  }
+router.get('/', (req, res, next) => {
+  console.log('The req session - ', req.session);
+//  let sessionID = parseInt(req.session.userID);
+//  let paramsID = parseInt(req.params.id);
+//  console.log('The session ID - ', req.session.userID);
+//  console.log('The user ID - ', req.params.id);
+//  if (sessionID === paramsID) {
+//    console.log('params ID and user ID match.');
+//    next();
+//  } else {
+//    console.log(`params ID and user ID don't match.`);
+//    res.redirect('/');
+//  }
 });
-*/
+
 
 // Rendering Performances
-router.get('/:id', (req, res) => {
-  let id = req.params.id;
+router.get('/', (req, res) => {
+  let id = req.session.id;
   return knex('performances')
     .select('performances.per_title', 'performances.date', 'performances.rating', 'performances.per_id')
     .where('performances.user_id', id)

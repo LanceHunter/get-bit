@@ -28,7 +28,7 @@
     "express-session": "^1.15.6",
     "knex": "^0.14.2",
     "morgan": "^1.9.0",
-    "nodemon": "^1.14.7",
+    "nodemon": "^1.17.4",
     "pg": "^7.4.0",
     "recordrtc-nodejs": "^1.0.6",
     "wav": "^1.0.1",

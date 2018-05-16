@@ -9,6 +9,8 @@ const morgan = require('morgan');
 const app = express();
 const port = process.env.PORT || 8888;
 
+// Getting dotenv so sensitive info on production can be in a .env file.
+require('dotenv').config();
 
 
 // Requiring the code for the accounts, jokes, and perofmrnaces routes.
@@ -34,11 +36,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('short'));
 
+
 // Middleware. Setting up session.
 app.use(session({
   secret: process.env.SESSIONSECRET,
-  resave: false,
-  saveUninitialized: true,
+  resave: true,
+  saveUninitialized: false,
   cookie : {
     secure : true
   }

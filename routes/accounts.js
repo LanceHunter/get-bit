@@ -31,7 +31,6 @@ router.get('/logout', (req, res) => { // Clears the cookie and redirects to the 
   })
 });
 
-
 router.get('/create', (req, res) => { // Sends the create account page.
   res.render('../views/createAccount.ejs');
 });
@@ -62,20 +61,22 @@ router.get('/update', (req, res) => {
 // The page for getting the user logged in.
 router.post('/login', (req, res) => {
   let userObj = req.body;
-//  console.log(userObj);
+  console.log('This is the userObj - ', userObj);
   knex.select('*').from('users').where('user_name', userObj.email)
   .then((result) => {
-//    console.log(result);
+    console.log(result);
     if (result.length===0) {
       return res.send(401).send('Account name or password incorrect');
     }
     return bcrypt.compare(userObj.password, result[0].password)
     .then ((loginCheck) => {
-      if (loginCheck) { // If the passwords match, login and redirect to their bits page.
-        res.cookie('user', '1', { maxAge: 900000, httpOnly: true });
-        req.session.userID = result[0].id;
-//        console.log('Passwords Match ', req.session);
-        return res.redirect(`/performances/`);
+      if (loginCheck) { // If the passwords match, login and redirect to their performances page.
+        req.session.cookie.userID = result[0].id;
+        return req.session.save((err) => {
+          if (err) throw err;
+          console.log('Passwords Match, this is the req.session now - ', req.session);
+          return res.redirect('/performances');
+        });
       } else { // If passwords don't match, send a 401.
         return res.send(401).send('Account name or password incorrect');
       }

@@ -38,7 +38,7 @@ router.get('/new' , (req, res, next) => {
 
 ////Rendering New Bit Page
 router.get('/new', (req, res, next) => {
-  const id = filterInt(req.params.id);
+  const id = filterInt(req.session.userID);
   console.log(id);
 
   return knex('labels')

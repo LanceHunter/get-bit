@@ -10,7 +10,7 @@
   <% include ./partials/bodyHeader.ejs %>
   <% include ./partials/tabs.ejs %>
       <div class="row align-center">
-        <a href="/performances/<%= userID %>/new" class="button secondary round w50 w100-sm text-center">New Performance</a>
+        <a href="/performances/new" class="button secondary round w50 w100-sm text-center">New Performance</a>
       </div>
       <p></p>
       <div class="row align-center">
@@ -27,7 +27,7 @@
           <% let starKey = per.rating %>
           <% let perDate = new Date(per.date) %>
           <% let dateString = `${perDate.getMonth() + 1}/${perDate.getDate()}/${perDate.getFullYear()}`; %>
-          <dt class="large"><a href="/performances/<%= userID %>/<%= per.per_id %>"><%= per.per_title %>- <%= dateString %></a></dt>
+          <dt class="large"><a href="/performances/<%= per.per_id %>"><%= per.per_title %>- <%= dateString %></a></dt>
           <dd class="large"><% include ./partials/stars.ejs %></dd>
           <% }); %>
         </dl>
