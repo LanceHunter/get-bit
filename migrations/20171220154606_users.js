@@ -1,6 +1,6 @@
 
 exports.up = function(knex, Promise) {
-  return knex.schema.createTableIfNotExists('users', function(table){
+  return knex.schema.createTableIfNotExists('users', (table) => {
     table.increments('id');
     table.string('user_name').notNullable();
     table.string('password').notNullable()

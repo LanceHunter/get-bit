@@ -68,19 +68,25 @@ router.post('/login', (req, res) => {
       return res.send(401).send('Account name or password incorrect');
     }
     return bcrypt.compare(userObj.password, result[0].password)
-    .then ((loginCheck) => {
-      if (loginCheck) { // If the passwords match, login and redirect to their performances page.
-        req.session.cookie.userID = result[0].id;
+    .then((loginCheck) => {
+      if (loginCheck) { // If the passwords match, login, save the session and tie the session to the user ID.
         return req.session.save((err) => {
           if (err) throw err;
-          console.log('Passwords Match, this is the req.session now - ', req.session.id);
-          return res.redirect('/performances');
+          console.log('Passwords Match, this is the session id - ', req.session.id);
+          let newSessionObj = {
+            'session_id' : req.session.id,
+            'user_id' : result[0].id
+          };
+          return knex('sessions').insert(newSessionObj)
+          .then(() => {
+            return res.redirect('/performances');
+          });
         });
       } else { // If passwords don't match, send a 401.
         return res.send(401).send('Account name or password incorrect');
       }
-    })
-  })
+    });
+  });
 });
 
 // For creating the user account from a POST request to /accounts/create

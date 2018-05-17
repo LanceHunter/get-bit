@@ -17,29 +17,13 @@ const filterInt = function(value) {
 };
 
 //Rendering Live Performance Page
-router.get('/:id/:perId/live', (req, res, next) => {
+router.get('/:perId/live', (req, res, next) => {
   res.render('../views/livePer.ejs');
-})
-/*
-// Authorization middleware. Reroutes to / if user isn't logged in to the account they want to access.
-router.get('/:id/new' , (req, res, next) => {
-  let sessionID = filterInt(req.session.userID);
-  let paramsID = filterInt(req.params.id);
-  console.log('The session ID - ', req.session.userID);
-  console.log('The user ID - ', req.params.id);
-  if (sessionID === paramsID) {
-    console.log('params ID and user ID match.');
-    next();
-  } else {
-    console.log(`params ID and user ID don't match.`);
-    res.redirect('/');
-  }
 });
-*/
 
 //Rendering New Performance Page
 router.get('/new', (req, res, next) => {
-// FIX THIS!!!!!  const id = filterInt(req.params.id);
+  const id = filterInt(req.params.userID);
   knex('jokes').fullOuterJoin('labels', 'jokes.label_id', 'labels.label_id').select('*').where('jokes.user_id', id)
   .then((jokesArr) => {
     res.render('../views/newPer.ejs', {
@@ -48,7 +32,7 @@ router.get('/new', (req, res, next) => {
       bits : jokesArr
     });
   });
-})
+});
 
 // For posting the final details of a live set.
 router.post('/live', (req, res) => {
@@ -101,10 +85,7 @@ router.post('/:id/new', (req, res, next) => {
 // Middleware for making sure logged in user is accessing their correct page.
 router.get('/', (req, res, next) => {
   console.log('The req session - ', req.session.id);
-//  let sessionID = parseInt(req.session.userID);
-//  let paramsID = parseInt(req.params.id);
-//  console.log('The session ID - ', req.session.userID);
-//  console.log('The user ID - ', req.params.id);
+  knex('sessions')
 //  if (sessionID === paramsID) {
 //    console.log('params ID and user ID match.');
 //    next();

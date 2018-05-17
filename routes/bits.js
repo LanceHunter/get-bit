@@ -18,13 +18,8 @@ const filterInt = function(value) {
 };
 
 
-//ID Variables
-// const id = req.params.id; user_id
-// const bitId = req.params.bitId; joke_id
-// const labelId = req.params.labelId; label_id
-
-// Authorization middleware. Reroutes to / if user isn't logged in to the account they want to access.
-router.get('/new' , (req, res, next) => {
+// Authorization middleware. Reroutes to / if user isn't logged in.
+router.get('/' , (req, res, next) => {
   if (req.session.userID) {
     console.log('user is logged in');
     next();
@@ -39,8 +34,7 @@ router.get('/new' , (req, res, next) => {
 ////Rendering New Bit Page
 router.get('/new', (req, res, next) => {
   const id = filterInt(req.session.userID);
-  console.log(id);
-
+  console.log('This is the user id - ', id);
   return knex('labels')
     .where('labels.user_id', id)
     .select('*')
@@ -52,16 +46,15 @@ router.get('/new', (req, res, next) => {
       });
     })
     .catch(function(error) {
-      console.log(error);
+      console.error(error);
       res.sendStatus(500);
     });
 })
 
 
 ////Creating New bit
-router.post('/:id/new', (req, res, next) => {
-
-  const id = filterInt(req.params.id);
+router.post('/new', (req, res, next) => {
+  const id = filterInt(req.session.userID);
   const newJoke = req.body;
   console.log(req.body, "new joke")
 
@@ -92,13 +85,14 @@ router.post('/:id/new', (req, res, next) => {
       }
     })
     .then((joke) => {
-      res.redirect(`bits/${id}`)
+      res.redirect(`/bits`);
     })
 })
 
 ////Rendering Bits
-router.get('/:id', (req, res, next) => {
-  const id = filterInt(req.params.id);
+router.get('/', (req, res, next) => {
+  console.log('The req.session.userID - ', req.session.userID);
+  const id = req.session.userID;
 
   let jokeArr = [];
   //Grabbing Jokes
@@ -169,8 +163,8 @@ router.get('/:id', (req, res, next) => {
 
 
 ////Rendering individial bit - Review Bit
-router.get('/:id/:bitId', (req, res, next) => {
-  const id = filterInt(req.params.id);
+router.get('/:bitId', (req, res, next) => {
+  const id = req.session.userID;
   const bitId = filterInt(req.params.bitId);
   let jokeArr = [];
   let perArr = [];
@@ -293,11 +287,11 @@ router.get('/:id/:bitId', (req, res, next) => {
 
 
 ////Updating Bit - Review Bit
-router.put('/:id/:bitId', (req, res, next) => {
-  const id = filterInt(req.params.id);
+router.put('/:bitId', (req, res, next) => {
+  const id = req.session.userID;
   const bitId = filterInt(req.params.bitId);
   const joke = req.body;
-console.log("wtf is going on", req.body);
+  console.log("wtf is going on", req.body);
 
   let title = {
     joke_title: joke.joke_title,
@@ -327,10 +321,10 @@ console.log("wtf is going on", req.body);
 })
 
 
-
+//////// NEED TO VERIFY JOKE BELONGS TO THIS USER.
 ////Delete Bit - Review Bit
-router.delete('/:id/:bitId', (req, res, next) => {
-  const id = filterInt(req.params.id);
+router.delete('/:bitId', (req, res, next) => {
+  const id = req.session.userID;
   const bitId = filterInt(req.params.bitId);
 
   console.log("wtf is going on", req.body);
@@ -349,8 +343,8 @@ router.delete('/:id/:bitId', (req, res, next) => {
 })
 
 ///New Tag - Review Page
-router.post('/:id/:bitId', (req, res, next) => {
-  const id = filterInt(req.params.id);
+router.post('/:bitId', (req, res, next) => {
+  const id = req.session.userID;
   const bitId = filterInt(req.params.bitId);
   const newTag = req.body;
 
@@ -368,7 +362,7 @@ router.post('/:id/:bitId', (req, res, next) => {
 
 ////Create Label
 router.post('/newLabel', (req, res, next) => {
-  const id = filterInt(req.params.id);
+  const id = req.session.userID;
   const newLabel = req.body;
 
   console.log(newLabel, 'body of label')
@@ -389,7 +383,7 @@ router.post('/newLabel', (req, res, next) => {
 
 
 ////Delete Label
-router.delete('id:/:bitID/:tagID', (req, res, next) => {
+router.delete('/:bitID/:tagID', (req, res, next) => {
 
 })
 
