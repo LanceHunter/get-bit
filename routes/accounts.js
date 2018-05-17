@@ -25,10 +25,13 @@ router.get('/login', (req, res) => { // Sends the basic login page.
 });
 
 router.get('/logout', (req, res) => { // Clears the cookie and redirects to the landing page.
-  req.session.destroy((err) => {
-    if (err) console.error(err);
-    res.redirect('/');
-  })
+  knex('sessions').where('session_id', req.session.id).del()
+  .then(() => {
+    return req.session.destroy((err) => {
+      if (err) console.error(err);
+      res.redirect('/');
+    });
+  });
 });
 
 router.get('/create', (req, res) => { // Sends the create account page.
@@ -65,27 +68,28 @@ router.post('/login', (req, res) => {
   .then((result) => {
     console.log(result);
     if (result.length===0) {
-      return res.send(401).send('Account name or password incorrect');
-    }
-    return bcrypt.compare(userObj.password, result[0].password)
-    .then((loginCheck) => {
-      if (loginCheck) { // If the passwords match, login, save the session and tie the session to the user ID.
-        return req.session.save((err) => {
-          if (err) throw err;
-          console.log('Passwords Match, this is the session id - ', req.session.id);
-          let newSessionObj = {
-            'session_id' : req.session.id,
-            'user_id' : result[0].id
-          };
-          return knex('sessions').insert(newSessionObj)
-          .then(() => {
-            return res.redirect('/performances');
+      return res.status(401).send('Account name or password incorrect');
+    } else {
+      return bcrypt.compare(userObj.password, result[0].password)
+      .then((loginCheck) => {
+        if (loginCheck) { // If the passwords match, login, save the session and tie the session to the user ID.
+          return req.session.save((err) => {
+            if (err) throw err;
+            console.log('Passwords Match, this is the session id - ', req.session.id);
+            let newSessionObj = {
+              'session_id' : req.session.id,
+              'user_id' : result[0].id
+            };
+            return knex('sessions').insert(newSessionObj)
+            .then(() => {
+              return res.redirect('/performances');
+            });
           });
-        });
-      } else { // If passwords don't match, send a 401.
-        return res.send(401).send('Account name or password incorrect');
-      }
-    });
+        } else { // If passwords don't match, send a 401.
+          return res.status(401).send('Account name or password incorrect');
+        }
+      });
+    }
   });
 });
 

@@ -1,6 +1,6 @@
 
 exports.up = function(knex, Promise) {
-  return knex.schema.table('jokes_performances', table =>{
+  return knex.schema.table('jokes_performances', (table) =>{
     table.boolean('performed').defaultTo(true);
   })
 };
