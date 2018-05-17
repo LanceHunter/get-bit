@@ -5,13 +5,9 @@ const env = process.env.ENVIORNMENT || 'development';
 const config = require('../knexfile.js')[env];
 const knex = require('knex')(config);
 
-//Setting up FS (for deleting audio files)
-const fs = require('fs');
-
 //Setting up express routing
 const express = require('express');
 const router = express.Router();
-
 
 // filterInt - The function from MDN that confirms a particular value is actually an integer. Because parseInt isn't quite strict enough.
 const filterInt = function(value) {
@@ -42,8 +38,8 @@ router.get('/:id/new' , (req, res, next) => {
 */
 
 //Rendering New Performance Page
-router.get('/:id/new', (req, res, next) => {
-  const id = filterInt(req.params.id);
+router.get('/new', (req, res, next) => {
+// FIX THIS!!!!!  const id = filterInt(req.params.id);
   knex('jokes').fullOuterJoin('labels', 'jokes.label_id', 'labels.label_id').select('*').where('jokes.user_id', id)
   .then((jokesArr) => {
     res.render('../views/newPer.ejs', {
@@ -104,7 +100,7 @@ router.post('/:id/new', (req, res, next) => {
 
 // Middleware for making sure logged in user is accessing their correct page.
 router.get('/', (req, res, next) => {
-  console.log('The req session - ', req.session);
+  console.log('The req session - ', req.session.id);
 //  let sessionID = parseInt(req.session.userID);
 //  let paramsID = parseInt(req.params.id);
 //  console.log('The session ID - ', req.session.userID);
@@ -141,7 +137,7 @@ router.get('/', (req, res) => {
 
 
 //Rendering individual performance - Review Performance
-router.get('/:id/:perId', (req, res) => {
+router.get('/:perId', (req, res) => {
   const id = filterInt(req.params.id);
   const perId = filterInt(req.params.perId);
 

@@ -1,8 +1,9 @@
 'use strict';
 
-// Setting up express, express-session, path, and body parser.
+// Setting up express, express-session, path, body parser, and passport.
 const express = require('express');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const path = require('path');
 const morgan = require('morgan');
@@ -22,15 +23,6 @@ const recordRoute = require('./routes/record.js');
 // Disabling the x-powered-by: Express header, for security.
 app.disable('x-powered-by');
 
-// Telling the application that when the status route is used, it will look in the public folder for resources.
-app.use('/static', express.static(path.join(__dirname, 'public')));
-
-// Telling our applications where the template files are located.
-app.set('views', './views');
-
-// Telling express what view engine we're using.
-app.set('view engine', 'ejs');
-
 // Middleware. Body-Parser and Morgan.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -40,12 +32,22 @@ app.use(morgan('short'));
 // Middleware. Setting up session.
 app.use(session({
   secret: process.env.SESSIONSECRET,
-  resave: true,
-  saveUninitialized: false,
+  resave: false,
+  saveUninitialized: true,
   cookie : {
-    secure : true
+    secure : false
   }
 }));
+
+// Telling the application that when the status route is used, it will look in the public folder for resources.
+app.use('/static', express.static(path.join(__dirname, 'public')));
+
+// Telling our applications where the template files are located.
+app.set('views', './views');
+
+// Telling express what view engine we're using.
+app.set('view engine', 'ejs');
+
 
 app.use('/accounts', accountsRoute);
 app.use('/bits', bitsRoute);

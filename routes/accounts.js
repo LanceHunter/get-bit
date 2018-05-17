@@ -57,7 +57,6 @@ router.get('/update', (req, res) => {
   });
 });
 
-
 // The page for getting the user logged in.
 router.post('/login', (req, res) => {
   let userObj = req.body;
@@ -74,7 +73,7 @@ router.post('/login', (req, res) => {
         req.session.cookie.userID = result[0].id;
         return req.session.save((err) => {
           if (err) throw err;
-          console.log('Passwords Match, this is the req.session now - ', req.session);
+          console.log('Passwords Match, this is the req.session now - ', req.session.id);
           return res.redirect('/performances');
         });
       } else { // If passwords don't match, send a 401.
