@@ -16,6 +16,18 @@ const filterInt = function(value) {
   return NaN;
 };
 
+// Authorization middleware. Reroutes to / if user isn't logged in.
+router.get('/' , (req, res, next) => {
+  if (req.session.userID) {
+    console.log('user is logged in');
+    next();
+  } else {
+    console.log(`user is NOT logged in.`);
+    res.redirect('/');
+  }
+});
+
+
 //Rendering Live Performance Page
 router.get('/:perId/live', (req, res, next) => {
   res.render('../views/livePer.ejs');
@@ -23,7 +35,7 @@ router.get('/:perId/live', (req, res, next) => {
 
 //Rendering New Performance Page
 router.get('/new', (req, res, next) => {
-  const id = filterInt(req.params.userID);
+  const id = req.session.userID;
   knex('jokes').fullOuterJoin('labels', 'jokes.label_id', 'labels.label_id').select('*').where('jokes.user_id', id)
   .then((jokesArr) => {
     res.render('../views/newPer.ejs', {
@@ -56,8 +68,8 @@ router.post('/live', (req, res) => {
 });
 
 //Creating New Performance
-router.post('/:id/new', (req, res, next) => {
-  let id = filterInt(req.params.id);
+router.post('/new', (req, res, next) => {
+  let id = req.session.userID;
   console.log(id)
   let newPer = req.body;
   if (newPer.bits) {
@@ -82,23 +94,9 @@ router.post('/:id/new', (req, res, next) => {
 })
 
 
-// Middleware for making sure logged in user is accessing their correct page.
-router.get('/', (req, res, next) => {
-  console.log('The req session - ', req.session.id);
-  knex('sessions')
-//  if (sessionID === paramsID) {
-//    console.log('params ID and user ID match.');
-//    next();
-//  } else {
-//    console.log(`params ID and user ID don't match.`);
-//    res.redirect('/');
-//  }
-});
-
-
 // Rendering Performances
 router.get('/', (req, res) => {
-  let id = req.session.id;
+  let id = req.session.userID;
   return knex('performances')
     .select('performances.per_title', 'performances.date', 'performances.rating', 'performances.per_id')
     .where('performances.user_id', id)
@@ -119,7 +117,7 @@ router.get('/', (req, res) => {
 
 //Rendering individual performance - Review Performance
 router.get('/:perId', (req, res) => {
-  const id = filterInt(req.params.id);
+  const id = req.session.userID;
   const perId = filterInt(req.params.perId);
 
   knex('performances')
