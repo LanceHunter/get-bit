@@ -114,6 +114,17 @@ router.get('/', (req, res) => {
     });
 })
 
+// Authorization middleware. Reroutes to / if user isn't logged in.
+router.get('/:perID' , (req, res, next) => {
+  if (req.session.userID) {
+    console.log('user is logged in');
+    next();
+  } else {
+    console.log(`user is NOT logged in.`);
+    res.redirect('/');
+  }
+});
+
 
 //Rendering individual performance - Review Performance
 router.get('/:perId', (req, res) => {
@@ -131,7 +142,7 @@ router.get('/:perId', (req, res) => {
     .then((perObj) => {
       console.log(perObj);
       if (perObj.length === 0) {
-        res.sendStatus(400);
+        res.sendStatus(404);
       } else {
         res.render('../views/reviewPer.ejs', {
           onBits : false,
