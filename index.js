@@ -10,14 +10,13 @@ const morgan = require('morgan');
 const app = express();
 const port = process.env.PORT || 8888;
 
+// Getting dotenv so sensitive info on production can be in a .env file.
+require('dotenv').config();
+
 //Setting up knex
 const env = process.env.ENVIORNMENT || 'development';
 const config = require('./knexfile.js')[env];
 const knex = require('knex')(config);
-
-// Getting dotenv so sensitive info on production can be in a .env file.
-require('dotenv').config();
-
 
 // Requiring the code for the accounts, jokes, and perofmrnaces routes.
 const accountsRoute = require('./routes/accounts.js');
