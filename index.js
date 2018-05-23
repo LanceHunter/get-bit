@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const morgan = require('morgan');
 const app = express();
-const port = process.env.PORT || 8888;
+const port = process.env.PORT || 8000;
 
 // Getting dotenv so sensitive info on production can be in a .env file.
 require('dotenv').config();
