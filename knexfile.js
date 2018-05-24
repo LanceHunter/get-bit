@@ -1,12 +1,15 @@
-// Update with your config settings.
+require('dotenv').config();
 
 module.exports = {
 
   development: {
-    client: 'pg',
+    client: 'mysql',
     connection: {
-      host: 'localhost',
-      database:'get_bit'
+      host:     process.env.DATABASE_HOST,
+      database: process.env.DATABASE,
+      user:     process.env.DATABASE_USER,
+      password: process.env.ORACLEDBPW,
+      port:     process.env.DATABASE_PORT
     },
     migrations:{
       directory: './migrations'
@@ -33,12 +36,12 @@ module.exports = {
   },
 
   production: {
-    client: 'pg',
+    client: 'mysql',
     connection: {
       host:     process.env.DATABASE_HOST,
       database: process.env.DATABASE,
       user:     process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASSWORD,
+      password: process.env.ORACLEDBPW,
       port:     process.env.DATABASE_PORT
     },
     pool: {
