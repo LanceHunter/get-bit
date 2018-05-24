@@ -51,6 +51,17 @@ router.get('/new', (req, res, next) => {
     });
 })
 
+// Authorization middleware. Reroutes to / if user isn't logged in when trying to post new bit.
+router.post('/' , (req, res, next) => {
+  if (req.session.userID) {
+    console.log('user is logged in');
+    next();
+  } else {
+    console.log(`user is NOT logged in.`);
+    res.redirect('/');
+  }
+});
+
 
 ////Creating New bit
 router.post('/new', (req, res, next) => {
@@ -93,41 +104,61 @@ router.post('/new', (req, res, next) => {
 router.get('/', (req, res, next) => {
   console.log('The req.session.userID - ', req.session.userID);
   const id = req.session.userID;
+  let extraObj = {};
 
   let jokeArr = [];
   //Grabbing Jokes
-  return knex('jokes')
-    .where('jokes.user_id', id)
-    .then(function(jokes) {
+  return knex('jokes').where('jokes.user_id', id)
+    .then((jokes) => {
+      console.log('These are the jokes we got back - ', jokes);
       jokeArr = jokes;
       let idArr = jokeArr.map((joke) => {
         return joke.joke_id;
       })
       console.log(idArr);
       //Grabbing Ratings
-      return knex('jokes_performances').whereIn('joke_id', idArr)
-        .fullOuterJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
-        .avg('performances.rating')
+      return knex('jokes_performances');
+
+//        .fullOuterJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
+//        .avg('performances.rating')
         // .select('*')
-        .groupBy('joke_id')
+//        .groupBy('joke_id')
     })
-    .then(function(ratingsArr) {
-      jokeArr.forEach((joke, index) => {
-        if (ratingsArr[index]) {
-          joke.avg = ratingsArr[index].avg
+    .then((jokePerformancesAll) => {
+      extraObj.jokePerformancesAll = jokePerformancesAll;
+      console.log('jokePerformancesAll - ', extraObj.jokePerformancesAll);
+      return knex('performances');
+    })
+    .then((allPerformances) => {
+      extraObj.performances = allPerformances;
+      jokeArr.forEach((joke) => {
+        joke.theRatingArr = [];
+        extraObj.jokePerformancesAll.forEach((joinPerformance) => {
+          if (joke.joke_id === joinPerformance.joke_id) {
+            extraObj.performances.forEach((countPerformance) => {
+              joke.theRatingArr.push(countPerformance.rating);
+            });
+          }
+        });
+        if (joke.theRatingArr.length > 0) {
+          let theAverage = 0;
+          joke.theRatingArr.forEach((singleRating) => {
+            theAverage+=singleRating;
+          });
+          theAverage = theAverage/joke.theRatingArr.length;
+          joke.avg = theAverage;
         } else {
           joke.avg = 0;
         }
-
-      })
+      });
     })
     // Grabbing individual Label for Jokes
-    .then(function() {
+    .then(() => {
       return knex('labels')
         .where('labels.user_id', id)
         .select('labels.label', 'labels.label_id')
     })
-    .then(function(labelArr) {
+    .then((labelArr) => {
       jokeArr.forEach((joke, index) => {
         labelArr.forEach((label) => {
           if (label.label_id === joke.label_id) {
@@ -143,11 +174,8 @@ router.get('/', (req, res, next) => {
         .select('labels.label', 'labels.label_id')
     })
     .then(function(labArr) {
-
-      console.log(jokeArr);
-      console.log(labArr);
-
-
+      console.log('The jokeArr - ', jokeArr);
+      console.log('The labelArr - ', labArr);
       res.render('../views/bits.ejs', {
         onBits: true,
         userID: id,
@@ -159,44 +187,27 @@ router.get('/', (req, res, next) => {
       console.log(error);
       res.sendStatus(500);
     });
-})
+});
 
 
 ////Rendering individial bit - Review Bit
 router.get('/:bitId', (req, res, next) => {
   const id = req.session.userID;
   const bitId = filterInt(req.params.bitId);
-  let jokeArr = [];
+  let joke;
   let perArr = [];
   let tagArr = [];
 
   //Grabbing Jokes
-  knex('jokes')
-    .select('*')
-    .where('jokes.joke_id', bitId)
-    .then(function(jokes) {
-      jokeArr = jokes.map((joke) => {
-        return joke;
-      });
-      let idArr = jokeArr.map((joke) => {
-        return joke.joke_id;
-      })
-      //Grabbing Ratings
-      return knex('jokes_performances').whereIn('joke_id', idArr)
-        .innerJoin('performances', 'jokes_performances.per_id', 'performances.per_id')
-        .avg('performances.rating')
-        .groupBy('joke_id')
-
+  knex('jokes').select('*').where('jokes.joke_id', bitId)
+    .then((jokes) => {
+      joke = jokes[0];
+      console.log('This is the joke - ', joke);
+      return knex.select('*').from('jokes_performances').where({joke_id:bitId});
     })
-    .then(function(ratingsArr) {
-
-      jokeArr.forEach((joke, index) => {
-        if (ratingsArr[index]) {
-          joke.avg = ratingsArr[index].avg
-        } else {
-          joke.avg = 0;
-        }
-      })
+    .then((jokesPerformancesJoin) => {
+      console.log(`Here's the jokesPerformancesJoin - `, jokesPerformancesJoin);
+      return knex('performances');
     })
     //Grabbing Tags
     .then(function() {
@@ -223,11 +234,8 @@ router.get('/:bitId', (req, res, next) => {
         .where('joke_body.joke_id', bitId)
         .select('body', 'created_at')
     })
-    .then(function(bodyArr) {
-      jokeArr.forEach((joke, index) => {
-        joke.body = bodyArr[index].body
-
-      })
+    .then((bodyArr) => {
+      joke.body = bodyArr;
     })
     //Grabbing Performance Titles
     .then(function() {
@@ -256,9 +264,9 @@ router.get('/:bitId', (req, res, next) => {
     })
     .then(function(labelsArr) {
       console.log(labelsArr, "here")
-      jokeArr.forEach((joke, index) => {
-        joke.label = labelsArr[index].label
-      })
+//      jokeArr.forEach((joke, index) => {
+//        joke.label = labelsArr[index].label
+//      })
     })
     //Grabbing Labels for dropdown
     .then(function() {
@@ -268,7 +276,6 @@ router.get('/:bitId', (req, res, next) => {
     })
     .then(function(labArr) {
       console.log(labArr, "labels");
-      console.log(jokeArr, "jokes");
       res.render('../views/reviewBit.ejs', {
         onBits: true,
         userID: id,

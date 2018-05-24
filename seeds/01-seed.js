@@ -316,22 +316,13 @@ exports.seed = function(knex, Promise) {
         'label' : 'good'
       };
       return knex('labels').returning('label_id').insert(labelsInsert);
-
-/************************************
-      {},
-       {},
-       {'user_id' : paige.user_id,
-        'label' : 'good'},
-       {'user_id' : paige.user_id,
-        'label' : 'closer'},
-************************************/
     })
     .then((labelID1)=>{
       lance.bits[1].label_id = labelID1[0];
       console.log('lance.bits[1].label_id - ', lance.bits[1].label_id);
       let labelsInsert = {
         'user_id' : lance.user_id,
-        'label' : 'good'
+        'label' : 'new'
       };
       return knex('labels').returning('label_id').insert(labelsInsert);
     })
@@ -356,9 +347,15 @@ exports.seed = function(knex, Promise) {
       };
       return knex('labels').returning('label_id').insert(labelsInsert);
     })
-    .then((labelIDs) => {
-      console.log('The label IDs - ', labelIDs);
-      paige.bits[1].label_id = labelIDs[4];
+    .then((labelID5)=>{
+      paige.bits[1].label_id = labelID5[0];
+      let labelsInsert = {
+        'user_id' : paige.user_id,
+        'label' : 'closer'
+      };
+      return knex('labels').insert(labelsInsert);
+    })
+    .then(() => {
       let jokeInsertArr = [];
       lance.bits.forEach((bit) => {
         if (bit.label_id) {
@@ -388,13 +385,20 @@ exports.seed = function(knex, Promise) {
           });
         }
       });
-      return knex('jokes').returning('joke_id').insert(jokeInsertArr);
+      return knex('jokes').insert(jokeInsertArr);
     })
-    .then((jokeIDs) => {
-      console.log('The joke IDs - ', jokeIDs);
+    .then(()=>{
+      return knex('jokes').select('joke_title', 'joke_id');
+    })
+    .then((jokeInfoArr) => {
+      console.log('The joke IDs - ', jokeInfoArr);
       let jokeBodyInsertArr = [];
       lance.bits.forEach((bit) => {
-        bit.joke_id = jokeIDs.shift();
+        jokeInfoArr.forEach((jokeObj)=>{
+          if (jokeObj.joke_title === bit.joke_title) {
+            bit.joke_id = jokeObj.joke_id;
+          }
+        });
         bit.body.forEach((bitBody) => {
           jokeBodyInsertArr.push({
             joke_id : bit.joke_id,
@@ -404,7 +408,11 @@ exports.seed = function(knex, Promise) {
         });
       });
       paige.bits.forEach((bit) => {
-        bit.joke_id = jokeIDs.shift();
+        jokeInfoArr.forEach((jokeObj)=>{
+          if (jokeObj.joke_title === bit.joke_title) {
+            bit.joke_id = jokeObj.joke_id;
+          }
+        });
         bit.body.forEach((bitBody) => {
           jokeBodyInsertArr.push({
             joke_id : bit.joke_id,
@@ -427,6 +435,7 @@ exports.seed = function(knex, Promise) {
       });
       paige.bits.forEach((bit) => {
         bit.tags.forEach((tag) => {
+          console.log(`Paige's bit - `, bit.joke_title, 'and ID - ',bit.joke_id);
           tagsInsertArr.push({
             joke_id : bit.joke_id,
             tag : tag
@@ -461,13 +470,20 @@ exports.seed = function(knex, Promise) {
           date : perf.date
         });
       });
-      return knex('performances').returning('per_id').insert(performanceInsertArr);
+      return knex('performances').insert(performanceInsertArr);
+    })
+    .then(()=>{
+      return knex('performances').select('per_id', 'per_title', 'per_time');
     })
     .then((performanceIDs) => {
       console.log('Performance IDs - ', performanceIDs);
       let performancesJokesInsertArr = [];
       lance.performances.forEach((perf) => {
-        perf.per_id = performanceIDs.shift();
+        performanceIDs.forEach((performanceInDB)=>{
+          if (perf.per_title === performanceInDB.per_title && perf.per_time === performanceInDB.per_time) {
+            perf.per_id = performanceInDB.per_id;
+          }
+        });
         lance.bits.forEach((bit) => {
           performancesJokesInsertArr.push({
             joke_id : bit.joke_id,
@@ -476,7 +492,11 @@ exports.seed = function(knex, Promise) {
         });
       });
       paige.performances.forEach((perf) => {
-        perf.per_id = performanceIDs.shift();
+        performanceIDs.forEach((performanceInDB)=>{
+          if (perf.per_title === performanceInDB.per_title && perf.per_time === performanceInDB.per_time) {
+            perf.per_id = performanceInDB.per_id;
+          }
+        });
         paige.bits.forEach((bit) => {
           performancesJokesInsertArr.push({
             joke_id : bit.joke_id,

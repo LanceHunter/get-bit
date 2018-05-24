@@ -11,7 +11,7 @@
     <% include ./partials/tabs.ejs %>
 
       <div class="row align-center">
-        <a href="/bits/<%= userID %>/new" class="button secondary round w50 w100-sm text-center">New Bit</a>
+        <a href="/bits/new" class="button secondary round w50 w100-sm text-center">New Bit</a>
       </div>
 
       <p></p>
@@ -29,7 +29,7 @@
           <% bits.forEach(function(bit) { %>
 
               <dt class="large">
-                <a href="/bits/<%= bit.user_id%>/<%= bit.joke_id %>">
+                <a href="/bits/<%= bit.joke_id %>">
                   <%= bit.joke_title %>
                 </a>
                 <% if (bit.label) { %>

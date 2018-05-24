@@ -71,7 +71,6 @@ app.use('/', (req, res, next) => {
 app.use('/accounts', accountsRoute);
 app.use('/bits', bitsRoute);
 app.use('/performances', performancesRoute);
-app.use('/record', recordRoute);
 
 // Middleware if user is logged in, passing them to /bits if they are.
 app.get('/', (req, res, next) => {
