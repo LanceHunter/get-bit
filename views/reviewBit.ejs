@@ -116,7 +116,7 @@
             <% pers.forEach(function(per) { %>
               <% let starKey = per.rating %>
                 <li>
-                  <a href="/performances/<%= per.user_id%>/<%= per.per_id %>">
+                  <a href="/performances/<%= per.per_id %>">
                     <%= per.per_title %>
                   </a>
                   <% include ./partials/stars.ejs%>
