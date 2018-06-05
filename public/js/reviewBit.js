@@ -66,7 +66,7 @@
     $(`#deleteButton`).replaceWith(`<button class="outline redButtonOutLine" id="finalDeleteButton">Confirm Delete</button>`);
     $('#finalDeleteButton').click(() => {
       $.ajax({
-        url: `/bits/${userID}/${deleteVal[0].deleteId}`,
+        url: `/bits/${deleteVal[0].deleteId}`,
         type: 'DELETE',
         data: deleteVal,
         success: postAjax

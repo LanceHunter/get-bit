@@ -29,8 +29,6 @@ router.get('/' , (req, res, next) => {
   }
 });
 
-
-
 ////Rendering New Bit Page
 router.get('/new', (req, res, next) => {
   const id = filterInt(req.session.userID);
@@ -50,6 +48,16 @@ router.get('/new', (req, res, next) => {
       res.sendStatus(500);
     });
 })
+
+// Authorization middleware. Sends 401 if user is not logged in and sending POST requests.
+router.post('/' , (req, res, next) => {
+  if (req.session.userID) {
+    console.log('user is logged in');
+    next();
+  } else {
+    res.status(401).send('Please log in.');
+  }
+});
 
 
 ////Creating New bit
@@ -286,6 +294,17 @@ router.get('/:bitId', (req, res, next) => {
 })
 
 
+// Authorization middleware. Sends 401 if user is not logged in and sending PUT requests.
+router.put('/' , (req, res, next) => {
+  if (req.session.userID) {
+    console.log('user is logged in');
+    next();
+  } else {
+    res.status(401).send('Please log in.');
+  }
+});
+
+
 ////Updating Bit - Review Bit
 router.put('/:bitId', (req, res, next) => {
   const id = req.session.userID;
@@ -318,7 +337,18 @@ router.put('/:bitId', (req, res, next) => {
     res.sendStatus(500);
   })
 
-})
+});
+
+
+// Authorization middleware. Sends 401 if user is not logged in and sending DELETE requests.
+router.delete('/' , (req, res, next) => {
+  if (req.session.userID) {
+    console.log('user is logged in');
+    next();
+  } else {
+    res.status(401).send('Please log in.');
+  }
+});
 
 
 //////// NEED TO VERIFY JOKE BELONGS TO THIS USER.
@@ -326,9 +356,6 @@ router.put('/:bitId', (req, res, next) => {
 router.delete('/:bitId', (req, res, next) => {
   const id = req.session.userID;
   const bitId = filterInt(req.params.bitId);
-
-  console.log("wtf is going on", req.body);
-
   knex('jokes_performances').where('joke_id', bitId).del()
     .then(() => {
       return knex('jokes').where('joke_id', bitId).del();
