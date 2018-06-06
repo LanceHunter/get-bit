@@ -32,7 +32,6 @@ router.get('/' , (req, res, next) => {
 ////Rendering New Bit Page
 router.get('/new', (req, res, next) => {
   const id = filterInt(req.session.userID);
-  console.log('This is the user id - ', id);
   return knex('labels')
     .where('labels.user_id', id)
     .select('*')
@@ -47,7 +46,7 @@ router.get('/new', (req, res, next) => {
       console.error(error);
       res.sendStatus(500);
     });
-})
+});
 
 // Authorization middleware. Sends 401 if user is not logged in and sending POST requests.
 router.post('/' , (req, res, next) => {
@@ -59,32 +58,27 @@ router.post('/' , (req, res, next) => {
   }
 });
 
-
 ////Creating New bit
 router.post('/new', (req, res, next) => {
   const id = filterInt(req.session.userID);
   const newJoke = req.body;
-  console.log(req.body, "new joke")
-
   let joke = {
     user_id: id,
     joke_title: newJoke.joke_title,
     label_id: filterInt(newJoke.label_id)
-  }
-
+  };
   let body = {
     body: newJoke.body
-  }
-
+  };
   let tag = {
     tag: newJoke.tag
-  }
-
+  };
   knex('jokes').insert(joke).returning('*')
     .then((jokes) => {
       body.joke_id = jokes[0].joke_id;
-      return knex('joke_body').insert(body).returning('*')
-    }).then((body) => {
+      return knex('joke_body').insert(body).returning('*');
+    })
+    .then((body) => {
       if (!tag.tag) {
         return;
       } else {
@@ -94,8 +88,8 @@ router.post('/new', (req, res, next) => {
     })
     .then((joke) => {
       res.redirect(`/bits`);
-    })
-})
+    });
+});
 
 ////Rendering Bits
 router.get('/', (req, res, next) => {
