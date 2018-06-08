@@ -15,7 +15,7 @@ const filterInt = function(value) {
   if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
     return Number(value);
   return NaN;
-};
+}
 
 
 // Authorization middleware. Reroutes to / if user isn't logged in.
@@ -83,7 +83,7 @@ router.post('/new', (req, res, next) => {
         return;
       } else {
         tag.joke_id = body[0].joke_id;
-        return knex('tags').insert(tag).returning('*')
+        return knex('tags').insert(tag).returning('*');
       }
     })
     .then((joke) => {
@@ -315,15 +315,14 @@ router.put('/:bitId', (req, res, next) => {
     body: joke.body
   }
 
-  knex('jokes')
-  .where('joke_id', bitId)
-  .update(title)
+  knex('jokes').where('joke_id', bitId).update(title)
   .then(()=>{
     console.log("wtf")
     return knex('joke_body')
     .where('joke_id', bitId)
     .update(body)
-  }).then(() => {
+  })
+  .then(() => {
     res.sendStatus(200);
   })
   .catch((err) => {
@@ -379,7 +378,7 @@ router.post('/:bitId', (req, res, next) => {
 
     })
 
-})
+});
 
 ////Create Label
 router.post('/newLabel', (req, res, next) => {
